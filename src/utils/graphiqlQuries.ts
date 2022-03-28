@@ -10,16 +10,16 @@ const organizationByUsernameQuery = `
 const languagesQuery = `
       languages(first: 5, orderBy: {field: SIZE, direction: ASC}) {
         edges {
-          LanguageSize: size
+          languageSize: size
           node {
-            LanguageName: name
+            languageName: name
           }
         }
       }
 `;
 
 const repositoriesByUsernameQuery = `
-      repositories(first: 4, orderBy: {field: STARGAZERS, direction: DESC}) {
+      repositories(first: 10, orderBy: {field: STARGAZERS, direction: DESC}) {
         nodes {
           name
           forkCount
