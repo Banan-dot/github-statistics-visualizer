@@ -19,7 +19,7 @@ const languagesQuery = `
 `;
 
 const repositoriesByUsernameQuery = `
-      repositories(first: 4, orderBy: {field: STARGAZERS, direction: DESC}) {
+      repositories(first: 100, orderBy: {field: STARGAZERS, direction: DESC}) {
         nodes {
           name
           forkCount
