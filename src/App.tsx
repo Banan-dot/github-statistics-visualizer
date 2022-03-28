@@ -1,34 +1,19 @@
-import React, { useState } from "react";
-import UserInfo from "./UserInfo/UserInfo";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 
-export default function App(): JSX.Element {
-  const [username, setUsername] = useState<string>("");
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+import Layout from "./shared/Layout";
+import SearchPage from "./pages/SearchPage";
+import UserPage from "./pages/UserPage/UserPage";
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitted(true);
-  };
-
+const App = () => {
   return (
-    <div>
-      {!isSubmitted && (
-        <form onSubmit={onSubmit}>
-          <label>
-            Username:
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => {
-                setUsername(e.target.value);
-                if (isSubmitted) setIsSubmitted(false);
-              }}
-            />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-      )}
-      {isSubmitted && <UserInfo username={username} />}
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<SearchPage />} />
+        <Route path="user/:login" element={<UserPage />} />
+      </Route>
+    </Routes>
   );
-}
+};
+
+export default App;
