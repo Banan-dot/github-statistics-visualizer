@@ -1,10 +1,7 @@
-import Language from "./Language";
+import LanguageEdge from "./LanguageEdge";
 
 interface Languages {
-  edges: {
-    size: number;
-    node: Language;
-  }[];
+  edges: LanguageEdge[];
   totalSize: number;
 }
 
