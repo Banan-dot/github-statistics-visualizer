@@ -1,15 +1,17 @@
 import React from "react";
 import gql from "graphql-tag";
 import { useQuery } from "react-apollo";
+
 import RepositoryOwner from "../../../models/RepositoryOwner";
 import Repositories from "../../../models/Repositories";
 import LanguageEdge from "../../../models/LanguageEdge";
-import hashFnv32a from "../../../utils/getHashCode";
+
+import LanguagesPieChart from "../../../shared/charts/LanguagesPieChart";
 
 const GET_USER_LANGUAGES = gql`
   query ($login: String!) {
     repositoryOwner(login: $login) {
-      repositories(first: 100, affiliations: OWNER) {
+      repositories(first: 100, ownerAffiliations: OWNER) {
         nodes {
           languages(first: 5, orderBy: { field: SIZE, direction: DESC }) {
             totalSize
@@ -71,7 +73,7 @@ function renderStatistic(langEdges: LanguageEdge[], totalSize: number) {
       <h3>Статистика языков:</h3>
       <p>Размеры:</p>
       {langEdges.map((edge) => (
-        <span key={hashFnv32a(edge.node.id + edge.size)}>
+        <span key={edge.node.id}>
           {edge.node.name}: {edge.size} KB &nbsp;
         </span>
       ))}
@@ -81,7 +83,7 @@ function renderStatistic(langEdges: LanguageEdge[], totalSize: number) {
         {(totalSize / 1024).toFixed(1)} MB
       </p>
       {langEdges.map((edge) => (
-        <span key={hashFnv32a(edge.node.id + edge.size)}>
+        <span key={edge.node.id}>
           {edge.node.name}: {((edge.size / totalSize) * 100).toFixed(2)}% &nbsp;
         </span>
       ))}
@@ -127,7 +129,7 @@ const LangStat = ({ login }: Props) => {
         {data && (
           <>
             {renderStatistic(langEdges, totalSize)}
-            {/* <LanguagesPieChart languageEdges={langEdges} /> */}
+            <LanguagesPieChart languageEdges={langEdges} />
           </>
         )}
       </div>

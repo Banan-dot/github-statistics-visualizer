@@ -1,6 +1,6 @@
 interface User {
   id: string;
-  name: string;
+  name: string | null;
   login: string;
   email: string;
   avatarUrl: string;
