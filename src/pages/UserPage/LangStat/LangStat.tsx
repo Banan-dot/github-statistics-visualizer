@@ -78,12 +78,12 @@ function renderStatistic(repositories: Repositories) {
   const { languagesFrequency, totalSize } = getLanguagesInfo(repositories);
 
   const mostRepeatedLanguage = getMostUsedLanguage(languagesFrequency);
-
+  const frequencies = Array.from(languagesFrequency);
   return (
     <div className="user-language-stats">
       <h3>Статистика языков:</h3>
       <p>Размеры:</p>
-      {Array.from(languagesFrequency).map(([langName, value]) => (
+      {frequencies.map(([langName, value]) => (
         <span key={hashFnv32a(value.id + value.size)}>
           {langName}: {value.size} KB &nbsp;
         </span>
@@ -93,7 +93,7 @@ function renderStatistic(repositories: Repositories) {
         Итоговый размер языков в сумме по репозиториям: {totalSize} KB or{" "}
         {(totalSize / 1024).toFixed(1)} MB
       </p>
-      {Array.from(languagesFrequency).map(([langName, value]) => (
+      {frequencies.map(([langName, value]) => (
         <span key={hashFnv32a(value.id + value.size)}>
           {langName}: {((value.size / totalSize) * 100).toFixed(2)}% &nbsp;
         </span>
