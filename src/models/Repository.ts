@@ -1,6 +1,10 @@
 import Language from "./Language";
 import RepositoryOwner from "./RepositoryOwner";
 import Languages from "./Languages";
+import Fork from "./Fork";
+import Issue from "./Issue";
+import PullRequest from "./PullRequest";
+import BranchRef from "./BranchRef";
 
 interface Repository {
   id: string;
@@ -10,6 +14,10 @@ interface Repository {
   stargazerCount: number;
   url: string;
   owner: RepositoryOwner;
+  forks: Fork;
+  issues: Issue;
+  defaultBranchRef: BranchRef;
+  pullRequests: PullRequest;
   languages: Languages;
   primaryLanguage: Language | null;
 }

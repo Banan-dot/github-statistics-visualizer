@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import { useQuery } from "react-apollo";
 import RepositoryOwner from "../../../models/RepositoryOwner";
 import Repositories from "../../../models/Repositories";
+import LanguagesPieChart from "../../../shared/charts/LanguagesPieChart";
 
 const GET_USER_LANGUAGES = gql`
   query ($login: String!) {
@@ -131,7 +132,10 @@ const LangStat = ({ login }: Props) => {
       <div>
         {loading && <div>Загрузка...</div>}
         {error && <div>Ошибка загрузки языков: {error.message}</div>}
-        {data && renderStatistic(data.repositoryOwner.repositories)}
+        {data && <>
+          {renderStatistic(data.repositoryOwner.repositories)}
+          {/* <LanguagesPieChart languageEdges={} /> */}
+        </>}
       </div>
     </div>
   );
