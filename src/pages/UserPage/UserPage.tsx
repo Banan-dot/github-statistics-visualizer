@@ -7,6 +7,7 @@ import User from "../../models/User";
 import UserInfo from "./UserInfo/UserInfo";
 import UserRepositories from "./UserRepositories/UserRepositories";
 import LangStat from "./LangStat/LangStat";
+import UserActivity from "./UserActivity/UserActivity";
 
 const GET_USER = gql`
   query GetUser($login: String!) {
@@ -57,6 +58,7 @@ function UserPage() {
       <UserInfo user={data.user} />
       <LangStat login={login}/>
       <UserRepositories login={login} />
+      <UserActivity login={login} />
     </div>
   );
 }
