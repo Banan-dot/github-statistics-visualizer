@@ -6,6 +6,7 @@ import gql from "graphql-tag";
 import User from "../../models/User";
 import UserInfo from "./UserInfo/UserInfo";
 import UserRepositories from "./UserRepositories/UserRepositories";
+import LangStat from "./LangStat/LangStat";
 
 const GET_USER = gql`
   query GetUser($login: String!) {
@@ -54,6 +55,7 @@ function UserPage() {
   return (
     <div>
       <UserInfo user={data.user} />
+      <LangStat login={login}/>
       <UserRepositories login={login} />
     </div>
   );
