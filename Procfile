@@ -1,2 +1,2 @@
 web: npm start
-web: node --optimize_for_size --max_old_space_size=920 index.js
+web: node --max-old-space-size=460 --optimize_for_size -- node_modules/.bin/ts-node -P tsconfig.json ./src/index.tsx
