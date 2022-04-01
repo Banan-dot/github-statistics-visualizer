@@ -83,23 +83,25 @@ const UserActivity = ({ login }: Props) => {
     getActivityInfo(repositories);
 
   const userActivity = {
-    "Коммиты": commitCount,
-    "Форки": forkCount,
-    "Ишью": issueCount,
+    Коммиты: commitCount,
+    Форки: forkCount,
+    Ишью: issueCount,
     "Пул реквесты": pullRequestsCount,
   };
 
   return (
-    <div className="user-activity">
-      <h4>Активность пользователя:</h4>
-      <div>
+    <section className="page-card user-page__section">
+      <div className="page-card__header">
+        <div className="page-card__header-title">Активность пользователя</div>
+      </div>
+      <div className="page-card__body">
         <div>Количество пулл реквестов: {pullRequestsCount}</div>
         <div>Количество ишьюс: {issueCount}</div>
         <div>Количество форков: {forkCount}</div>
         <div>Количество коммитов: {commitCount}</div>
       </div>
       <UserActivityPolarChart usersActivity={[userActivity]} />
-    </div>
+    </section>
   );
 };
 

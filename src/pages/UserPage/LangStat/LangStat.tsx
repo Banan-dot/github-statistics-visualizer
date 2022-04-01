@@ -69,9 +69,8 @@ function getLanguagesInfo(repositories: Repositories) {
 function renderStatistic(langEdges: LanguageEdge[], totalSize: number) {
   const mostRepeatedLanguage = getMostUsedLanguage(langEdges);
   return (
-    <div className="user-language-stats">
-      <h3>Статистика языков:</h3>
-      <p>Размеры:</p>
+    <div>
+      <h4>Размеры:</h4>
       {langEdges.map((edge) => (
         <span key={edge.node.id}>
           {edge.node.name}: {edge.size} KB &nbsp;
@@ -121,9 +120,11 @@ const LangStat = ({ login }: Props) => {
   );
 
   return (
-    <div>
-      <div>Список языков:</div>
-      <div>
+    <section className="page-card user-page__section">
+      <div className="page-card__header">
+        <div className="page-card__header-title">Статистика языков</div>
+      </div>
+      <div className="page-card__body">
         {loading && <div>Загрузка...</div>}
         {error && <div>Ошибка загрузки языков: {error.message}</div>}
         {data && (
@@ -133,7 +134,7 @@ const LangStat = ({ login }: Props) => {
           </>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -54,7 +54,7 @@ function UserPage() {
   if (!data) return <div>Неожиданная ошибка</div>;
 
   return (
-    <div>
+    <div className="user-page">
       <UserInfo user={data.user} />
       <LangStat login={login}/>
       <UserRepositories login={login} />

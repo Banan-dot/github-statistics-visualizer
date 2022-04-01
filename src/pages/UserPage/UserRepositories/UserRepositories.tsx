@@ -54,9 +54,11 @@ const UserRepositories = ({ login }: Props) => {
   );
 
   return (
-    <div>
-      <div>Список репозиториев</div>
-      <div>
+    <section className="page-card user-page__section">
+      <div className="page-card__header">
+        <div className="page-card__header-title">Список репозиториев</div>
+      </div>
+      <div className="page-card__body">
         {loading && <div>Загрузка...</div>}
         {error && <div>Ошибка загрузки репозиториев</div>}
 
@@ -66,7 +68,7 @@ const UserRepositories = ({ login }: Props) => {
           />
         )}
       </div>
-    </div>
+    </section>
   );
 };
 
