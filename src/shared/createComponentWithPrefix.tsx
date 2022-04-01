@@ -11,8 +11,8 @@ interface ExtendedProps {
 }
 
 interface ComponentWithPreffix<T extends React.ElementType> {
-  <Element extends React.ElementType = T>(
-    props: Partial<React.ComponentProps<Element> | ExtendedProps>
+  (
+    props: Partial<React.ComponentProps<T> | ExtendedProps>
   ): React.ReactElement | null;
   displayName?: string;
   defaultProps?: Partial<React.ComponentProps<T>>;
