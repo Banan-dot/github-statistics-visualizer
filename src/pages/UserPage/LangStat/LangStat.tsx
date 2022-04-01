@@ -7,6 +7,7 @@ import Repositories from "../../../models/Repositories";
 import LanguageEdge from "../../../models/LanguageEdge";
 
 import LanguagesPieChart from "../../../shared/charts/LanguagesPieChart";
+import PageCard from "../../../shared/PageCard";
 
 const GET_USER_LANGUAGES = gql`
   query ($login: String!) {
@@ -120,11 +121,11 @@ const LangStat = ({ login }: Props) => {
   );
 
   return (
-    <section className="page-card user-page__section">
-      <div className="page-card__header">
-        <div className="page-card__header-title">Статистика языков</div>
-      </div>
-      <div className="page-card__body">
+    <PageCard element="section" className="page-card user-page__section">
+      <PageCard.Header>
+        <PageCard.Title>Статистика языков</PageCard.Title>
+      </PageCard.Header>
+      <PageCard.Body>
         {loading && <div>Загрузка...</div>}
         {error && <div>Ошибка загрузки языков: {error.message}</div>}
         {data && (
@@ -133,8 +134,8 @@ const LangStat = ({ login }: Props) => {
             <LanguagesPieChart languageEdges={langEdges} />
           </>
         )}
-      </div>
-    </section>
+      </PageCard.Body>
+    </PageCard>
   );
 };
 
