@@ -1,0 +1,42 @@
+@import "./variables";
+
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 16px;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.page-wrapper {
+  margin: 0 auto;
+  padding: 16px;
+  max-width: 1200px;
+}
+
+.user-page {
+  &__section:not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
+
+.page-card {
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid $light-gray;
+  background-color: $white;
+
+  &__header {
+    margin-bottom: 8px;
+
+    &-title {
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+  }
+}

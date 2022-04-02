@@ -5,6 +5,8 @@ import Layout from "./shared/Layout";
 import SearchPage from "./pages/SearchPage";
 import UserPage from "./pages/UserPage/UserPage";
 
+import "./assets/styles/style.scss";
+
 const App = () => {
   return (
     <Routes>
