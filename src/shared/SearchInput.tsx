@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {FormEvent, useState} from "react";
 
 type SearchInputProps = {
   onSubmit: (value: string) => void;
@@ -6,19 +6,22 @@ type SearchInputProps = {
 
 const SearchInput = ({ onSubmit }: SearchInputProps) => {
   const [searchValue, setSearchValue] = useState<string>("");
-
+  const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit(searchValue)
+  }
   return (
     <div>
-      <form onSubmit={() => onSubmit(searchValue)}>
+      <form onSubmit={onFormSubmit}>
         <label>
-          Username:
+          Введите имя пользователя:
           <input
             type="search"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
         </label>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Найти" />
       </form>
     </div>
   );
