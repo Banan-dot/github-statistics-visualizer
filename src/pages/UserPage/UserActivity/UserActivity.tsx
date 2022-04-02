@@ -4,6 +4,7 @@ import { useQuery } from "react-apollo";
 import RepositoryOwner from "../../../models/RepositoryOwner";
 import Repositories from "../../../models/Repositories";
 import UserActivityPolarChart from "../../../shared/charts/UserActivityPolarChart";
+import PageCard from "../../../shared/PageCard";
 
 const GET_USER_ACTIVITY_IN_REPOSITORIES = gql`
   query ($login: String!) {
@@ -83,23 +84,25 @@ const UserActivity = ({ login }: Props) => {
     getActivityInfo(repositories);
 
   const userActivity = {
-    "Коммиты": commitCount,
-    "Форки": forkCount,
-    "Ишью": issueCount,
+    Коммиты: commitCount,
+    Форки: forkCount,
+    Ишью: issueCount,
     "Пул реквесты": pullRequestsCount,
   };
 
   return (
-    <div className="user-activity">
-      <h4>Активность пользователя:</h4>
-      <div>
+    <PageCard className="page-card user-page__section">
+      <PageCard.Header>
+        <PageCard.Title>Активность пользователя</PageCard.Title>
+      </PageCard.Header>
+      <PageCard.Body>
         <div>Количество пулл реквестов: {pullRequestsCount}</div>
         <div>Количество ишьюс: {issueCount}</div>
         <div>Количество форков: {forkCount}</div>
         <div>Количество коммитов: {commitCount}</div>
-      </div>
+      </PageCard.Body>
       <UserActivityPolarChart usersActivity={[userActivity]} />
-    </div>
+    </PageCard>
   );
 };
 

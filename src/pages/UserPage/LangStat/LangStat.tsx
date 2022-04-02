@@ -7,6 +7,7 @@ import Repositories from "../../../models/Repositories";
 import LanguageEdge from "../../../models/LanguageEdge";
 
 import LanguagesPieChart from "../../../shared/charts/LanguagesPieChart";
+import PageCard from "../../../shared/PageCard";
 
 const GET_USER_LANGUAGES = gql`
   query ($login: String!) {
@@ -69,9 +70,8 @@ function getLanguagesInfo(repositories: Repositories) {
 function renderStatistic(langEdges: LanguageEdge[], totalSize: number) {
   const mostRepeatedLanguage = getMostUsedLanguage(langEdges);
   return (
-    <div className="user-language-stats">
-      <h3>Статистика языков:</h3>
-      <p>Размеры:</p>
+    <div>
+      <h4>Размеры:</h4>
       {langEdges.map((edge) => (
         <span key={edge.node.id}>
           {edge.node.name}: {edge.size} KB &nbsp;
@@ -121,9 +121,11 @@ const LangStat = ({ login }: Props) => {
   );
 
   return (
-    <div>
-      <div>Список языков:</div>
-      <div>
+    <PageCard element="section" className="page-card user-page__section">
+      <PageCard.Header>
+        <PageCard.Title>Статистика языков</PageCard.Title>
+      </PageCard.Header>
+      <PageCard.Body>
         {loading && <div>Загрузка...</div>}
         {error && <div>Ошибка загрузки языков: {error.message}</div>}
         {data && (
@@ -132,8 +134,8 @@ const LangStat = ({ login }: Props) => {
             <LanguagesPieChart languageEdges={langEdges} />
           </>
         )}
-      </div>
-    </div>
+      </PageCard.Body>
+    </PageCard>
   );
 };
 

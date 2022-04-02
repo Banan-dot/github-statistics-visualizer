@@ -4,6 +4,8 @@ import { useQuery } from "react-apollo";
 
 import RepositoryOwner from "../../../models/RepositoryOwner";
 import UserRepositoriesList from "./UserRepositoriesList";
+import { Center, Spinner } from "@skbkontur/react-ui";
+import PageCard from "../../../shared/PageCard";
 
 const GET_USER_REPOSITORIES = gql`
   query ($login: String!) {
@@ -54,10 +56,17 @@ const UserRepositories = ({ login }: Props) => {
   );
 
   return (
-    <div>
-      <div>Список репозиториев</div>
-      <div>
-        {loading && <div>Загрузка...</div>}
+    <PageCard element="section" className="user-page__section">
+      <PageCard.Header>
+        <PageCard.Title>Список репозиториев</PageCard.Title>
+      </PageCard.Header>
+      <PageCard.Body>
+        {loading && (
+          <Center>
+            <Spinner caption="Загрузка репозиториев" />
+          </Center>
+        )}
+
         {error && <div>Ошибка загрузки репозиториев</div>}
 
         {data && (
@@ -65,8 +74,8 @@ const UserRepositories = ({ login }: Props) => {
             repositories={data.repositoryOwner.repositories}
           />
         )}
-      </div>
-    </div>
+      </PageCard.Body>
+    </PageCard>
   );
 };
 
