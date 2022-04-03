@@ -19,7 +19,7 @@ const SearchInput = ({ onSubmit }: SearchInputProps) => {
           onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Введите никнем пользователя..."
         />
-        <Button use="success" type="submit">
+        <Button use="default" type="submit">
           Найти
         </Button>
       </form>

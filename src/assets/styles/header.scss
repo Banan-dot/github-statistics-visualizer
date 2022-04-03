@@ -1,0 +1,39 @@
+.header {
+  background: #fff;
+  top: 0;
+  left: 0;
+  margin-bottom: 10px;
+  height: 10%;
+  width: 100%;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+}
+
+.logo{
+  margin-left: 2rem;
+}
+
+.logo-with-name{
+  font-size: 34px;
+  font-style: normal;
+  font-weight: 400;
+  color: #171f1d;
+  line-height: 52px;
+  display: flex;
+  float: left;
+  margin: 0 0 0 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-name{
+  margin-left: 5px;
+}
+
+.comparison-info{
+  margin-right: 2rem;
+}
