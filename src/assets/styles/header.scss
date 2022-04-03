@@ -13,10 +13,6 @@
   font-size: 20px;
 }
 
-.logo{
-  margin-left: 2rem;
-}
-
 .logo-with-name{
   font-size: 34px;
   font-style: normal;
@@ -25,15 +21,16 @@
   line-height: 52px;
   display: flex;
   float: left;
-  margin: 0 0 0 1rem;
   align-items: center;
   justify-content: center;
 }
-
+.link-block-logo{
+  margin-left: 30px;
+}
 .logo-name{
   margin-left: 5px;
 }
 
 .comparison-info{
-  margin-right: 2rem;
+  padding-right: 20px;
 }

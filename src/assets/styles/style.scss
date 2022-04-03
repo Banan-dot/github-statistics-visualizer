@@ -22,6 +22,14 @@ body {
   max-width: 1200px;
 }
 
+.user-page .search-page__input {
+  position: absolute;
+  top: -51px;
+  left: calc(50% - 277px);
+  margin: 0 0 0 125px;
+  z-index: 1;
+}
+
 .user-page {
   &__section:not(:last-child) {
     margin-bottom: 16px;

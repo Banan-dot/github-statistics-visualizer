@@ -1,14 +1,22 @@
-.search-page__container {
+.search-page__container{
   position: fixed;
   left: 50%;
   top: 50%;
-  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
-
 .search-page__error {
   font: {
     size: 12px;
   }
   margin-left: 3%;
+}
+
+.liftUp {
+  animation: liftUp 2s ease;
+}
+
+@keyframes liftUp {
+  to {
+    transform: translate(-50%, -1020%);
+  }
 }
