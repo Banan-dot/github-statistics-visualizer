@@ -5,6 +5,7 @@ import Fork from "./Fork";
 import Issue from "./Issue";
 import PullRequest from "./PullRequest";
 import BranchRef from "./BranchRef";
+import LicenseInfo from "./LicenseInfo";
 
 interface Repository {
   id: string;
@@ -20,6 +21,7 @@ interface Repository {
   pullRequests: PullRequest;
   languages: Languages;
   primaryLanguage: Language | null;
+  licenseInfo: LicenseInfo | null;
 }
 
 export default Repository;

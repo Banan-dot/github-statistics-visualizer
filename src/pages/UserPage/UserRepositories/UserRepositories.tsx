@@ -28,6 +28,10 @@ const GET_USER_REPOSITORIES = gql`
             id
             login
           }
+          licenseInfo {
+            name
+            id
+          }
         }
       }
     }

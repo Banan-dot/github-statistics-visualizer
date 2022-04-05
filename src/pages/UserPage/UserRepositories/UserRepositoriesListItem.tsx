@@ -1,6 +1,6 @@
 import React from "react";
 import Repository from "../../../models/Repository";
-import { RepoForkedIcon, StarIcon } from "@primer/octicons-react";
+import { LawIcon, RepoForkedIcon, StarIcon } from "@primer/octicons-react";
 import IconDataLabel from "../../../shared/IconDataLabel";
 import LanguageLabel from "../../../shared/LanguageLabel";
 import { Link } from "@skbkontur/react-ui";
@@ -10,8 +10,14 @@ type Props = {
 };
 
 const UserRepositoriesListItem = ({ repository }: Props) => {
-  const { name, forkCount, stargazerCount, primaryLanguage, owner } =
-    repository;
+  const {
+    name,
+    forkCount,
+    stargazerCount,
+    primaryLanguage,
+    owner,
+    licenseInfo,
+  } = repository;
 
   const repositoryInfoLink = `user/${owner.login}/repository/${repository.name}`;
 
@@ -35,6 +41,9 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
           value={stargazerCount}
           hintText="Количество звезд"
         />
+        {licenseInfo && (
+          <IconDataLabel icon={LawIcon} value={licenseInfo.name} />
+        )}
       </div>
       {/* <div>Владелец: {owner.login}</div>
       <div>Основной язык: {primaryLanguage?.name ?? "Нет данных"}</div>

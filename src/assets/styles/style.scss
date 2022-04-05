@@ -89,7 +89,7 @@ body {
   }
   
   &_language-label {
-    @include label($spacer, $border-radius-sm, null);
+    @include label($spacer, $border-radius-sm, transparent);
   }
 }
 
