@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchInput from "../shared/SearchInput";
+import "../assets/styles/searchPage.scss";
 
 const SearchPage = () => {
   const navigate = useNavigate();
-  const [isIncorrectName, setIsCorrectName] = useState<boolean>(false);
+
+  const [shake, setShake] = useState(false);
+
   const onSubmit = (value: string) => {
-    if (value === "") {
-      setIsCorrectName(true);
-      return;
-    }
-    navigate(`user/${value}`);
+    setShake(true);
+    setTimeout(() => {
+      setShake(false);
+      navigate(`user/${value}`);
+    }, 2000);
   };
-  console.log(isIncorrectName);
+
   return (
-    <div>
+    <div className={"search-page__container" + (shake ? ` liftUp` : "")}>
       <SearchInput onSubmit={onSubmit} />
-      {isIncorrectName && (
-        <div className="search-page__error">Заполните поле</div>
-      )}
     </div>
   );
 };

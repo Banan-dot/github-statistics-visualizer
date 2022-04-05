@@ -1,4 +1,6 @@
-import React, {FormEvent, useState} from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
+import { Button, Input } from "@skbkontur/react-ui";
+import { useNavigate } from "react-router-dom";
 
 type SearchInputProps = {
   onSubmit: (value: string) => void;
@@ -6,23 +8,37 @@ type SearchInputProps = {
 
 const SearchInput = ({ onSubmit }: SearchInputProps) => {
   const [searchValue, setSearchValue] = useState<string>("");
+  const [isIncorrectName, setIsCorrectName] = useState<boolean>(false);
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(searchValue)
-  }
+    if (searchValue === "") {
+      setIsCorrectName(true);
+      return;
+    }
+
+    onSubmit(searchValue);
+  };
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (isIncorrectName) setIsCorrectName(false);
+    setSearchValue(e.target.value);
+  };
+
   return (
-    <div>
+    <div className={"search-page__input"}>
       <form onSubmit={onFormSubmit}>
-        <label>
-          Введите имя пользователя:
-          <input
-            type="search"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-          />
-        </label>
-        <input type="submit" value="Найти" />
+        <Input
+          value={searchValue}
+          onChange={onChange}
+          placeholder="Введите никнем пользователя..."
+        />
+        <Button use="default" type="submit">
+          Найти
+        </Button>
       </form>
+      {isIncorrectName && (
+        <span className="search-page__error">Заполните поле</span>
+      )}
     </div>
   );
 };
