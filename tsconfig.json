@@ -23,7 +23,10 @@
   },
   "include": [
     "src",
-    "*.d.ts"
+    "*.d.ts",
+  ],
+  "files": [
+    "src/shared/Logo.d.ts"
   ],
   "exclude": [
     "node_modules"
