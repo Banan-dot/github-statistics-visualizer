@@ -17,6 +17,11 @@ body {
   font-size: 16px;
   font-family: "Open Sans", Arial, sans-serif;
 }
+@media only screen and (max-device-width: 600px) {
+  body {
+    font-size: 12px;
+  }
+}
 
 .page-wrapper {
   margin: 0 auto;
@@ -24,14 +29,6 @@ body {
   position: relative;
   min-height: 100%;
   max-width: 1200px;
-}
-
-.user-page .search-page__input {
-  position: absolute;
-  top: -51px;
-  left: calc(50% - 277px);
-  margin: 0 0 0 125px;
-  z-index: 1;
 }
 
 .user-page {
@@ -54,9 +51,13 @@ body {
   border-radius: $border-radius-md;
   border: 1px solid $light-gray;
   background-color: $white;
+}
 
+.user-page__common-info .page-card {
   &__header {
     margin-bottom: 8px;
+    grid-column: 1 / 4;
+    grid-row: 1 / 3;
 
     &-title {
       font-size: 1.2em;
@@ -65,6 +66,125 @@ body {
   }
 }
 
+.user-page {
+  &__github-link {
+    background-color: $milk;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: 4 / 5;
+    grid-row: 1 / 2;
+    text-decoration: none;
+    color: black;
+  }
+
+  &__avatar {
+    border-radius: 50%;
+    border: 1px solid $light-gray;
+    grid-column: 1 / 2;
+    grid-row: 1 / 4;
+  }
+
+  &__company {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+  }
+
+  &__name {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+
+  &__email {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+  }
+
+  &__website {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+  }
+
+  &__location {
+    grid-column: 4 / 5;
+    grid-row: 2 / 3;
+  }
+
+  &__created-date {
+    grid-column: 4 / 5;
+    grid-row: 3 / 4;
+  }
+
+  &__following-count {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+  }
+
+  &__followers-count {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+  }
+
+  &__language-stat {
+    grid-column: 2 / 4;
+    grid-row: 1 / 4;
+  }
+}
+
+.user-page__common-info .page-card {
+  &__body {
+    width: calc(100% - 32px);
+    grid-column: 1 / -1;
+    grid-row: 2 / 4;
+    display: grid;
+    grid-template-columns: 150px 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    grid-gap: 15px;
+    text-align: center;
+  }
+}
+
+.user-page {
+  &__language-stat {
+    width: calc(100% - 32px);
+    grid-column: 1 / -1;
+    grid-row: 2 / 4;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    text-align: center;
+  }
+
+  &__languages-pie-chart {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+  }
+
+  &__languages-information {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 20% 20% 20%;
+  }
+
+  &__languages-result-size {
+    grid-column: 1 / 4;
+    grid-row: 1 / 2;
+    word-wrap: break-word;
+  }
+
+  &__most-used-language {
+    grid-column: 1 / 4;
+  }
+}
+
+.user-page__languages .page-card {
+  &__header {
+    margin-bottom: 8px;
+    grid-column: 1 / 4;
+    grid-row: 1 / 2;
+
+    &-title {
+      font-size: 1.2em;
+      font-weight: bold;
 .user-repository-list {
   &__item {
     list-style: none;
