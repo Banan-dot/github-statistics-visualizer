@@ -10,13 +10,14 @@ import PageCard from "../../../shared/PageCard";
 const GET_USER_REPOSITORIES = gql`
   query ($login: String!) {
     repositoryOwner(login: $login) {
-      repositories(first: 10, ownerAffiliations: OWNER) {
+      repositories(first: 10, ownerAffiliations: OWNER, orderBy: {field: STARGAZERS, direction: DESC}) {
         nodes {
           id
           name
           isFork
           forkingAllowed
           forkCount
+          stargazerCount
           url
           primaryLanguage {
             id
@@ -26,6 +27,10 @@ const GET_USER_REPOSITORIES = gql`
           owner {
             id
             login
+          }
+          licenseInfo {
+            name
+            id
           }
         }
       }
