@@ -8,11 +8,11 @@ type Props = {
 
 const UserRepositoriesList = ({ repositories }: Props) => {
   return (
-    <div>
+    <ul className="user-repository-list">
       {repositories.nodes.map((repository) => (
         <UserRepositoriesListItem repository={repository} key={repository.id} />
       ))}
-    </div>
+    </ul>
   );
 };
 
