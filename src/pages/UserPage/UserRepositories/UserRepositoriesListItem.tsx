@@ -27,10 +27,12 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
         {name}
       </Link>
       <div className="user-repository__label-list">
-        <LanguageLabel
-          name={primaryLanguage?.name}
-          color={primaryLanguage?.color}
-        />
+        {primaryLanguage && (
+          <LanguageLabel
+            name={primaryLanguage.name}
+            color={primaryLanguage.color}
+          />
+        )}
         <IconDataLabel
           icon={RepoForkedIcon}
           value={forkCount}
