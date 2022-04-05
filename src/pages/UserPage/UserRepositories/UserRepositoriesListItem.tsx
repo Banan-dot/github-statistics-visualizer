@@ -44,7 +44,11 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
           hintText="Количество звезд"
         />
         {licenseInfo && (
-          <IconDataLabel icon={LawIcon} value={licenseInfo.name} />
+          <IconDataLabel
+            icon={LawIcon}
+            value={licenseInfo.name}
+            hintText="Лицензия"
+          />
         )}
       </div>
       {/* <div>Владелец: {owner.login}</div>
