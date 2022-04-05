@@ -9,8 +9,11 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 body {
-  bottom: 10px;
   font-size: 16px;
   font-family: "Open Sans", Arial, sans-serif;
 }
@@ -32,6 +35,15 @@ body {
 }
 
 .user-page {
+  &__github-link {
+    background-color: #CECECE;
+
+    a {
+      color: black;
+      text-decoration: none;
+    }
+  }
+
   &__section:not(:last-child) {
     margin-bottom: 2 * $spacer;
   }
@@ -92,4 +104,3 @@ body {
     @include label($spacer, $border-radius-sm, transparent);
   }
 }
-
