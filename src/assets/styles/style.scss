@@ -31,21 +31,6 @@ body {
   max-width: 1200px;
 }
 
-.user-page {
-  &__github-link {
-    background-color: #CECECE;
-
-    a {
-      color: black;
-      text-decoration: none;
-    }
-  }
-
-  &__section:not(:last-child) {
-    margin-bottom: 2 * $spacer;
-  }
-}
-
 .page-card {
   padding: 2 * $spacer;
   border-radius: $border-radius-md;
@@ -67,8 +52,12 @@ body {
 }
 
 .user-page {
+  &__section:not(:last-child) {
+    margin-bottom: 2 * $spacer;
+  }
+
   &__github-link {
-    background-color: $milk;
+    background-color: #cecece;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -174,24 +163,33 @@ body {
   &__most-used-language {
     grid-column: 1 / 4;
   }
+
+  .user-repository-list {
+    &__item {
+      list-style: none;
+
+      &:not(:last-child) {
+        margin-bottom: $spacer;
+      }
+    }
+  }
 }
 
-.user-page__languages .page-card {
+.page-card {
   &__header {
-    margin-bottom: 8px;
-    grid-column: 1 / 4;
-    grid-row: 1 / 2;
+    margin-bottom: $spacer;
 
     &-title {
       font-size: 1.2em;
       font-weight: bold;
-.user-repository-list {
-  &__item {
-    list-style: none;
-
-    &:not(:last-child) {
-      margin-bottom: $spacer;
     }
+  }
+}
+
+.user-page__languages .page-card {
+  &__header {
+    grid-column: 1 / 4;
+    grid-row: 1 / 2;
   }
 }
 
@@ -203,6 +201,7 @@ body {
 
   &__label-list {
     display: flex;
+    align-items: center;
     gap: 0.5 * $spacer;
   }
 
@@ -219,7 +218,7 @@ body {
   &_icon-label {
     @include label($spacer, $border-radius-sm, $light);
   }
-  
+
   &_language-label {
     @include label($spacer, $border-radius-sm, transparent);
   }

@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -8,7 +8,6 @@ import UserInfo from "./UserInfo/UserInfo";
 import UserRepositories from "./UserRepositories/UserRepositories";
 import LangStat from "./LangStat/LangStat";
 import UserActivity from "./UserActivity/UserActivity";
-import SearchInput from "../../shared/SearchInput";
 
 const GET_USER = gql`
   query GetUser($login: String!) {
