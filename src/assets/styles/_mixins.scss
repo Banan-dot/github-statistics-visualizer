@@ -1,0 +1,11 @@
+@mixin label($spacer, $border-radius, $bg-color) {
+  display: flex;
+  align-items: center;
+  padding-top: 0.25 * $spacer;
+  padding-right: 0.5 * $spacer;
+  padding-bottom: 0.25 * $spacer;
+  padding-left: 0.5 * $spacer;
+  border-radius: $border-radius;
+  background-color: $bg-color;
+  cursor: default;
+}
