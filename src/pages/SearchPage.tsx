@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchInput from "../shared/SearchInput";
+import "../assets/styles/searchPage.scss";
 
 const SearchPage = () => {
   const navigate = useNavigate();
 
+  const onSubmit = (value: string) => {
+    navigate(`user/${value}`);
+  };
+
   return (
-    <div>
-      <SearchInput onSubmit={(value) => navigate(`user/${value}`)} />
+    <div className={"search-page__container"}>
+      <SearchInput onSubmit={onSubmit} />
     </div>
   );
 };

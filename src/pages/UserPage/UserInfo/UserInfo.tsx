@@ -8,23 +8,50 @@ type UserInfoProps = {
 
 const UserInfo = ({ user }: UserInfoProps) => {
   const { followers, following } = user;
-
+  let createdData = new Date(user.createdAt);
   return (
-    <PageCard element="section" className="user-page__section">
+    <PageCard
+      element="section"
+      className="user-page__section user-page__common-info"
+    >
       <PageCard.Header>
-        <PageCard.Title>Информация о пользователе</PageCard.Title>
+        <PageCard.Title>Информация о пользователе {user.login}</PageCard.Title>
       </PageCard.Header>
       <PageCard.Body>
-        <img src={user.avatarUrl} alt="userAvatar" width={200} height={200} />
-        <p>Имя: {user.name}</p>
-        <p>Логин: {user.login}</p>
-        <p>Компания: {user.company}</p>
-        <p>Почта: {user.email}</p>
-        <p>Сайт: {user.websiteUrl}</p>
-        <p>Местонахождение: {user.location}</p>
-        <p>Создан: {user.createdAt}</p>
-        <p>Подписки: {following.totalCount}</p>
-        <p>Подписчики: {followers.totalCount}</p>
+        <img
+          src={user.avatarUrl}
+          className="user-page__avatar"
+          alt="user-avatar"
+          width={150}
+          height={150}
+        />
+        {user.name && <span className="user-page__name">Имя: {user.name}</span>}
+        {user.company && (
+          <span className="user-page__company">Компания: {user.company}</span>
+        )}
+        {user.email && (
+          <span className="user-page__email">Почта: {user.email}</span>
+        )}
+        {user.websiteUrl && (
+          <span className="user-page__website">Сайт: {user.websiteUrl}</span>
+        )}
+        {user.location && (
+          <span className="user-page__location">
+            Местонахождение: {user.location}
+          </span>
+        )}
+        <a href={user.url} className="user-page__github-link">
+          <span>Перейти на github </span>
+        </a>{" "}
+        <span className="user-page__created-date">
+          Создан: {createdData.toLocaleString()}
+        </span>
+        <span className="user-page__following-count">
+          Подписки: {following.totalCount}
+        </span>
+        <span className="user-page__followers-count">
+          Подписчики: {followers.totalCount}
+        </span>
       </PageCard.Body>
     </PageCard>
   );
