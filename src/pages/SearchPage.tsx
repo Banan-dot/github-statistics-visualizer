@@ -6,18 +6,12 @@ import "../assets/styles/searchPage.scss";
 const SearchPage = () => {
   const navigate = useNavigate();
 
-  const [shake, setShake] = useState(false);
-
   const onSubmit = (value: string) => {
-    setShake(true);
-    setTimeout(() => {
-      setShake(false);
-      navigate(`user/${value}`);
-    }, 2000);
+    navigate(`user/${value}`);
   };
 
   return (
-    <div className={"search-page__container" + (shake ? ` liftUp` : "")}>
+    <div className={"search-page__container"}>
       <SearchInput onSubmit={onSubmit} />
     </div>
   );

@@ -16,6 +16,7 @@ const GET_USER = gql`
       id
       name
       login
+      url
       avatarUrl
       url
       bio
@@ -43,7 +44,6 @@ type UserVars = {
 };
 
 function UserPage() {
-  const navigate = useNavigate();
   const { login } = useParams();
   const { loading, data, error } = useQuery<UserData, UserVars>(GET_USER, {
     variables: { login },
@@ -57,7 +57,6 @@ function UserPage() {
 
   return (
     <div className="user-page">
-      <SearchInput onSubmit={(value) => navigate(`../user/${value}`)} />
       <UserInfo user={data.user} />
       <LangStat login={login} />
       <UserRepositories login={login} />

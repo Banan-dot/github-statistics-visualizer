@@ -10,13 +10,3 @@
   }
   margin-left: 3%;
 }
-
-.liftUp {
-  animation: liftUp 2s ease;
-}
-
-@keyframes liftUp {
-  to {
-    transform: translate(-50%, -1020%);
-  }
-}
