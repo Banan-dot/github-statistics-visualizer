@@ -10,14 +10,21 @@ const UserInfo = ({ user }: UserInfoProps) => {
   const { followers, following } = user;
   let createdData = new Date(user.createdAt);
   return (
-    <PageCard element="section" className="user-page__section">
+    <PageCard
+      element="section"
+      className="user-page__section user-page__common-info"
+    >
       <PageCard.Header>
         <PageCard.Title>Информация о пользователе {user.login}</PageCard.Title>
       </PageCard.Header>
       <PageCard.Body>
-        {user.name && (
-          <img src={user.avatarUrl} alt="userAvatar" width={200} height={200} />
-        )}
+        <img
+          src={user.avatarUrl}
+          className="user-page__avatar"
+          alt="user-avatar"
+          width={"150px"}
+          height={"150px"}
+        />
         {user.name && <span className="user-page__name">Имя: {user.name}</span>}
         {user.company && (
           <span className="user-page__company">Компания: {user.company}</span>
