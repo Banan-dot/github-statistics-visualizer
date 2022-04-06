@@ -25,7 +25,7 @@ body {
 
 .page-wrapper {
   margin: 0 auto;
-  padding: $border-raduis-lg;
+  padding: 2 * $spacer;
   position: relative;
   min-height: 100%;
   max-width: 1200px;
