@@ -1,6 +1,7 @@
 import React from "react";
 import User from "../../../models/User";
 import PageCard from "../../../shared/PageCard";
+import { Link, Button } from "@skbkontur/react-ui";
 
 type UserInfoProps = {
   user: User;
@@ -40,9 +41,9 @@ const UserInfo = ({ user }: UserInfoProps) => {
             Местонахождение: {user.location}
           </span>
         )}
-        <a href={user.url} className="user-page__github-link">
-          <span>Перейти на github </span>
-        </a>{" "}
+        <Link href={user.url} className="user-page__github-link">
+          <Button size="medium">Перейти на GitHub</Button>
+        </Link>
         <span className="user-page__created-date">
           Создан: {createdData.toLocaleString()}
         </span>

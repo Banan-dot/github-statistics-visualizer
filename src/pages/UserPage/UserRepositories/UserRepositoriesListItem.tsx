@@ -3,7 +3,7 @@ import Repository from "../../../models/Repository";
 import { LawIcon, RepoForkedIcon, StarIcon } from "@primer/octicons-react";
 import IconDataLabel from "../../../shared/IconDataLabel";
 import LanguageLabel from "../../../shared/LanguageLabel";
-import { Link } from "@skbkontur/react-ui";
+import { Link, Button } from "@skbkontur/react-ui";
 
 type Props = {
   repository: Repository;
@@ -17,6 +17,8 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
     primaryLanguage,
     owner,
     licenseInfo,
+    url,
+    forkingAllowed,
   } = repository;
 
   const repositoryInfoLink = `user/${owner.login}/repository/${repository.name}`;
@@ -51,6 +53,11 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
           />
         )}
       </div>
+      {forkingAllowed && (
+        <Link href={url} target="_blank">
+          <Button use="primary">Сделать форк</Button>
+        </Link>
+      )}
       {/* <div>Владелец: {owner.login}</div>
       <div>Основной язык: {primaryLanguage?.name ?? "Нет данных"}</div>
       <div>Количество форков: {repository.forkCount}</div>

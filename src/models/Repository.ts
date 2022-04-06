@@ -11,6 +11,7 @@ interface Repository {
   id: string;
   name: string;
   isFork: boolean;
+  forkingAllowed: boolean;
   forkCount: number;
   stargazerCount: number;
   url: string;
