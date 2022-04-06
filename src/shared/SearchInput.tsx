@@ -1,6 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { Button, Input } from "@skbkontur/react-ui";
-import { useNavigate } from "react-router-dom";
+import { Button, Group, Input } from "@skbkontur/react-ui";
 
 type SearchInputProps = {
   onSubmit: (value: string) => void;
@@ -27,15 +26,17 @@ const SearchInput = ({ onSubmit }: SearchInputProps) => {
   return (
     <div className={"search-page__input"}>
       <form onSubmit={onFormSubmit}>
-        <Input
-          value={searchValue}
-          onChange={onChange}
-          placeholder="Введите никнем пользователя..."
-          style={{ width: "auto" }}
-        />
-        <Button use="default" type="submit">
-          Найти
-        </Button>
+        <Group width={325}>
+          <Input
+            value={searchValue}
+            onChange={onChange}
+            error={isIncorrectName}
+            placeholder="Введите никнем пользователя..."
+            style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+            width="100%"
+          />
+          <Button type="submit">Найти</Button>
+        </Group>
       </form>
       {isIncorrectName && (
         <span className="search-page__error">Заполните поле</span>

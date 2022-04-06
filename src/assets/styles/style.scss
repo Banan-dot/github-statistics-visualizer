@@ -25,7 +25,7 @@ body {
 
 .page-wrapper {
   margin: 0 auto;
-  padding: $border-raduis-lg;
+  padding: 2 * $spacer;
   position: relative;
   min-height: 100%;
   max-width: 1200px;
@@ -57,14 +57,8 @@ body {
   }
 
   &__github-link {
-    background-color: #cecece;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     grid-column: 4 / 5;
     grid-row: 1 / 2;
-    text-decoration: none;
-    color: black;
   }
 
   &__avatar {
