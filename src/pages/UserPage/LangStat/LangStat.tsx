@@ -70,24 +70,17 @@ function getLanguagesInfo(repositories: Repositories) {
 function renderStatistic(langEdges: LanguageEdge[], totalSize: number) {
   const mostRepeatedLanguage = getMostUsedLanguage(langEdges);
   return (
-    <div>
-      <h4>Размеры:</h4>
-      {langEdges.map((edge) => (
-        <span key={edge.node.id}>
-          {edge.node.name}: {edge.size} KB &nbsp;
-        </span>
-      ))}
-      <h4>Вывод:</h4>
-      <p>
-        Итоговый размер языков в сумме по репозиториям: {totalSize} KB or{" "}
+    <div className="user-page__languages-information">
+      <div className="user-page__languages-result-size">
+        Итоговый размер языков в сумме по репозиториям {totalSize} KB or{" "}
         {(totalSize / 1024).toFixed(1)} MB
-      </p>
+      </div>
       {langEdges.map((edge) => (
-        <span key={edge.node.id}>
-          {edge.node.name}: {((edge.size / totalSize) * 100).toFixed(2)}% &nbsp;
-        </span>
+        <div key={edge.node.id}>
+          {edge.node.name} {((edge.size / totalSize) * 100).toFixed(2)}%
+        </div>
       ))}
-      <h4>Наиболее используемый язык: {mostRepeatedLanguage}</h4>
+      <div className="user-page__most-used-language">Наиболее используемый язык {mostRepeatedLanguage}</div>
     </div>
   );
 }
@@ -121,7 +114,7 @@ const LangStat = ({ login }: Props) => {
   );
 
   return (
-    <PageCard element="section" className="page-card user-page__section">
+    <PageCard element="section" className="page-card user-page__languages user-page__section">
       <PageCard.Header>
         <PageCard.Title>Статистика языков</PageCard.Title>
       </PageCard.Header>
@@ -129,10 +122,10 @@ const LangStat = ({ login }: Props) => {
         {loading && <div>Загрузка...</div>}
         {error && <div>Ошибка загрузки языков: {error.message}</div>}
         {data && (
-          <>
+          <div className="user-page__language-stat">
             {renderStatistic(langEdges, totalSize)}
-            <LanguagesPieChart languageEdges={langEdges} />
-          </>
+            <LanguagesPieChart languageEdges={langEdges} className="user-page__languages-pie-chart"/>
+          </div>
         )}
       </PageCard.Body>
     </PageCard>

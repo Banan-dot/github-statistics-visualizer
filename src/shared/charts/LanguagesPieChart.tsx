@@ -4,15 +4,16 @@ import LanguageEdge from "../../models/LanguageEdge";
 
 type LanguagesPieChartProps = {
   languageEdges: LanguageEdge[];
+  className: string;
 };
 
-const LanguagesPieChart = ({ languageEdges }: LanguagesPieChartProps) => {
+const LanguagesPieChart = ({ languageEdges, className }: LanguagesPieChartProps) => {
   const colorScale = languageEdges.map(
     (languageEdge) => languageEdge.node.color
   );
 
   return (
-    <div style={{ width: 300, height: 300 }}>
+    <div style={{ width: 300, height: 300 }} className={className}>
       <VictoryPie
         data={languageEdges}
         colorScale={colorScale}
