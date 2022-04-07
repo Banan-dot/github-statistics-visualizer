@@ -20,6 +20,7 @@ interface Repository {
   forks: Fork;
   issues: Issue;
   defaultBranchRef: BranchRef;
+  updatedAt: string;
   pullRequests: PullRequest;
   languages: Languages;
   primaryLanguage: Language | null;

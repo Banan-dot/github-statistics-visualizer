@@ -1,6 +1,11 @@
 import React from "react";
 import Repository from "../../../models/Repository";
-import { LawIcon, RepoForkedIcon, StarIcon } from "@primer/octicons-react";
+import {
+  CalendarIcon,
+  LawIcon,
+  RepoForkedIcon,
+  StarIcon,
+} from "@primer/octicons-react";
 import IconDataLabel from "../../../shared/IconDataLabel";
 import LanguageLabel from "../../../shared/LanguageLabel";
 import {
@@ -11,6 +16,8 @@ import {
   MenuSeparator,
 } from "@skbkontur/react-ui";
 import InputWithCopyButton from "../../../shared/InputWithCopyButton";
+import { formatDistance, parseISO } from "date-fns";
+import { ru } from "date-fns/locale";
 
 type Props = {
   repository: Repository;
@@ -29,10 +36,14 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
     sshUrl,
     forkingAllowed,
     parent,
+    updatedAt,
   } = repository;
 
   const repositoryInfoLink = `user/${owner.login}/repository/${repository.name}`;
   const gitUrl = `${url}.git`;
+  const formattedISO = formatDistance(parseISO(updatedAt), Date.now(), {
+    locale: ru,
+  });
 
   return (
     <li className="user-repository user-repository-list__item">
@@ -84,6 +95,11 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
       </div>
 
       <div className="user-repository__label-list">
+        <IconDataLabel
+          icon={CalendarIcon}
+          value={formattedISO}
+          hintText="Последнее изменение"
+        />
         <IconDataLabel
           icon={RepoForkedIcon}
           value={forkCount}
