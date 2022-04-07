@@ -34,6 +34,7 @@ const GET_USER_REPOSITORIES = gql`
           forkCount
           stargazerCount
           url
+          sshUrl
           primaryLanguage {
             name
             color

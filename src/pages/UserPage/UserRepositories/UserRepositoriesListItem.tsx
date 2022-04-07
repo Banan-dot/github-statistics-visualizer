@@ -3,7 +3,14 @@ import Repository from "../../../models/Repository";
 import { LawIcon, RepoForkedIcon, StarIcon } from "@primer/octicons-react";
 import IconDataLabel from "../../../shared/IconDataLabel";
 import LanguageLabel from "../../../shared/LanguageLabel";
-import { Link, Button } from "@skbkontur/react-ui";
+import {
+  Link,
+  Button,
+  Dropdown,
+  MenuHeader,
+  MenuSeparator,
+} from "@skbkontur/react-ui";
+import InputWithCopyButton from "../../../shared/InputWithCopyButton";
 
 type Props = {
   repository: Repository;
@@ -19,11 +26,13 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
     owner,
     licenseInfo,
     url,
+    sshUrl,
     forkingAllowed,
     parent,
   } = repository;
 
   const repositoryInfoLink = `user/${owner.login}/repository/${repository.name}`;
+  const gitUrl = `${url}.git`;
 
   return (
     <li className="user-repository user-repository-list__item">
@@ -60,6 +69,17 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
               <Button>Сделать форк</Button>
             </Link>
           )}
+          <Dropdown caption="Клонировать" menuAlign="right" menuWidth={300}>
+            <MenuHeader>
+              <div>HTTPS</div>
+              <InputWithCopyButton defaultValue={gitUrl} inputWidth={250} />
+            </MenuHeader>
+            <MenuSeparator></MenuSeparator>
+            <MenuHeader>
+              <div>SSH</div>
+              <InputWithCopyButton defaultValue={sshUrl} inputWidth={250} />
+            </MenuHeader>
+          </Dropdown>
         </div>
       </div>
 
