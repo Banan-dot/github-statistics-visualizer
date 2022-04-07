@@ -1,13 +1,11 @@
 import React from "react";
-import gql from "graphql-tag";
-import { useQuery } from "react-apollo";
+import { useQuery, gql, NetworkStatus } from "@apollo/client";
 
 import RepositoryOwner from "../../../models/RepositoryOwner";
 import UserRepositoriesList from "./UserRepositoriesList";
 import { Center, Spinner, Gapped, Loader } from "@skbkontur/react-ui";
 import PageCard from "../../../shared/PageCard";
 import NavigateButtons from "../../../shared/NavigateButtons";
-import { NetworkStatus } from "apollo-client-preset";
 
 const GET_USER_REPOSITORIES = gql`
   query (

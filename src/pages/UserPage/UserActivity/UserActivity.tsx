@@ -1,6 +1,5 @@
 import React from "react";
-import gql from "graphql-tag";
-import { useQuery } from "react-apollo";
+import { useQuery, gql } from "@apollo/client";
 import RepositoryOwner from "../../../models/RepositoryOwner";
 import Repositories from "../../../models/Repositories";
 import UserActivityPolarChart from "../../../shared/charts/UserActivityPolarChart";
