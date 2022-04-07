@@ -11,7 +11,7 @@ type Props = {
 const IconDataLabel = ({ value, hintText, icon: Icon }: Props) => {
   return (
     <Hint text={hintText}>
-      <div className="label_icon-label">
+      <div className="label label_icon-label">
         <Icon className="label__icon" />
         <div className="label__text">{value}</div>
       </div>

@@ -23,6 +23,7 @@ interface Repository {
   languages: Languages;
   primaryLanguage: Language | null;
   licenseInfo: LicenseInfo | null;
+  parent: Repository;
 }
 
 export default Repository;

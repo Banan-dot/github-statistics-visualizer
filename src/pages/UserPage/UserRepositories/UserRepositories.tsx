@@ -35,17 +35,21 @@ const GET_USER_REPOSITORIES = gql`
           stargazerCount
           url
           primaryLanguage {
-            id
             name
             color
           }
           owner {
-            id
             login
           }
           licenseInfo {
             name
-            id
+          }
+          parent {
+            url
+            name
+            owner {
+              login
+            }
           }
         }
         pageInfo {
