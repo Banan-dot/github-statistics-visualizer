@@ -8,7 +8,7 @@ import PageCard from "../../../shared/PageCard";
 import NavigateButtons from "../../../shared/NavigateButtons";
 
 const GET_USER_REPOSITORIES = gql`
-  query (
+  query GetUserRepositories(
     $login: String!
     $first: Int
     $last: Int
@@ -16,6 +16,7 @@ const GET_USER_REPOSITORIES = gql`
     $before: String
   ) {
     repositoryOwner(login: $login) {
+      id
       repositories(
         first: $first
         last: $last
@@ -35,19 +36,24 @@ const GET_USER_REPOSITORIES = gql`
           sshUrl
           updatedAt
           primaryLanguage {
+            id
             name
             color
           }
           owner {
+            id
             login
           }
           licenseInfo {
+            id
             name
           }
           parent {
+            id
             url
             name
             owner {
+              id
               login
             }
           }
