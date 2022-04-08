@@ -15,14 +15,17 @@ interface Repository {
   forkCount: number;
   stargazerCount: number;
   url: string;
+  sshUrl: string;
   owner: RepositoryOwner;
   forks: Fork;
   issues: Issue;
   defaultBranchRef: BranchRef;
+  updatedAt: string;
   pullRequests: PullRequest;
   languages: Languages;
   primaryLanguage: Language | null;
   licenseInfo: LicenseInfo | null;
+  parent: Repository;
 }
 
 export default Repository;

@@ -1,7 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-apollo";
-import gql from "graphql-tag";
+import { useQuery, gql } from "@apollo/client";
 
 import User from "../../models/User";
 import UserInfo from "./UserInfo/UserInfo";

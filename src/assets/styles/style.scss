@@ -188,32 +188,72 @@ body {
 }
 
 .user-repository {
-  display: flex;
   padding: $spacer;
-  border: 1px solid $light-gray;
-  border-radius: $border-radius-sm;
+  display: flex;
+  flex-direction: column;
+  gap: $spacer;
+  border-radius: $border-radius-md;
 
-  &__label-list {
+  &:hover {
+    background-color: $light;
+  }
+
+  &__main-info {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  &__title {
     display: flex;
     align-items: center;
-    gap: 0.5 * $spacer;
+    align-self: flex-start;
+    flex-wrap: wrap;
+    gap: $spacer;
   }
 
   &__name-link {
     font-size: 1.2em;
   }
+
+  &__fork-info {
+    font-size: 0.9em;
+  }
+
+  &__label-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5 * $spacer;
+  }
+
+  &__action-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    align-self: flex-start;
+    flex-wrap: wrap;
+    gap: $spacer;
+  }
 }
 
 .label {
-  &__icon {
-    margin-right: 0.25 * $spacer;
-  }
-
   &_icon-label {
-    @include label($spacer, $border-radius-sm, $light);
+    @include label($spacer, $border-radius-sm, $white);
+    border: 1px solid $light-gray;
+
+    .label__icon {
+      margin-right: 0.25 * $spacer;
+    }
   }
 
   &_language-label {
     @include label($spacer, $border-radius-sm, transparent);
+    padding-left: 0;
+    padding-right: 0;
+
+    .label__icon {
+      margin: -0.5 * $spacer;
+    }
   }
 }

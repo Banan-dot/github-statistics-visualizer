@@ -1,4 +1,4 @@
-import { FLAT_THEME_8PX, ThemeFactory } from "@skbkontur/react-ui";
+import { DEFAULT_THEME, ThemeFactory } from "@skbkontur/react-ui";
 
 const themeOverrides = {
   btnBorderRadiusLarge: "6px",
@@ -7,6 +7,7 @@ const themeOverrides = {
   inputBorderRadiusSmall: "6px",
   inputBorderRadiusMedium: "6px",
   inputBorderRadiusLarge: "6px",
+  hintBorderRadius: "4px",
 };
 
-export default ThemeFactory.create(themeOverrides, FLAT_THEME_8PX);
+export default ThemeFactory.create(themeOverrides, DEFAULT_THEME);
