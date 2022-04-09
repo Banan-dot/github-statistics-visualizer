@@ -23,8 +23,9 @@ const UserInfo = ({ user }: UserInfoProps) => {
           src={user.avatarUrl}
           className="user-page__avatar"
           alt="user-avatar"
-          width={150}
-          height={150}
+          width={"100%"}
+          style={{ maxWidth: "150px", maxHeight: "150px" }}
+          height={"100%"}
         />
         {user.name && <span className="user-page__name">Имя: {user.name}</span>}
         {user.company && (

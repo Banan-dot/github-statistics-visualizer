@@ -47,8 +47,13 @@ function UserPage() {
     variables: { login },
   });
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error {error.message}</div>;
+  if (loading) return <div>Загрузка...</div>;
+  if (error)
+    return (
+      <div className="user-page__search-error">
+        Ошибка, пользователя с таким ником не существует, попробуйте снова.
+      </div>
+    );
 
   if (!login) return <div>Введите логин пользователя</div>;
   if (!data) return <div>Неожиданная ошибка</div>;

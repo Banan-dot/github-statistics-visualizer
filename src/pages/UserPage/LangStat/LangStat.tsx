@@ -71,15 +71,16 @@ function renderStatistic(langEdges: LanguageEdge[], totalSize: number) {
   return (
     <div className="user-page__languages-information">
       <div className="user-page__languages-result-size">
-        Итоговый размер языков в сумме по репозиториям {totalSize} KB or{" "}
-        {(totalSize / 1024).toFixed(1)} MB
+        Итоговый размер языков в сумме по репозиториям {(totalSize / 1024).toFixed(1)} MB
       </div>
       {langEdges.map((edge) => (
         <div key={edge.node.id}>
           {edge.node.name} {((edge.size / totalSize) * 100).toFixed(2)}%
         </div>
       ))}
-      <div className="user-page__most-used-language">Наиболее используемый язык {mostRepeatedLanguage}</div>
+      <div className="user-page__most-used-language">
+        Наиболее используемый язык {mostRepeatedLanguage}
+      </div>
     </div>
   );
 }
@@ -112,8 +113,18 @@ const LangStat = ({ login }: Props) => {
     data.repositoryOwner.repositories
   );
 
+  const isSizeMoreThanPercent = (size: number, percents: number) =>
+    (size / totalSize) * 100 > percents;
+
+  const languagesToViewChart = langEdges.filter((lang) =>
+    isSizeMoreThanPercent(lang.size, 1)
+  );
+
   return (
-    <PageCard element="section" className="page-card user-page__languages user-page__section">
+    <PageCard
+      element="section"
+      className="page-card user-page__languages user-page__section"
+    >
       <PageCard.Header>
         <PageCard.Title>Статистика языков</PageCard.Title>
       </PageCard.Header>
@@ -123,7 +134,10 @@ const LangStat = ({ login }: Props) => {
         {data && (
           <div className="user-page__language-stat">
             {renderStatistic(langEdges, totalSize)}
-            <LanguagesPieChart languageEdges={langEdges} className="user-page__languages-pie-chart"/>
+            <LanguagesPieChart
+              languageEdges={languagesToViewChart}
+              className="user-page__languages-pie-chart"
+            />
           </div>
         )}
       </PageCard.Body>

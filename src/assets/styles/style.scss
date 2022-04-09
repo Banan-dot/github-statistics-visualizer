@@ -17,6 +17,7 @@ body {
   font-size: 16px;
   font-family: "Open Sans", Arial, sans-serif;
 }
+
 @media only screen and (max-device-width: 600px) {
   body {
     font-size: 12px;
@@ -120,7 +121,7 @@ body {
     grid-column: 1 / -1;
     grid-row: 2 / 4;
     display: grid;
-    grid-template-columns: 150px 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: auto;
     grid-gap: 15px;
     text-align: center;
@@ -145,7 +146,7 @@ body {
   &__languages-information {
     display: grid;
     grid-gap: 20px;
-    grid-template-columns: 20% 20% 20%;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   &__languages-result-size {
@@ -167,6 +168,13 @@ body {
       }
     }
   }
+
+  &__languages-pie-chart {
+  }
+}
+
+.VictoryContainer {
+  position: relative;
 }
 
 .page-card {
@@ -256,4 +264,38 @@ body {
       margin: -0.5 * $spacer;
     }
   }
+}
+
+@media screen and (max-width: 768px) {
+  .user-page {
+    &__followers-count,
+    &__following-count,
+    &__avatar {
+      display: none;
+    }
+
+    &__languages-information {
+      grid-gap: 0 !important;
+    }
+  }
+  .page-card__body {
+    grid-gap: 0 !important;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .user-page {
+    &__language-stat {
+      display: block;
+    }
+    &__languages-information {
+      display: none;
+    }
+  }
+}
+.user-page__languages-pie-chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 320px;
 }

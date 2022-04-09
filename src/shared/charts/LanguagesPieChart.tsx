@@ -1,5 +1,5 @@
 import React from "react";
-import { VictoryPie } from "victory";
+import { VictoryLegend, VictoryPie } from "victory";
 import LanguageEdge from "../../models/LanguageEdge";
 
 type LanguagesPieChartProps = {
@@ -7,19 +7,44 @@ type LanguagesPieChartProps = {
   className: string;
 };
 
-const LanguagesPieChart = ({ languageEdges, className }: LanguagesPieChartProps) => {
+const LanguagesPieChart = ({
+  languageEdges,
+  className,
+}: LanguagesPieChartProps) => {
   const colorScale = languageEdges.map(
     (languageEdge) => languageEdge.node.color
   );
 
+  const legendLanguagesNames = languageEdges.map((edge) => {
+    return {
+      name: edge.node.name,
+    };
+  });
+
   return (
-    <div style={{ width: 300, height: 300 }} className={className}>
-      <VictoryPie
-        data={languageEdges}
-        colorScale={colorScale}
-        x={(languageEdge: LanguageEdge) => languageEdge.node.name}
-        y={(languageEdge: LanguageEdge) => languageEdge.size}
-      />
+    <div className={className}>
+        <VictoryPie
+          colorScale={colorScale}
+          padding={0}
+          data={languageEdges}
+          x={(languageEdge: LanguageEdge) => languageEdge.node.name}
+          y={(languageEdge: LanguageEdge) => languageEdge.size}
+          labels={() => null}
+        />
+        <VictoryLegend
+            width={300}
+            x={50}
+          orientation="vertical"
+          colorScale={colorScale}
+          gutter={30}
+          title="Languages"
+          centerTitle
+          style={{
+            border: { stroke: "#dcdde1", strokeWidth: "1px" },
+            title: { fontSize: 20 },
+          }}
+          data={legendLanguagesNames}
+        />
     </div>
   );
 };
