@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { VictoryLegend, VictoryPie } from "victory";
 import LanguageEdge from "../../models/LanguageEdge";
 
@@ -6,6 +6,9 @@ type LanguagesPieChartProps = {
   languageEdges: LanguageEdge[];
   className: string;
 };
+
+const defaultGraphicData = [{ y: 0 }, { y: 0 }, { y: 100 }];
+
 
 const LanguagesPieChart = ({
   languageEdges,
@@ -21,30 +24,41 @@ const LanguagesPieChart = ({
     };
   });
 
+  const [graphicData, setGraphicData] = useState(defaultGraphicData);
+
+  const fromLanguageEdgesToGraphData = (languageEdges: LanguageEdge[]) =>
+    languageEdges.map((edge) => {
+      return { x: edge.node.name, y: edge.size };
+    });
+
+  useEffect(() => {
+    setGraphicData(fromLanguageEdgesToGraphData(languageEdges));
+  }, []);
+
   return (
     <div className={className}>
-        <VictoryPie
-          colorScale={colorScale}
-          padding={0}
-          data={languageEdges}
-          x={(languageEdge: LanguageEdge) => languageEdge.node.name}
-          y={(languageEdge: LanguageEdge) => languageEdge.size}
-          labels={() => null}
-        />
-        <VictoryLegend
-            width={300}
-            x={50}
-          orientation="vertical"
-          colorScale={colorScale}
-          gutter={30}
-          title="Languages"
-          centerTitle
-          style={{
-            border: { stroke: "#dcdde1", strokeWidth: "1px" },
-            title: { fontSize: 20 },
-          }}
-          data={legendLanguagesNames}
-        />
+      <VictoryPie
+        colorScale={colorScale}
+        padding={0}
+        animate={{ easing: "back" }}
+        data={graphicData}
+        labels={() => null}
+      />
+      <VictoryLegend
+        x={50}
+        height={350}
+        width={250}
+        orientation="vertical"
+        colorScale={colorScale}
+        gutter={30}
+        title="Languages"
+        centerTitle
+        style={{
+          border: { stroke: "#dcdde1", strokeWidth: "1px" },
+          title: { fontSize: 20 },
+        }}
+        data={legendLanguagesNames}
+      />
     </div>
   );
 };

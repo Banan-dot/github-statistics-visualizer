@@ -81,7 +81,7 @@ body {
 
   &__email {
     grid-column: 2 / 3;
-    grid-row: 2 / 3;
+    grid-row: 3 / 4;
   }
 
   &__website {
@@ -89,9 +89,14 @@ body {
     grid-row: 1 / 2;
   }
 
-  &__location {
+  &__map {
+    grid-column: 1 / 4;
+    grid-row: 4 / 5;
+  }
+
+  &__location-info {
     grid-column: 4 / 5;
-    grid-row: 2 / 3;
+    grid-row: 4 / 5;
   }
 
   &__created-date {
@@ -267,19 +272,10 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-  .user-page {
-    &__followers-count,
-    &__following-count,
-    &__avatar {
-      display: none;
-    }
-
-    &__languages-information {
-      grid-gap: 0 !important;
-    }
-  }
-  .page-card__body {
-    grid-gap: 0 !important;
+  .user-page__common-info .page-card__body {
+    display: flex;
+    gap: 2rem;
+    flex-direction: column;
   }
 }
 
@@ -298,4 +294,26 @@ body {
   justify-content: center;
   align-items: center;
   min-width: 320px;
+}
+
+.map-container {
+  height: 400px;
+}
+
+.sidebar {
+  background-color: rgba(35, 55, 75, 0.9);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: monospace;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 12px;
+  border-radius: 4px;
+}
+
+.mapboxgl-ctrl-geocoder,
+.mapboxgl-ctrl {
+  visibility: hidden;
 }

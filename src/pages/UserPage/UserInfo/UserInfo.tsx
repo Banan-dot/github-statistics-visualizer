@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import User from "../../../models/User";
 import PageCard from "../../../shared/PageCard";
 import { Link, Button } from "@skbkontur/react-ui";
-
+import YaMap from "./Map/Map";
 type UserInfoProps = {
   user: User;
 };
 
 const UserInfo = ({ user }: UserInfoProps) => {
   const { followers, following } = user;
-  let createdData = new Date(user.createdAt);
+  const createdData = new Date(user.createdAt);
+  const { location } = user;
+  const [showMap, setShowMap] = useState(false);
+
   return (
     <PageCard
       element="section"
@@ -37,11 +40,20 @@ const UserInfo = ({ user }: UserInfoProps) => {
         {user.websiteUrl && (
           <span className="user-page__website">Сайт: {user.websiteUrl}</span>
         )}
-        {user.location && (
-          <span className="user-page__location">
-            Местонахождение: {user.location}
-          </span>
+        {location && (
+          <div className="user-page__location-info">
+            <p className="user-page__location">Местонахождение: {location}</p>
+            <Button
+              size="small"
+              onClick={() => {
+                setShowMap(!showMap);
+              }}
+            >
+              Показать на карте
+            </Button>
+          </div>
         )}
+        {showMap && <YaMap location={location} className="user-page__map" />}
         <Link href={user.url} className="user-page__github-link">
           <Button size="medium">Перейти на GitHub</Button>
         </Link>
