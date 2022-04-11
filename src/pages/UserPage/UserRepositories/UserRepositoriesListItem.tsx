@@ -39,7 +39,7 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
     updatedAt,
   } = repository;
 
-  const repositoryInfoLink = `user/${owner.login}/repository/${repository.name}`;
+  const repositoryInfoLink = `/user/${owner.login}/repository/${repository.name}`;
   const gitUrl = `${url}.git`;
   const formattedISO = formatDistance(parseISO(updatedAt), Date.now(), {
     locale: ru,
