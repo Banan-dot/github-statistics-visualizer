@@ -27,7 +27,7 @@ const UserActivityPolarChart = ({ usersActivity }: Props) => {
   const data = transformDataToXY(usersActivity);
 
   return (
-    <div style={{ width: 300, height: 300 }}>
+    <>
       <VictoryChart
         polar
         containerComponent={
@@ -65,7 +65,7 @@ const UserActivityPolarChart = ({ usersActivity }: Props) => {
           }}
         />
       </VictoryChart>
-    </div>
+    </>
   );
 };
 

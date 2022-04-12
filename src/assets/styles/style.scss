@@ -17,6 +17,7 @@ body {
   font-size: 16px;
   font-family: "Open Sans", Arial, sans-serif;
 }
+
 @media only screen and (max-device-width: 600px) {
   body {
     font-size: 12px;
@@ -80,7 +81,7 @@ body {
 
   &__email {
     grid-column: 2 / 3;
-    grid-row: 2 / 3;
+    grid-row: 3 / 4;
   }
 
   &__website {
@@ -88,9 +89,14 @@ body {
     grid-row: 1 / 2;
   }
 
-  &__location {
+  &__map {
+    grid-column: 1 / 4;
+    grid-row: 4 / 5;
+  }
+
+  &__location-info {
     grid-column: 4 / 5;
-    grid-row: 2 / 3;
+    grid-row: 4 / 5;
   }
 
   &__created-date {
@@ -120,7 +126,7 @@ body {
     grid-column: 1 / -1;
     grid-row: 2 / 4;
     display: grid;
-    grid-template-columns: 150px 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: auto;
     grid-gap: 15px;
     text-align: center;
@@ -145,7 +151,7 @@ body {
   &__languages-information {
     display: grid;
     grid-gap: 20px;
-    grid-template-columns: 20% 20% 20%;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   &__languages-result-size {
@@ -167,6 +173,13 @@ body {
       }
     }
   }
+
+  &__languages-pie-chart {
+  }
+}
+
+.VictoryContainer {
+  position: relative;
 }
 
 .page-card {
@@ -256,4 +269,51 @@ body {
       margin: -0.5 * $spacer;
     }
   }
+}
+
+@media screen and (max-width: 768px) {
+  .user-page__common-info .page-card__body {
+    display: flex;
+    gap: 2rem;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .user-page {
+    &__language-stat {
+      display: block;
+    }
+    &__languages-information {
+      display: none;
+    }
+  }
+}
+.user-page__languages-pie-chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 320px;
+}
+
+.map-container {
+  height: 400px;
+}
+
+.sidebar {
+  background-color: rgba(35, 55, 75, 0.9);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: monospace;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 12px;
+  border-radius: 4px;
+}
+
+.mapboxgl-ctrl-geocoder,
+.mapboxgl-ctrl {
+  visibility: hidden;
 }
