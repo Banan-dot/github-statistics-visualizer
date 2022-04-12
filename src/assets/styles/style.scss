@@ -303,3 +303,20 @@ body {
   width: 100%;
   text-align: center;
 }
+
+.repository-page {
+  .data-label-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 2 * $spacer;
+    row-gap: 1.5 * $spacer;
+
+    @media screen and (max-width: $tablet-width) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (max-width: $mobile-width) {
+      grid-template-columns: 1fr;
+    }
+  }
+}

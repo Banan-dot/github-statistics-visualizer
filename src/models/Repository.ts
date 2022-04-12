@@ -1,11 +1,12 @@
 import Language from "./Language";
 import RepositoryOwner from "./RepositoryOwner";
-import Languages from "./Languages";
+import LanguageConnection from "./LanguageConnection";
 import Fork from "./Fork";
-import Issue from "./Issue";
-import PullRequest from "./PullRequest";
-import BranchRef from "./BranchRef";
+import IssueConnection from "./IssueConnection";
+import PullRequestConnection from "./PullRequestConnection";
+import DefaultBranchRef from "./DefaultBranchRef";
 import LicenseInfo from "./LicenseInfo";
+import RepositoryCollaboratorConnection from "./RepositoryCollaboratorConnection";
 
 interface Repository {
   id: string;
@@ -18,11 +19,13 @@ interface Repository {
   sshUrl: string;
   owner: RepositoryOwner;
   forks: Fork;
-  issues: Issue;
-  defaultBranchRef: BranchRef;
+  issues: IssueConnection;
+  defaultBranchRef: DefaultBranchRef;
   updatedAt: string;
-  pullRequests: PullRequest;
-  languages: Languages;
+  createdAt: string;
+  pullRequests: PullRequestConnection;
+  collaborators: RepositoryCollaboratorConnection;
+  languages: LanguageConnection;
   primaryLanguage: Language | null;
   licenseInfo: LicenseInfo | null;
   parent: Repository;

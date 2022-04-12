@@ -1,8 +1,8 @@
 import LanguageEdge from "./LanguageEdge";
 
-interface Languages {
+interface LanguageConnection {
   edges: LanguageEdge[];
   totalSize: number;
 }
 
-export default Languages;
+export default LanguageConnection;
