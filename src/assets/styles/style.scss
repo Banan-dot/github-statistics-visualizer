@@ -1,6 +1,7 @@
 @import "./variables";
 @import "./mixins";
 @import "./alert";
+@import "./labels";
 
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
@@ -251,28 +252,7 @@ body {
   }
 }
 
-.label {
-  &_icon-label {
-    @include label($spacer, $border-radius-sm, $white);
-    border: 1px solid $light-gray;
-
-    .label__icon {
-      margin-right: 0.25 * $spacer;
-    }
-  }
-
-  &_language-label {
-    @include label($spacer, $border-radius-sm, transparent);
-    padding-left: 0;
-    padding-right: 0;
-
-    .label__icon {
-      margin: -0.5 * $spacer;
-    }
-  }
-}
-
-@media screen and (max-width: 768px) {
+@media screen and (max-width: $tablet-width) {
   .user-page__common-info .page-card__body {
     display: flex;
     gap: 2rem;

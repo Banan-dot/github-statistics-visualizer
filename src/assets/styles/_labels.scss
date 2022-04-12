@@ -1,0 +1,37 @@
+.label {
+  &_icon-label {
+    @include label($spacer, $border-radius-sm, $white);
+    border: 1px solid $light-gray;
+
+    .label__icon {
+      margin-right: 0.25 * $spacer;
+    }
+  }
+
+  &_language-label {
+    @include label($spacer, $border-radius-sm, transparent);
+    padding-left: 0;
+    padding-right: 0;
+
+    .label__icon {
+      margin: -0.5 * $spacer;
+    }
+  }
+}
+
+.data-label {
+  display: inline-block;
+  padding: 1 * $spacer;
+  border-radius: $border-radius-sm;
+  background-color: $white;
+  box-shadow: $box-shadow-sm;
+
+  &__value {
+    font-size: 1.3em;
+    font-weight: bold;
+  }
+
+  &__caption {
+    font-size: 0.9em;
+  }
+}
