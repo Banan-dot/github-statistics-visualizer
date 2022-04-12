@@ -1,5 +1,6 @@
 @import "./variables";
 @import "./mixins";
+@import "./alert";
 
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
@@ -316,4 +317,9 @@ body {
 .mapboxgl-ctrl-geocoder,
 .mapboxgl-ctrl {
   visibility: hidden;
+}
+
+.spinner_centered {
+  width: 100%;
+  text-align: center;
 }
