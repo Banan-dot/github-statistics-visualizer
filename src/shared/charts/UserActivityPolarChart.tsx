@@ -3,6 +3,7 @@ import {
   VictoryArea,
   VictoryChart,
   VictoryGroup,
+  VictoryPie,
   VictoryPolarAxis,
   VictoryVoronoiContainer,
 } from "victory";
@@ -21,14 +22,18 @@ const transformDataToXY = (usersActivity: UserActivity[]) => {
 
 type Props = {
   usersActivity: UserActivity[];
+  className: string;
 };
 
-const UserActivityPolarChart = ({ usersActivity }: Props) => {
+const UserActivityPolarChart = ({ usersActivity, className }: Props) => {
   const data = transformDataToXY(usersActivity);
 
   return (
-    <>
+    <svg viewBox="0 0 300 300" className={className}>
       <VictoryChart
+        width={300}
+        height={300}
+        standalone={false}
         polar
         containerComponent={
           <VictoryVoronoiContainer labels={({ datum }) => datum.y} />
@@ -65,7 +70,7 @@ const UserActivityPolarChart = ({ usersActivity }: Props) => {
           }}
         />
       </VictoryChart>
-    </>
+    </svg>
   );
 };
 

@@ -1,5 +1,3 @@
-interface Issue {
-    totalCount: number;
+export default interface Issue{
+    state: "CLOSED" | "OPEN";
 }
-
-export default Issue;
