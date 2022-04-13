@@ -1,5 +1,7 @@
 @import "./variables";
 @import "./mixins";
+@import "./alert";
+@import "./labels";
 
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
@@ -17,6 +19,7 @@ body {
   font-size: 16px;
   font-family: "Open Sans", Arial, sans-serif;
 }
+
 @media only screen and (max-device-width: 600px) {
   body {
     font-size: 12px;
@@ -29,13 +32,6 @@ body {
   position: relative;
   min-height: 100%;
   max-width: 1200px;
-}
-
-.page-card {
-  padding: 2 * $spacer;
-  border-radius: $border-radius-md;
-  border: 1px solid $light-gray;
-  background-color: $white;
 }
 
 .user-page__common-info .page-card {
@@ -51,6 +47,11 @@ body {
   }
 }
 
+.user-avatar {
+  border-radius: 50%;
+  border: 1px solid $light-gray;
+}
+
 .user-page {
   &__section:not(:last-child) {
     margin-bottom: 2 * $spacer;
@@ -62,15 +63,15 @@ body {
   }
 
   &__avatar {
-    border-radius: 50%;
-    border: 1px solid $light-gray;
     grid-column: 1 / 2;
     grid-row: 1 / 4;
+    max-width: 150px;
+    max-height: 150px;
   }
 
   &__company {
     grid-column: 2 / 3;
-    grid-row: 3 / 4;
+    grid-row: 2 / 3;
   }
 
   &__name {
@@ -80,7 +81,7 @@ body {
 
   &__email {
     grid-column: 2 / 3;
-    grid-row: 2 / 3;
+    grid-row: 3 / 4;
   }
 
   &__website {
@@ -88,9 +89,14 @@ body {
     grid-row: 1 / 2;
   }
 
-  &__location {
+  &__map {
+    grid-column: 1 / 4;
+    grid-row: 4 / 5;
+  }
+
+  &__location-info {
     grid-column: 4 / 5;
-    grid-row: 2 / 3;
+    grid-row: 4 / 5;
   }
 
   &__created-date {
@@ -120,10 +126,64 @@ body {
     grid-column: 1 / -1;
     grid-row: 2 / 4;
     display: grid;
-    grid-template-columns: 150px 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: auto;
     grid-gap: 15px;
     text-align: center;
+  }
+}
+
+.user-page__activity {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto 1fr;
+}
+
+.user-page__activity {
+  .page-card {
+    &__pull-requests-info span,
+    &__issues-info span {
+      margin-right: 10px;
+      display: inline-block;
+      font-size: 14px;
+    }
+
+    &__pull-requests-count {
+      width: 100%;
+    }
+
+    &__header {
+      grid-column: 1 / 4;
+      grid-row: 1 / 2;
+    }
+
+    &__body {
+      grid-column: 1 / 4;
+      display: flex;
+      gap: 10px;
+      justify-content: space-around;
+      grid-row: 2 / 3;
+    }
+
+    &__issues-info,
+    &__pull-requests-info {
+      margin-left: 2rem;
+      flex-grow: 1;
+    }
+
+    &__user-activity-chart {
+      grid-column: 3 / 4;
+      grid-row: 3 / 4;
+    }
+    &__user-activity-chart1 {
+      grid-column: 1 / 2;
+      grid-row: 3 / 4;
+    }
+    &__user-activity-chart2 {
+      grid-column: 2 / 3;
+      grid-row: 3 / 4;
+    }
   }
 }
 
@@ -145,7 +205,7 @@ body {
   &__languages-information {
     display: grid;
     grid-gap: 20px;
-    grid-template-columns: 20% 20% 20%;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   &__languages-result-size {
@@ -167,9 +227,21 @@ body {
       }
     }
   }
+
+  &__languages-pie-chart {
+  }
+}
+
+.VictoryContainer {
+  position: relative;
 }
 
 .page-card {
+  padding: 2 * $spacer;
+  border-radius: $border-radius-md;
+  border: 1px solid $light-gray;
+  background-color: $white;
+
   &__header {
     margin-bottom: $spacer;
 
@@ -188,32 +260,149 @@ body {
 }
 
 .user-repository {
-  display: flex;
   padding: $spacer;
-  border: 1px solid $light-gray;
-  border-radius: $border-radius-sm;
+  display: flex;
+  flex-direction: column;
+  gap: $spacer;
+  border-radius: $border-radius-md;
 
-  &__label-list {
+  &:hover {
+    background-color: $light;
+  }
+
+  &__main-info {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  &__title {
     display: flex;
     align-items: center;
-    gap: 0.5 * $spacer;
+    align-self: flex-start;
+    flex-wrap: wrap;
+    gap: $spacer;
   }
 
   &__name-link {
     font-size: 1.2em;
   }
+
+  &__fork-info {
+    font-size: 0.9em;
+  }
+
+  &__label-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5 * $spacer;
+  }
+
+  &__action-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    align-self: flex-start;
+    flex-wrap: wrap;
+    gap: $spacer;
+  }
 }
 
-.label {
-  &__icon {
-    margin-right: 0.25 * $spacer;
+@media screen and (max-width: $tablet-width) {
+  .user-page__common-info .page-card__body {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
-  &_icon-label {
-    @include label($spacer, $border-radius-sm, $light);
+  .user-page__activity .page-card__body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
-  &_language-label {
-    @include label($spacer, $border-radius-sm, transparent);
+  .page-card__body .user-page__avatar {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .user-page {
+    &__language-stat {
+      display: block;
+    }
+    &__languages-information {
+      display: none;
+    }
+    &__avatar {
+      display: none;
+    }
+  }
+}
+.user-page__languages-pie-chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.map-container {
+  height: 400px;
+}
+
+.sidebar {
+  background-color: rgba(35, 55, 75, 0.9);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: monospace;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 12px;
+  border-radius: 4px;
+}
+
+.mapboxgl-ctrl-geocoder,
+.mapboxgl-ctrl {
+  visibility: hidden;
+}
+
+.spinner_centered {
+  width: 100%;
+  text-align: center;
+}
+
+.repository-page {
+  .data-label-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 2 * $spacer;
+    row-gap: 1.5 * $spacer;
+
+    @media screen and (max-width: $tablet-width) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (max-width: $mobile-width) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .user-link {
+    margin-top: 0.5 * $spacer;
+    display: inline-flex;
+    align-items: center;
+
+    &__avatar {
+      margin-right: 0.5 * $spacer;
+    }
+  }
+
+  .description {
+    margin-bottom: 1.5 * $spacer;
   }
 }

@@ -34,3 +34,23 @@
 .comparison-info{
   padding-right: 20px;
 }
+
+.user-page__search-error{
+  display: inline-block;
+  position: relative;
+  left: 50%;
+  top: 250px;
+  transform: translateX(-50%);
+}
+
+@media screen and (max-width: 680px){
+  .logo-with-name{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 500px){
+  .comparison-info{
+    display: none;
+  }
+}

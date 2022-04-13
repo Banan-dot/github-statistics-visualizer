@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import User from "../../../models/User";
 import PageCard from "../../../shared/PageCard";
 import { Link, Button } from "@skbkontur/react-ui";
-
+import YaMap from "./Map/Map";
+import UserAvatar from "../../../shared/UserAvatar";
 type UserInfoProps = {
   user: User;
 };
 
 const UserInfo = ({ user }: UserInfoProps) => {
   const { followers, following } = user;
-  let createdData = new Date(user.createdAt);
+  const createdData = new Date(user.createdAt);
+  const { location } = user;
+  const [showMap, setShowMap] = useState(false);
+
   return (
     <PageCard
       element="section"
@@ -19,12 +23,10 @@ const UserInfo = ({ user }: UserInfoProps) => {
         <PageCard.Title>Информация о пользователе {user.login}</PageCard.Title>
       </PageCard.Header>
       <PageCard.Body>
-        <img
+        <UserAvatar
           src={user.avatarUrl}
           className="user-page__avatar"
-          alt="user-avatar"
-          width={150}
-          height={150}
+          size="100%"
         />
         {user.name && <span className="user-page__name">Имя: {user.name}</span>}
         {user.company && (
@@ -36,11 +38,20 @@ const UserInfo = ({ user }: UserInfoProps) => {
         {user.websiteUrl && (
           <span className="user-page__website">Сайт: {user.websiteUrl}</span>
         )}
-        {user.location && (
-          <span className="user-page__location">
-            Местонахождение: {user.location}
-          </span>
+        {location && (
+          <div className="user-page__location-info">
+            <p className="user-page__location">Местонахождение: {location}</p>
+            <Button
+              size="small"
+              onClick={() => {
+                setShowMap(!showMap);
+              }}
+            >
+              Показать на карте
+            </Button>
+          </div>
         )}
+        {showMap && <YaMap location={location} className="user-page__map" />}
         <Link href={user.url} className="user-page__github-link">
           <Button size="medium">Перейти на GitHub</Button>
         </Link>

@@ -1,5 +1,3 @@
-interface PullRequest {
-    totalCount: number;
+export default interface PullRequest{
+    state: "CLOSED" | "OPEN" | "MERGED";
 }
-
-export default PullRequest;

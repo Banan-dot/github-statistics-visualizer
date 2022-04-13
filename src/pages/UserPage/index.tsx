@@ -1,7 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-apollo";
-import gql from "graphql-tag";
+import { useQuery, gql } from "@apollo/client";
 
 import User from "../../models/User";
 import UserInfo from "./UserInfo/UserInfo";
@@ -48,8 +47,13 @@ function UserPage() {
     variables: { login },
   });
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error {error.message}</div>;
+  if (loading) return <div>Загрузка...</div>;
+  if (error)
+    return (
+      <div className="user-page__search-error">
+        Ошибка, пользователя с таким ником не существует, попробуйте снова.
+      </div>
+    );
 
   if (!login) return <div>Введите логин пользователя</div>;
   if (!data) return <div>Неожиданная ошибка</div>;

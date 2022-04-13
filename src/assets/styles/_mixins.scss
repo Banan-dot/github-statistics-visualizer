@@ -10,3 +10,8 @@
   font-size: 0.9em;
   cursor: default;
 }
+
+@mixin alert($bg-color, $border-color: $bg-color) {
+  border: 1px solid $border-color;
+  background-color: rgba($bg-color, 0.35);
+}

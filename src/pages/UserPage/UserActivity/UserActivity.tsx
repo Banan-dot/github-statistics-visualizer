@@ -1,11 +1,18 @@
 import React from "react";
-import gql from "graphql-tag";
-import { useQuery } from "react-apollo";
+import { useQuery, gql } from "@apollo/client";
 import RepositoryOwner from "../../../models/RepositoryOwner";
 import Repositories from "../../../models/Repositories";
 import UserActivityPolarChart from "../../../shared/charts/UserActivityPolarChart";
 import PageCard from "../../../shared/PageCard";
-
+import {
+  GitMergeIcon,
+  GitPullRequestClosedIcon,
+  GitPullRequestIcon,
+  IssueOpenedIcon,
+  IssueClosedIcon,
+} from "@primer/octicons-react";
+import PullRequestChart from "../../../shared/charts/PullRequestChart";
+import IssuesChart from "../../../shared/charts/IssuesChart";
 const GET_USER_ACTIVITY_IN_REPOSITORIES = gql`
   query ($login: String!) {
     repositoryOwner(login: $login) {
@@ -14,11 +21,21 @@ const GET_USER_ACTIVITY_IN_REPOSITORIES = gql`
           forks {
             totalCount
           }
-          issues {
+          issues(first: 100) {
             totalCount
+            edges {
+              node {
+                state
+              }
+            }
           }
-          pullRequests {
+          pullRequests(first: 100) {
             totalCount
+            edges {
+              node {
+                state
+              }
+            }
           }
           defaultBranchRef {
             target {
@@ -65,6 +82,37 @@ function getActivityInfo(repositories: Repositories) {
   return result;
 }
 
+function getPullRequestsInfo(repositories: Repositories) {
+  const result = {
+    OPEN: 0,
+    MERGED: 0,
+    CLOSED: 0,
+    totalCount: 0,
+  };
+  repositories.nodes.forEach((repos) => {
+    const pullRequests = repos.pullRequests;
+    pullRequests.edges.forEach((edge) => result[edge.node.state]++);
+    result.totalCount += pullRequests.totalCount;
+  });
+
+  return result;
+}
+
+function getIssuesInfo(repositories: Repositories) {
+  const result = {
+    OPEN: 0,
+    CLOSED: 0,
+    totalCount: 0,
+  };
+  repositories.nodes.forEach((repos) => {
+    const issues = repos.issues;
+    issues.edges.forEach((edge) => result[edge.node.state]++);
+    result.totalCount += issues.totalCount;
+  });
+
+  return result;
+}
+
 const UserActivity = ({ login }: Props) => {
   const { data, error, loading } = useQuery<RepositoriesData, RepositoriesVars>(
     GET_USER_ACTIVITY_IN_REPOSITORIES,
@@ -83,6 +131,9 @@ const UserActivity = ({ login }: Props) => {
   const { commitCount, forkCount, issueCount, pullRequestsCount } =
     getActivityInfo(repositories);
 
+  const pullRequestsInfo = getPullRequestsInfo(repositories);
+  const issuesInfo = getIssuesInfo(repositories);
+
   const userActivity = {
     Коммиты: commitCount,
     Форки: forkCount,
@@ -91,17 +142,53 @@ const UserActivity = ({ login }: Props) => {
   };
 
   return (
-    <PageCard className="page-card user-page__section">
+    <PageCard className="page-card user-page__activity">
       <PageCard.Header>
         <PageCard.Title>Активность пользователя</PageCard.Title>
       </PageCard.Header>
       <PageCard.Body>
-        <div>Количество пулл реквестов: {pullRequestsCount}</div>
-        <div>Количество ишьюс: {issueCount}</div>
-        <div>Количество форков: {forkCount}</div>
-        <div>Количество коммитов: {commitCount}</div>
+        <div className="page-card__pull-requests-info">
+          <p className="page-card__pull-requests-count">
+            Пулл реквесты: {pullRequestsCount}
+          </p>
+          <span>
+            <GitPullRequestIcon /> {pullRequestsInfo.OPEN}
+          </span>
+          <span>
+            <GitPullRequestClosedIcon /> {pullRequestsInfo.CLOSED}
+          </span>
+          <span>
+            <GitMergeIcon /> {pullRequestsInfo.MERGED}
+          </span>
+        </div>
+        <div className="page-card__issues-info">
+          <p>Ишьюс: {issuesInfo.totalCount}</p>
+          <span>
+            <IssueOpenedIcon /> {issuesInfo.OPEN}
+          </span>
+          <span>
+            <IssueClosedIcon /> {issuesInfo.CLOSED}
+          </span>
+        </div>
+        <div>Коммиты: {commitCount}</div>
+        <div>Форки: {forkCount}</div>
       </PageCard.Body>
-      <UserActivityPolarChart usersActivity={[userActivity]} />
+      {pullRequestsInfo.totalCount !== 0 && (
+        <PullRequestChart
+          pullRequestsInfo={pullRequestsInfo}
+          className="page-card__pull-request-chart"
+        />
+      )}
+      {issuesInfo.totalCount !== 0 && (
+        <IssuesChart
+          issuesInfo={issuesInfo}
+          className="page-card__issues-chart"
+        />
+      )}
+      <UserActivityPolarChart
+        usersActivity={[userActivity]}
+        className="page-card__user-activity-chart"
+      />
     </PageCard>
   );
 };

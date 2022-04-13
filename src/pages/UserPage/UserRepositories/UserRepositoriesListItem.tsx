@@ -1,9 +1,23 @@
 import React from "react";
 import Repository from "../../../models/Repository";
-import { LawIcon, RepoForkedIcon, StarIcon } from "@primer/octicons-react";
+import {
+  CalendarIcon,
+  LawIcon,
+  RepoForkedIcon,
+  StarIcon,
+} from "@primer/octicons-react";
 import IconDataLabel from "../../../shared/IconDataLabel";
 import LanguageLabel from "../../../shared/LanguageLabel";
-import { Link, Button } from "@skbkontur/react-ui";
+import {
+  Link,
+  Button,
+  Dropdown,
+  MenuHeader,
+  MenuSeparator,
+} from "@skbkontur/react-ui";
+import InputWithCopyButton from "../../../shared/InputWithCopyButton";
+import { formatDistance, parseISO } from "date-fns";
+import { ru } from "date-fns/locale";
 
 type Props = {
   repository: Repository;
@@ -13,28 +27,79 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
   const {
     name,
     forkCount,
+    isFork,
     stargazerCount,
     primaryLanguage,
     owner,
     licenseInfo,
     url,
+    sshUrl,
     forkingAllowed,
+    parent,
+    updatedAt,
   } = repository;
 
-  const repositoryInfoLink = `user/${owner.login}/repository/${repository.name}`;
+  const repositoryInfoLink = `/user/${owner.login}/repository/${repository.name}`;
+  const gitUrl = `${url}.git`;
+  const formattedISO = formatDistance(parseISO(updatedAt), Date.now(), {
+    locale: ru,
+  });
 
   return (
     <li className="user-repository user-repository-list__item">
-      <Link className="user-repository__name-link" href={repositoryInfoLink}>
-        {name}
-      </Link>
+      <div className="user-repository__main-info">
+        <div>
+          <div className="user-repository__title">
+            <Link
+              className="user-repository__name-link"
+              href={repositoryInfoLink}
+            >
+              {name}
+            </Link>
+            {primaryLanguage && (
+              <LanguageLabel
+                name={primaryLanguage.name}
+                color={primaryLanguage.color}
+              />
+            )}
+          </div>
+          <div className="user-repository__fork-info">
+            {isFork && parent && (
+              <span>
+                <span>Форк от </span>
+                <Link href={parent.url} target="_blank">
+                  {parent.owner.login}/{parent.name}
+                </Link>
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="user-repository__action-buttons">
+          {forkingAllowed && (
+            <Link href={url} target="_blank">
+              <Button>Сделать форк</Button>
+            </Link>
+          )}
+          <Dropdown caption="Клонировать" menuAlign="right" menuWidth={300}>
+            <MenuHeader>
+              <div>HTTPS</div>
+              <InputWithCopyButton defaultValue={gitUrl} inputWidth={250} />
+            </MenuHeader>
+            <MenuSeparator></MenuSeparator>
+            <MenuHeader>
+              <div>SSH</div>
+              <InputWithCopyButton defaultValue={sshUrl} inputWidth={250} />
+            </MenuHeader>
+          </Dropdown>
+        </div>
+      </div>
+
       <div className="user-repository__label-list">
-        {primaryLanguage && (
-          <LanguageLabel
-            name={primaryLanguage.name}
-            color={primaryLanguage.color}
-          />
-        )}
+        <IconDataLabel
+          icon={CalendarIcon}
+          value={formattedISO}
+          hintText="Последнее изменение"
+        />
         <IconDataLabel
           icon={RepoForkedIcon}
           value={forkCount}
@@ -53,18 +118,6 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
           />
         )}
       </div>
-      {forkingAllowed && (
-        <Link href={url} target="_blank">
-          <Button use="primary">Сделать форк</Button>
-        </Link>
-      )}
-      {/* <div>Владелец: {owner.login}</div>
-      <div>Основной язык: {primaryLanguage?.name ?? "Нет данных"}</div>
-      <div>Количество форков: {repository.forkCount}</div>
-      <div>Форк: {repository.isFork ? "Да" : "Нет"}</div>
-      <a href={repository.url} target="_blank" rel="noreferrer">
-        Открыть на GitHub
-      </a> */}
     </li>
   );
 };

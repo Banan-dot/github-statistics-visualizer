@@ -1,0 +1,23 @@
+.alert {
+  padding: 1.25 * $spacer;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: $border-radius-sm;
+  font-size: 0.9em;
+
+  &_default {
+    @include alert($white, $light-gray);
+  }
+
+  &_danger {
+    @include alert($danger);
+  }
+
+  &_warning {
+    @include alert($warning);
+  }
+
+  &_success {
+    @include alert($success);
+  }
+}
