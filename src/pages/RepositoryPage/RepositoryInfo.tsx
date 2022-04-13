@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { gql, useLazyQuery } from "@apollo/client";
+import React from "react";
+import { gql, useQuery } from "@apollo/client";
 import Repository from "../../models/Repository";
 
 import PageCard from "../../shared/PageCard";
@@ -54,26 +54,20 @@ type RepositoryData = {
 };
 
 type Props = {
-  login: string | undefined;
-  repositoryName: string | undefined;
+  login: string;
+  repositoryName: string;
 };
 
 const RepositoryInfo = ({ login, repositoryName }: Props) => {
-  const [getRepository, { loading, data, error }] = useLazyQuery<
-    RepositoryData,
-    RepositoryVars
-  >(GET_REPOSITORY);
-
-  useEffect(() => {
-    if (login && repositoryName) {
-      getRepository({
-        variables: {
-          login,
-          repositoryName,
-        },
-      });
+  const { loading, data, error } = useQuery<RepositoryData, RepositoryVars>(
+    GET_REPOSITORY,
+    {
+      variables: {
+        login,
+        repositoryName,
+      },
     }
-  }, [getRepository, login, repositoryName]);
+  );
 
   return (
     <PageCard
