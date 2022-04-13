@@ -7,7 +7,7 @@ type IssuesChartProps = {
 };
 
 const IssuesChart = ({ className, issuesInfo }: IssuesChartProps) => {
-  const pieData = [];
+  const pieData: { x: string; y: number }[]  = [];
   if (issuesInfo.OPEN !== 0)
     pieData.push({
       x: "OPEN",

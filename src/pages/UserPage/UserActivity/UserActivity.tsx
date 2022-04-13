@@ -179,7 +179,7 @@ const UserActivity = ({ login }: Props) => {
           className="page-card__pull-request-chart"
         />
       )}
-      {issuesInfo.totalCount !== 0 && (
+      {issueCount !== 0 && (
         <IssuesChart
           issuesInfo={issuesInfo}
           className="page-card__issues-chart"
