@@ -54,6 +54,11 @@ body {
   }
 }
 
+.user-avatar {
+  border-radius: 50%;
+  border: 1px solid $light-gray;
+}
+
 .user-page {
   &__section:not(:last-child) {
     margin-bottom: 2 * $spacer;
@@ -65,10 +70,10 @@ body {
   }
 
   &__avatar {
-    border-radius: 50%;
-    border: 1px solid $light-gray;
     grid-column: 1 / 2;
     grid-row: 1 / 4;
+    max-width: 150px;
+    max-height: 150px;;
   }
 
   &__company {
@@ -322,7 +327,7 @@ body {
     flex-direction: column;
   }
 
-  .page-card__body .user-page__avatar{
+  .page-card__body .user-page__avatar {
     display: block;
   }
 }

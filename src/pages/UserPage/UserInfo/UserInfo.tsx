@@ -3,6 +3,7 @@ import User from "../../../models/User";
 import PageCard from "../../../shared/PageCard";
 import { Link, Button } from "@skbkontur/react-ui";
 import YaMap from "./Map/Map";
+import UserAvatar from "../../../shared/UserAvatar";
 type UserInfoProps = {
   user: User;
 };
@@ -22,13 +23,10 @@ const UserInfo = ({ user }: UserInfoProps) => {
         <PageCard.Title>Информация о пользователе {user.login}</PageCard.Title>
       </PageCard.Header>
       <PageCard.Body>
-        <img
+        <UserAvatar
           src={user.avatarUrl}
           className="user-page__avatar"
-          alt="user-avatar"
-          width={"100%"}
-          style={{ maxWidth: "150px", maxHeight: "150px" }}
-          height={"100%"}
+          size="100%"
         />
         {user.name && <span className="user-page__name">Имя: {user.name}</span>}
         {user.company && (
