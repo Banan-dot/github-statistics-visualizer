@@ -7,6 +7,7 @@ const themeOverrides = {
   inputBorderRadiusSmall: "6px",
   inputBorderRadiusMedium: "6px",
   inputBorderRadiusLarge: "6px",
+  textareaBorderRadius: "6px",
   hintBorderRadius: "4px",
 };
 

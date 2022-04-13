@@ -3,9 +3,10 @@ import { gql, useLazyQuery } from "@apollo/client";
 import Repository from "../../models/Repository";
 
 import PageCard from "../../shared/PageCard";
-import { Spinner } from "@skbkontur/react-ui";
+import { Link, Spinner, Textarea } from "@skbkontur/react-ui";
 import Alert from "../../shared/Alert";
 import DataLabel from "../../shared/DataLabel";
+import UserAvatar from "../../shared/UserAvatar";
 
 const GET_REPOSITORY = gql`
   query GetRepository($login: String!, $repositoryName: String!) {
@@ -34,6 +35,10 @@ const GET_REPOSITORY = gql`
       }
       collaborators {
         totalCount
+      }
+      owner {
+        login
+        avatarUrl
       }
     }
   }
@@ -75,9 +80,27 @@ const RepositoryInfo = ({ login, repositoryName }: Props) => {
       element="section"
       className="repository-page__common-info repository-page__section"
     >
-      <PageCard.Header>
-        <PageCard.Title>Основная информация</PageCard.Title>
-      </PageCard.Header>
+      {data?.repository && (
+        <PageCard.Header>
+          <PageCard.Title className="common-info__title">
+            {data.repository.name}
+          </PageCard.Title>
+          <Link
+            className="user-link"
+            href={`/user/${data.repository.owner.login}`}
+          >
+            <UserAvatar
+              className="user-link__avatar"
+              src={data.repository.owner.avatarUrl}
+              size={24}
+            />
+            <span className="user-link__login">
+              {data.repository.owner.login}
+            </span>
+          </Link>
+        </PageCard.Header>
+      )}
+
       <PageCard.Body>
         {loading && (
           <Spinner
@@ -91,23 +114,36 @@ const RepositoryInfo = ({ login, repositoryName }: Props) => {
         )}
 
         {data?.repository && (
-          <div className="data-label-list">
-            <DataLabel
-              value={data.repository.defaultBranchRef.target.history.totalCount}
-              caption="Коммиты"
-            />
-            <DataLabel
-              value={data.repository.pullRequests.totalCount}
-              caption="Пулл реквесты"
-            />
-            <DataLabel
-              value={data.repository.issues.totalCount}
-              caption="Ишью"
-            />
-            <DataLabel
-              value={data.repository.collaborators.totalCount}
-              caption="Коллабораторы"
-            />
+          <div>
+            <div className="description">
+              <div>Описание</div>
+              <Textarea
+                defaultValue={data.repository.description}
+                width="100%"
+                resize="none"
+                readOnly
+              />
+            </div>
+            <div className="data-label-list">
+              <DataLabel
+                value={
+                  data.repository.defaultBranchRef.target.history.totalCount
+                }
+                caption="Коммиты"
+              />
+              <DataLabel
+                value={data.repository.pullRequests.totalCount}
+                caption="Пулл реквесты"
+              />
+              <DataLabel
+                value={data.repository.issues.totalCount}
+                caption="Ишью"
+              />
+              <DataLabel
+                value={data.repository.collaborators.totalCount}
+                caption="Коллабораторы"
+              />
+            </div>
           </div>
         )}
       </PageCard.Body>

@@ -34,13 +34,6 @@ body {
   max-width: 1200px;
 }
 
-.page-card {
-  padding: 2 * $spacer;
-  border-radius: $border-radius-md;
-  border: 1px solid $light-gray;
-  background-color: $white;
-}
-
 .user-page__common-info .page-card {
   &__header {
     margin-bottom: 8px;
@@ -73,7 +66,7 @@ body {
     grid-column: 1 / 2;
     grid-row: 1 / 4;
     max-width: 150px;
-    max-height: 150px;;
+    max-height: 150px;
   }
 
   &__company {
@@ -244,6 +237,11 @@ body {
 }
 
 .page-card {
+  padding: 2 * $spacer;
+  border-radius: $border-radius-md;
+  border: 1px solid $light-gray;
+  background-color: $white;
+
   &__header {
     margin-bottom: $spacer;
 
@@ -392,5 +390,19 @@ body {
     @media screen and (max-width: $mobile-width) {
       grid-template-columns: 1fr;
     }
+  }
+
+  .user-link {
+    margin-top: 0.5 * $spacer;
+    display: inline-flex;
+    align-items: center;
+
+    &__avatar {
+      margin-right: 0.5 * $spacer;
+    }
+  }
+
+  .description {
+    margin-bottom: 1.5 * $spacer;
   }
 }
