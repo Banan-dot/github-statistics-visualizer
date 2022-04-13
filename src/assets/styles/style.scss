@@ -371,12 +371,18 @@ body {
   visibility: hidden;
 }
 
-.spinner_centered {
-  width: 100%;
-  text-align: center;
+.spinner {
+  &_centered {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 .repository-page {
+  &__section:not(:last-child) {
+    margin-bottom: 2 * $spacer;
+  }
+
   .data-label-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
