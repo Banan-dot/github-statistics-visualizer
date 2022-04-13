@@ -71,7 +71,7 @@ body {
 
   &__company {
     grid-column: 2 / 3;
-    grid-row: 3 / 4;
+    grid-row: 2 / 3;
   }
 
   &__name {
@@ -130,6 +130,60 @@ body {
     grid-template-rows: auto;
     grid-gap: 15px;
     text-align: center;
+  }
+}
+
+.user-page__activity {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto 1fr;
+}
+
+.user-page__activity {
+  .page-card {
+    &__pull-requests-info span,
+    &__issues-info span {
+      margin-right: 10px;
+      display: inline-block;
+      font-size: 14px;
+    }
+
+    &__pull-requests-count {
+      width: 100%;
+    }
+
+    &__header {
+      grid-column: 1 / 4;
+      grid-row: 1 / 2;
+    }
+
+    &__body {
+      grid-column: 1 / 4;
+      display: flex;
+      gap: 10px;
+      justify-content: space-around;
+      grid-row: 2 / 3;
+    }
+
+    &__issues-info,
+    &__pull-requests-info {
+      margin-left: 2rem;
+      flex-grow: 1;
+    }
+
+    &__user-activity-chart {
+      grid-column: 3 / 4;
+      grid-row: 3 / 4;
+    }
+    &__user-activity-chart1 {
+      grid-column: 1 / 2;
+      grid-row: 3 / 4;
+    }
+    &__user-activity-chart2 {
+      grid-column: 2 / 3;
+      grid-row: 3 / 4;
+    }
   }
 }
 
@@ -275,7 +329,20 @@ body {
   .user-page__common-info .page-card__body {
     display: flex;
     gap: 2rem;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
+  }
+
+  .user-page__activity .page-card__body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .page-card__body .user-page__avatar{
+    display: block;
   }
 }
 
@@ -287,13 +354,15 @@ body {
     &__languages-information {
       display: none;
     }
+    &__avatar {
+      display: none;
+    }
   }
 }
 .user-page__languages-pie-chart {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 320px;
 }
 
 .map-container {

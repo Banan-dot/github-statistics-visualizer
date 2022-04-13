@@ -26,7 +26,7 @@ const SearchInput = ({ onSubmit }: SearchInputProps) => {
   return (
     <div className={"search-page__input"}>
       <form onSubmit={onFormSubmit}>
-        <Group width={325}>
+        <Group width={"max(30vw, 200px)"}>
           <Input
             value={searchValue}
             onChange={onChange}
