@@ -29,7 +29,7 @@ interface Repository {
   forks: RepositoryConnection;
   issues: IssueConnection;
   pullRequests: PullRequestConnection;
-  collaborators: RepositoryCollaboratorConnection;
+  collaborators: RepositoryCollaboratorConnection | null;
 }
 
 export default Repository;

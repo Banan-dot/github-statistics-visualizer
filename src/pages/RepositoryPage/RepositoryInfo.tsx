@@ -33,7 +33,7 @@ const GET_REPOSITORY = gql`
       pullRequests {
         totalCount
       }
-      collaborators {
+      languages {
         totalCount
       }
       owner {
@@ -140,8 +140,8 @@ const RepositoryInfo = ({ login, repositoryName }: Props) => {
                 caption="Ишью"
               />
               <DataLabel
-                value={data.repository.collaborators.totalCount}
-                caption="Коллабораторы"
+                value={data.repository.languages.totalCount}
+                caption="Использовано языков"
               />
             </div>
           </div>
