@@ -1,5 +1,7 @@
 @import "./variables";
 @import "./mixins";
+@import "./alert";
+@import "./labels";
 
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
@@ -32,13 +34,6 @@ body {
   max-width: 1200px;
 }
 
-.page-card {
-  padding: 2 * $spacer;
-  border-radius: $border-radius-md;
-  border: 1px solid $light-gray;
-  background-color: $white;
-}
-
 .user-page__common-info .page-card {
   &__header {
     margin-bottom: 8px;
@@ -52,6 +47,11 @@ body {
   }
 }
 
+.user-avatar {
+  border-radius: 50%;
+  border: 1px solid $light-gray;
+}
+
 .user-page {
   &__section:not(:last-child) {
     margin-bottom: 2 * $spacer;
@@ -63,10 +63,10 @@ body {
   }
 
   &__avatar {
-    border-radius: 50%;
-    border: 1px solid $light-gray;
     grid-column: 1 / 2;
     grid-row: 1 / 4;
+    max-width: 150px;
+    max-height: 150px;
   }
 
   &__company {
@@ -237,6 +237,11 @@ body {
 }
 
 .page-card {
+  padding: 2 * $spacer;
+  border-radius: $border-radius-md;
+  border: 1px solid $light-gray;
+  background-color: $white;
+
   &__header {
     margin-bottom: $spacer;
 
@@ -304,28 +309,7 @@ body {
   }
 }
 
-.label {
-  &_icon-label {
-    @include label($spacer, $border-radius-sm, $white);
-    border: 1px solid $light-gray;
-
-    .label__icon {
-      margin-right: 0.25 * $spacer;
-    }
-  }
-
-  &_language-label {
-    @include label($spacer, $border-radius-sm, transparent);
-    padding-left: 0;
-    padding-right: 0;
-
-    .label__icon {
-      margin: -0.5 * $spacer;
-    }
-  }
-}
-
-@media screen and (max-width: 768px) {
+@media screen and (max-width: $tablet-width) {
   .user-page__common-info .page-card__body {
     display: flex;
     gap: 2rem;
@@ -341,7 +325,7 @@ body {
     flex-direction: column;
   }
 
-  .page-card__body .user-page__avatar{
+  .page-card__body .user-page__avatar {
     display: block;
   }
 }
@@ -385,4 +369,40 @@ body {
 .mapboxgl-ctrl-geocoder,
 .mapboxgl-ctrl {
   visibility: hidden;
+}
+
+.spinner_centered {
+  width: 100%;
+  text-align: center;
+}
+
+.repository-page {
+  .data-label-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 2 * $spacer;
+    row-gap: 1.5 * $spacer;
+
+    @media screen and (max-width: $tablet-width) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (max-width: $mobile-width) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .user-link {
+    margin-top: 0.5 * $spacer;
+    display: inline-flex;
+    align-items: center;
+
+    &__avatar {
+      margin-right: 0.5 * $spacer;
+    }
+  }
+
+  .description {
+    margin-bottom: 1.5 * $spacer;
+  }
 }
