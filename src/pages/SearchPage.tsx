@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import SearchInput from "../shared/SearchInput";
-import "../assets/styles/searchPage.scss";
 
 const SearchPage = () => {
   const navigate = useNavigate();
@@ -11,7 +10,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div className={"search-page__container"}>
+    <div className="search-page">
       <SearchInput onSubmit={onSubmit} />
     </div>
   );

@@ -3,9 +3,13 @@ import { Button, Group, Input } from "@skbkontur/react-ui";
 
 type SearchInputProps = {
   onSubmit: (value: string) => void;
+  showValidationErrors?: boolean;
 };
 
-const SearchInput = ({ onSubmit }: SearchInputProps) => {
+const SearchInput = ({
+  onSubmit,
+  showValidationErrors = true,
+}: SearchInputProps) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [isIncorrectName, setIsCorrectName] = useState<boolean>(false);
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -24,22 +28,22 @@ const SearchInput = ({ onSubmit }: SearchInputProps) => {
   };
 
   return (
-    <div className={"search-page__input"}>
+    <div className="search-input">
       <form onSubmit={onFormSubmit}>
-        <Group width={"max(30vw, 200px)"}>
+        <Group width="100%">
           <Input
             value={searchValue}
             onChange={onChange}
             error={isIncorrectName}
-            placeholder="Введите никнем пользователя..."
+            placeholder="Введите никнейм пользователя..."
             style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
             width="100%"
           />
           <Button type="submit">Найти</Button>
         </Group>
       </form>
-      {isIncorrectName && (
-        <span className="search-page__error">Заполните поле</span>
+      {isIncorrectName && showValidationErrors && (
+        <span className="search-input__error">Заполните поле</span>
       )}
     </div>
   );
