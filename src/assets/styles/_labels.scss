@@ -14,7 +14,10 @@
     padding-right: 0;
 
     .label__icon {
-      margin: -0.5 * $spacer;
+      margin-top: -0.5 * $spacer;
+      margin-right: -0.25 * $spacer;
+      margin-bottom: -0.5 * $spacer;
+      margin-left: -0.5 * $spacer;
     }
   }
 }
