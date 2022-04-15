@@ -3,6 +3,7 @@ import ReactMapboxGl from "react-mapbox-gl";
 import React from "react";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import mapboxgl from 'mapbox-gl';
 
 const accessToken = process.env.REACT_APP_MAPBOX_TOKEN || "";
 const MapboxMap = ReactMapboxGl({
@@ -11,7 +12,7 @@ const MapboxMap = ReactMapboxGl({
 
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax
-MapboxMap.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
+mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 
 type MapProps = {
