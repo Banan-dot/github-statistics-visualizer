@@ -3,7 +3,6 @@ import {
   VictoryArea,
   VictoryChart,
   VictoryGroup,
-  VictoryPie,
   VictoryPolarAxis,
   VictoryVoronoiContainer,
 } from "victory";
