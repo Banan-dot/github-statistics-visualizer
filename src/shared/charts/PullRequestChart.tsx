@@ -1,5 +1,5 @@
 import React from "react";
-import { VictoryLabel, VictoryLegend, VictoryPie } from "victory";
+import { VictoryLabel, VictoryPie } from "victory";
 
 interface States {
   [name: string]: number;

@@ -22,7 +22,7 @@ const UserInfo = ({ user }: UserInfoProps) => {
       <PageCard.Header>
         <PageCard.Title>Информация о пользователе {user.login}</PageCard.Title>
       </PageCard.Header>
-      <PageCard.Body element={"section"}>
+      <PageCard.Body>
         <UserAvatar
           src={user.avatarUrl}
           className="user-page__avatar"
@@ -36,7 +36,12 @@ const UserInfo = ({ user }: UserInfoProps) => {
           <span className="user-page__email">Почта: {user.email}</span>
         )}
         {user.websiteUrl && (
-          <span className="user-page__website">Сайт: {user.websiteUrl}</span>
+          <span className="user-page__website">
+            Сайт:{" "}
+            <a href={user.websiteUrl} target="_blank">
+              {user.websiteUrl}
+            </a>{" "}
+          </span>
         )}
         {location && (
           <div className="user-page__location-info">
