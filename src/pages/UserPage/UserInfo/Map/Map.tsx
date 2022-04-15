@@ -9,6 +9,11 @@ const MapboxMap = ReactMapboxGl({
   accessToken,
 });
 
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax
+MapboxMap.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
+
+
 type MapProps = {
   className: string;
   location: string | null;

@@ -22,7 +22,7 @@ const UserInfo = ({ user }: UserInfoProps) => {
       <PageCard.Header>
         <PageCard.Title>Информация о пользователе {user.login}</PageCard.Title>
       </PageCard.Header>
-      <PageCard.Body>
+      <PageCard.Body element={"section"}>
         <UserAvatar
           src={user.avatarUrl}
           className="user-page__avatar"
