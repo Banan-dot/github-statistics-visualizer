@@ -4,7 +4,7 @@ import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-// added the following 6 lines.
+
 import mapboxgl from 'mapbox-gl';
 
 // The following is required to stop "npm build" from transpiling mapbox code.
