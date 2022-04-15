@@ -6,6 +6,7 @@ import {
   VictoryGroup,
   VictoryTooltip,
   VictoryVoronoiContainer,
+  VictoryLegend,
 } from "victory";
 import PullRequest from "../../models/PullRequest";
 import {
@@ -85,6 +86,8 @@ const getDate = (iso: string) => {
   return startOfDay(parseISO(iso));
 };
 
+const COLOR_SCALE = [PRIMARY, SUCCESS];
+
 const LastPullRequestsChart = ({ data }: Props) => {
   const [minDate, maxDate] = useMemo(() => getMinMaxDates(data), [data]);
 
@@ -100,7 +103,7 @@ const LastPullRequestsChart = ({ data }: Props) => {
 
   return (
     <VictoryChart
-      padding={{ top: 40, right: 30, bottom: 50, left: 50 }}
+      padding={{ top: 60, right: 30, bottom: 50, left: 50 }}
       containerComponent={
         <VictoryVoronoiContainer
           labels={({ datum }) => datum.y}
@@ -108,7 +111,7 @@ const LastPullRequestsChart = ({ data }: Props) => {
         />
       }
     >
-      <VictoryGroup colorScale={[PRIMARY, SUCCESS]}>
+      <VictoryGroup colorScale={COLOR_SCALE}>
         <VictoryLine data={createdAtPullRequests} />
         <VictoryLine data={closedAtPullRequests} />
       </VictoryGroup>
@@ -124,6 +127,18 @@ const LastPullRequestsChart = ({ data }: Props) => {
         style={{
           grid: { stroke: "grey", strokeWidth: 0.25, opacity: 0.5 },
         }}
+      />
+      <VictoryLegend
+        x={30}
+        title="Последние пулл реквесты"
+        orientation="horizontal"
+        centerTitle
+        gutter={40}
+        data={[
+          { name: "Открытые пулл реквесты" },
+          { name: "Закрытые пулл реквесты" },
+        ]}
+        colorScale={COLOR_SCALE}
       />
     </VictoryChart>
   );

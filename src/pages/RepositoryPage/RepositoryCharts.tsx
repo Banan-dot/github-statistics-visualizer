@@ -18,7 +18,7 @@ const RepositoryCharts = ({ login, repositoryName }: Props) => {
       </PageCard.Header>
       <PageCard.Body className="charts-section__charts-container">
         <LastPullRequestsChartWrapper
-          className="charts-section__last-pull-requests-chart"
+          className="charts-section__chart"
           login={login}
           repositoryName={repositoryName}
         />
