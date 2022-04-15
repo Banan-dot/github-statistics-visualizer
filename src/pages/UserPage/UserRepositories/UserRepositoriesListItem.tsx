@@ -76,19 +76,27 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
         </div>
         <div className="user-repository__action-buttons">
           {forkingAllowed && (
-            <Link href={url} target="_blank">
-              <Button>Сделать форк</Button>
+            <Link
+              className="user-repository__action-button"
+              href={url}
+              target="_blank"
+            >
+              <Button width="100%">Сделать форк</Button>
             </Link>
           )}
-          <Dropdown caption="Клонировать" menuAlign="right" menuWidth={300}>
+          <Dropdown
+            className="dropdown user-repository__action-button"
+            caption="Клонировать"
+            menuAlign="right"
+          >
             <MenuHeader>
-              <div>HTTPS</div>
-              <InputWithCopyButton defaultValue={gitUrl} inputWidth={250} />
+              <div className="dropdown__input-label">HTTPS</div>
+              <InputWithCopyButton defaultValue={gitUrl} />
             </MenuHeader>
             <MenuSeparator></MenuSeparator>
             <MenuHeader>
-              <div>SSH</div>
-              <InputWithCopyButton defaultValue={sshUrl} inputWidth={250} />
+              <div className="dropdown__input-label">SSH</div>
+              <InputWithCopyButton defaultValue={sshUrl} />
             </MenuHeader>
           </Dropdown>
         </div>
