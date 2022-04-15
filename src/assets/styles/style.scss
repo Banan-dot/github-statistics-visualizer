@@ -442,12 +442,11 @@ body {
 
   &__chart {
     flex-grow: 1;
-    max-width: 50%;
   }
 
   @media screen and (max-width: $tablet-width) {
-    &__chart {
-      max-width: none;
+    &__charts-container {
+      flex-direction: column;
     }
   }
 }
