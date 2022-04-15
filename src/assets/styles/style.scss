@@ -412,3 +412,13 @@ body {
     margin-bottom: 1.5 * $spacer;
   }
 }
+
+.charts-section {
+  &__charts-container {
+    display: flex;
+  }
+
+  &__last-pull-requests-chart {
+    width: 50%;
+  }
+}
