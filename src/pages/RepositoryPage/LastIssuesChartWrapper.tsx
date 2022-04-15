@@ -6,7 +6,7 @@ import Alert from "../../shared/Alert";
 import LastIssuesChart from "../../shared/charts/LastIssuesChart";
 
 const GET_ISSUES = gql`
-  query GET_PULL_REQUESTS($login: String!, $repositoryName: String!) {
+  query GET_ISSUES($login: String!, $repositoryName: String!) {
     repository(name: $repositoryName, owner: $login) {
       id
       issues(last: 100, orderBy: { field: UPDATED_AT, direction: ASC }) {
