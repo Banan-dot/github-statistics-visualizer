@@ -462,3 +462,22 @@ body {
     margin-bottom: 0.5 * $spacer;
   }
 }
+
+.navigate-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacer;
+
+  @media screen and (max-width: $mobile-width) {
+    &__item {
+      width: 100%;
+    }
+  }
+
+  @media screen and (max-width: $mobile-width-sm) {
+    & {
+      flex-direction: column;
+    }
+  }
+}
