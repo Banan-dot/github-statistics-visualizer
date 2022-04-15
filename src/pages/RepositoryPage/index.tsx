@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Alert from "../../shared/Alert";
-import PullRequestOpenings from "./PullRequestOpenings";
+import RepositoryCharts from "./RepositoryCharts";
 import RepositoryInfo from "./RepositoryInfo";
 
 const RepositoryPage = () => {
@@ -18,7 +18,7 @@ const RepositoryPage = () => {
   return (
     <div className="repository-page">
       <RepositoryInfo login={login} repositoryName={repositoryName} />
-      <PullRequestOpenings login={login} repositoryName={repositoryName} />
+      <RepositoryCharts login={login} repositoryName={repositoryName} />
     </div>
   );
 };
