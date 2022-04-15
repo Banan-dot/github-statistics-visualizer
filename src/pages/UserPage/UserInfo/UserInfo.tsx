@@ -33,7 +33,12 @@ const UserInfo = ({ user }: UserInfoProps) => {
           <span className="user-common-info__email">Почта: {user.email}</span>
         )}
         {user.websiteUrl && (
-          <span className="user-common-info__website">Сайт: {user.websiteUrl}</span>
+          <span className="user-page__website">
+            Сайт:{" "}
+            <a href={user.websiteUrl} target="_blank" rel="noreferrer">
+              {user.websiteUrl}
+            </a>{" "}
+          </span>
         )}
         {location && (
           <div className="user-common-info__location-info">
