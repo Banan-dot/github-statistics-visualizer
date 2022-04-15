@@ -1,7 +1,7 @@
 import React from "react";
 import Repository from "../../../models/Repository";
 import {
-  CalendarIcon,
+  HistoryIcon,
   LawIcon,
   RepoForkedIcon,
   StarIcon,
@@ -104,7 +104,7 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
 
       <div className="user-repository__label-list">
         <IconDataLabel
-          icon={CalendarIcon}
+          icon={HistoryIcon}
           value={formattedISO}
           hintText="Последнее изменение"
         />
