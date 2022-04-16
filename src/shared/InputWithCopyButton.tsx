@@ -4,7 +4,6 @@ import { CopyIcon } from "@primer/octicons-react";
 
 type Props = {
   defaultValue?: string;
-  inputWidth?: string | number;
 };
 
 const copyUrl = (url: string | undefined) => {
@@ -15,12 +14,12 @@ const copyUrl = (url: string | undefined) => {
   }
 };
 
-const InputWithCopyButton = ({ defaultValue, inputWidth }: Props) => {
+const InputWithCopyButton = ({ defaultValue }: Props) => {
   return (
-    <Group>
+    <Group width="100%">
       <Input
         defaultValue={defaultValue}
-        width={inputWidth}
+        width="100%"
         readOnly
         style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
       />

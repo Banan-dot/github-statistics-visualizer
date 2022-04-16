@@ -142,53 +142,69 @@ const UserActivity = ({ login }: Props) => {
   };
 
   return (
-    <PageCard className="page-card user-page__activity">
+    <PageCard element="section" className="user-page__section">
       <PageCard.Header>
         <PageCard.Title>Активность пользователя</PageCard.Title>
       </PageCard.Header>
-      <PageCard.Body>
-        <div className="page-card__pull-requests-info">
-          <p className="page-card__pull-requests-count">
-            Пулл реквесты: {pullRequestsCount}
-          </p>
-          <span>
-            <GitPullRequestIcon /> {pullRequestsInfo.OPEN}
-          </span>
-          <span>
-            <GitPullRequestClosedIcon /> {pullRequestsInfo.CLOSED}
-          </span>
-          <span>
-            <GitMergeIcon /> {pullRequestsInfo.MERGED}
-          </span>
+      <PageCard.Body className="user-activity">
+        <div className="user-activity__item user-activity__pull-requests-info">
+          <div>
+            <p className="user-activity__pull-requests-count">
+              Пулл реквесты: {pullRequestsCount}
+            </p>
+            <span>
+              <GitPullRequestIcon /> {pullRequestsInfo.OPEN}
+            </span>
+            <span>
+              <GitPullRequestClosedIcon /> {pullRequestsInfo.CLOSED}
+            </span>
+            <span>
+              <GitMergeIcon /> {pullRequestsInfo.MERGED}
+            </span>
+          </div>
+          <div>
+            {pullRequestsInfo.totalCount !== 0 && (
+              <PullRequestChart
+                pullRequestsInfo={pullRequestsInfo}
+                className="user-activity__pull-request-chart"
+              />
+            )}
+          </div>
         </div>
-        <div className="page-card__issues-info">
-          <p>Ишьюс: {issuesInfo.totalCount}</p>
-          <span>
-            <IssueOpenedIcon /> {issuesInfo.OPEN}
-          </span>
-          <span>
-            <IssueClosedIcon /> {issuesInfo.CLOSED}
-          </span>
+
+        <div className="user-activity__item user-activity__issues-info">
+          <div>
+            <p>Ишьюс: {issuesInfo.totalCount}</p>
+            <span>
+              <IssueOpenedIcon /> {issuesInfo.OPEN}
+            </span>
+            <span>
+              <IssueClosedIcon /> {issuesInfo.CLOSED}
+            </span>
+          </div>
+          <div>
+            {issuesInfo.totalCount !== 0 && (
+              <IssuesChart
+                issuesInfo={issuesInfo}
+                className="user-activity__issues-chart"
+              />
+            )}
+          </div>
         </div>
-        <div>Коммиты: {commitCount}</div>
-        <div>Форки: {forkCount}</div>
+
+        <div className="user-activity__item">
+          <div>
+            <div>Форки: {forkCount}</div>
+            <div>Коммиты: {commitCount}</div>
+          </div>
+          <div>
+            <UserActivityPolarChart
+              usersActivity={[userActivity]}
+              className="user-activity__user-activity-chart"
+            />
+          </div>
+        </div>
       </PageCard.Body>
-      {pullRequestsInfo.totalCount !== 0 && (
-        <PullRequestChart
-          pullRequestsInfo={pullRequestsInfo}
-          className="page-card__pull-request-chart"
-        />
-      )}
-      {issueCount !== 0 && (
-        <IssuesChart
-          issuesInfo={issuesInfo}
-          className="page-card__issues-chart"
-        />
-      )}
-      <UserActivityPolarChart
-        usersActivity={[userActivity]}
-        className="page-card__user-activity-chart"
-      />
     </PageCard>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 
@@ -46,6 +46,10 @@ function UserPage() {
   const { loading, data, error } = useQuery<UserData, UserVars>(GET_USER, {
     variables: { login },
   });
+
+  useEffect(() => {
+    document.title = `Страница пользователя - ${login}`;
+  }, [login]);
 
   if (loading) return <div>Загрузка...</div>;
   if (error)

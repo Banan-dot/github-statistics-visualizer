@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchInput from "../shared/SearchInput";
-import "../assets/styles/searchPage.scss";
 
 const SearchPage = () => {
   const navigate = useNavigate();
@@ -10,8 +9,12 @@ const SearchPage = () => {
     navigate(`user/${value}`);
   };
 
+  useEffect(() => {
+    document.title = "Главная страница"
+  }, [])
+
   return (
-    <div className={"search-page__container"}>
+    <div className="search-page">
       <SearchInput onSubmit={onSubmit} />
     </div>
   );
