@@ -8,18 +8,18 @@ import {
   VictoryVoronoiContainer,
   VictoryLegend,
 } from "victory";
-import PullRequest from "../../models/PullRequest";
+import Issue from "../../models/Issue";
 import { format } from "date-fns";
 import { PRIMARY, SUCCESS } from "../../utils/chartsTheme";
 import { getClosedAtData, getCreatedAtData } from "../../utils/charts";
 
 type Props = {
-  data: PullRequest[];
+  data: Issue[];
 };
 
 const COLOR_SCALE = [PRIMARY, SUCCESS];
 
-const LastPullRequestsChart = ({ data }: Props) => {
+const LastIssuesChart = ({ data }: Props) => {
   const createdAtPullRequests = useMemo(() => getCreatedAtData(data), [data]);
   const closedAtPullRequests = useMemo(() => getClosedAtData(data), [data]);
 
@@ -51,19 +51,16 @@ const LastPullRequestsChart = ({ data }: Props) => {
         }}
       />
       <VictoryLegend
-        x={30}
-        title="Последние пулл реквесты"
+        x={80}
+        title="Последние ишью"
         orientation="horizontal"
         centerTitle
         gutter={40}
-        data={[
-          { name: "Открытые пулл реквесты" },
-          { name: "Закрытые пулл реквесты" },
-        ]}
+        data={[{ name: "Открытые ишью" }, { name: "Закрытые ишью" }]}
         colorScale={COLOR_SCALE}
       />
     </VictoryChart>
   );
 };
 
-export default LastPullRequestsChart;
+export default LastIssuesChart;

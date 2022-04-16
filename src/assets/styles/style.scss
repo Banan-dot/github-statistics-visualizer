@@ -440,8 +440,14 @@ body {
     display: flex;
   }
 
-  &__last-pull-requests-chart {
-    width: 50%;
+  &__chart {
+    flex-grow: 1;
+  }
+
+  @media screen and (max-width: $tablet-width) {
+    &__charts-container {
+      flex-direction: column;
+    }
   }
 }
 

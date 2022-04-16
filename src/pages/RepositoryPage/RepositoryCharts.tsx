@@ -1,5 +1,6 @@
 import React from "react";
 import PageCard from "../../shared/PageCard";
+import LastIssuesChartWrapper from "./LastIssuesChartWrapper";
 import LastPullRequestsChartWrapper from "./LastPullRequestsChartWrapper";
 
 type Props = {
@@ -18,7 +19,12 @@ const RepositoryCharts = ({ login, repositoryName }: Props) => {
       </PageCard.Header>
       <PageCard.Body className="charts-section__charts-container">
         <LastPullRequestsChartWrapper
-          className="charts-section__last-pull-requests-chart"
+          className="charts-section__chart"
+          login={login}
+          repositoryName={repositoryName}
+        />
+        <LastIssuesChartWrapper
+          className="charts-section__chart"
           login={login}
           repositoryName={repositoryName}
         />
