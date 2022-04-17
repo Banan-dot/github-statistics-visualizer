@@ -2,12 +2,12 @@ import React from "react";
 import { VictoryLabel, VictoryPie } from "victory";
 
 type IssuesChartProps = {
-  className: string;
-  issuesInfo: { OPEN: number; CLOSED: number; totalCount: number };
+  className?: string;
+  issuesInfo: { OPEN: number; CLOSED: number };
 };
 
 const IssuesChart = ({ className, issuesInfo }: IssuesChartProps) => {
-  const pieData: { x: string; y: number }[]  = [];
+  const pieData: { x: string; y: number }[] = [];
   if (issuesInfo.OPEN !== 0)
     pieData.push({
       x: "OPEN",

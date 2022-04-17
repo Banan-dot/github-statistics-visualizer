@@ -1,5 +1,7 @@
+export type IssueState = "OPEN" | "CLOSED"
+
 export default interface Issue{
-    state: "CLOSED" | "OPEN";
+    state: IssueState;
     createdAt: string;
     closedAt: string | null;
 }

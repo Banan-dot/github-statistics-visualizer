@@ -438,15 +438,21 @@ body {
 .charts-section {
   &__charts-container {
     display: flex;
+    flex-wrap: wrap;
   }
 
   &__chart {
-    flex-grow: 1;
+    flex-basis: 50%;
   }
 
   @media screen and (max-width: $tablet-width) {
     &__charts-container {
       flex-direction: column;
+      flex-wrap: nowrap;
+    }
+
+    &__chart {
+      flex-basis: 100%;
     }
   }
 }
