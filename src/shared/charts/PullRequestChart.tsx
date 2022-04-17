@@ -6,10 +6,8 @@ interface States {
 }
 
 type PullRequestChartProps = {
-  className: string;
-  pullRequestsInfo: States & {
-    totalCount: number;
-  };
+  className?: string;
+  pullRequestsInfo: States
 };
 
 const states = ["OPEN", "CLOSED", "MERGED"];

@@ -4,6 +4,7 @@ import Repository from "../../models/Repository";
 import LastPullRequestsChart from "../../shared/charts/LastPullRequestsChart";
 import Alert from "../../shared/Alert";
 import { Spinner } from "@skbkontur/react-ui";
+import { RepositoryChartWrapperProps } from "./RepositoryCharts";
 
 const GET_PULL_REQUESTS = gql`
   query GET_PULL_REQUESTS($login: String!, $repositoryName: String!) {
@@ -30,17 +31,11 @@ type RepositoryData = {
   repository: Repository;
 };
 
-type Props = {
-  className: string;
-  login: string;
-  repositoryName: string;
-};
-
 const LastPullRequestsChartWrapper = ({
   className,
   login,
   repositoryName,
-}: Props) => {
+}: RepositoryChartWrapperProps) => {
   const { loading, data, error } = useQuery<RepositoryData, RepositoryVars>(
     GET_PULL_REQUESTS,
     {

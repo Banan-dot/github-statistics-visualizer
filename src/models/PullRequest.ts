@@ -1,6 +1,8 @@
+export type PullRequestState = "CLOSED" | "OPEN" | "MERGED";
+
 export default interface PullRequest{
     id: string;
-    state: "CLOSED" | "OPEN" | "MERGED";
+    state: PullRequestState;
     createdAt: string;
     closedAt: string | null;
     title: string;
