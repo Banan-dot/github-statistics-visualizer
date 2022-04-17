@@ -109,15 +109,18 @@ const RepositoryInfo = ({ login, repositoryName }: Props) => {
 
         {data?.repository && (
           <div>
-            <div className="description">
-              <div>Описание</div>
-              <Textarea
-                defaultValue={data.repository.description}
-                width="100%"
-                resize="none"
-                readOnly
-              />
-            </div>
+            {data.repository.description && (
+              <div className="description">
+                <div>Описание</div>
+                <Textarea
+                  defaultValue={data.repository.description}
+                  width="100%"
+                  resize="none"
+                  readOnly
+                />
+              </div>
+            )}
+
             <div className="data-label-list">
               <DataLabel
                 value={
