@@ -445,6 +445,10 @@ body {
     flex-basis: 50%;
   }
 
+  &__languages-pie-chart {
+    display: flex;
+  }
+
   @media screen and (max-width: $tablet-width) {
     &__charts-container {
       flex-direction: column;
