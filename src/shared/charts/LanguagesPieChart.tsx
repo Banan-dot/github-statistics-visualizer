@@ -4,7 +4,7 @@ import LanguageEdge from "../../models/LanguageEdge";
 
 type LanguagesPieChartProps = {
   languageEdges: LanguageEdge[];
-  className: string;
+  className?: string;
 };
 
 const defaultGraphicData = [{ y: 0 }, { y: 0 }, { y: 100 }];
