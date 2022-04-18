@@ -48,3 +48,23 @@
     font-size: 0.9em;
   }
 }
+
+.languages-label {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  padding: 1 * $spacer;
+  flex-wrap: wrap;
+  border-radius: $border-radius-sm;
+  background-color: $white;
+  box-shadow: $box-shadow-sm;
+  cursor: default;
+
+  &__value {
+    font-size: 1rem;
+  }
+
+  &__caption {
+    font-size: 1rem;
+  }
+}

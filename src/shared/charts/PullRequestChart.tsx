@@ -26,7 +26,7 @@ const PullRequestChart = ({
   });
 
   return (
-    <svg viewBox="0 0 300 300" className={className}>
+    <svg viewBox="0 0 300 300" width="300" className={className}>
       <VictoryPie
         padding={30}
         colorScale={"cool"}
@@ -35,7 +35,7 @@ const PullRequestChart = ({
         width={300}
         height={300}
         innerRadius={50}
-        labelRadius={75}
+        labelRadius={68}
         style={{ labels: { fontSize: 14, fill: "white" } }}
       />
       <VictoryLabel
