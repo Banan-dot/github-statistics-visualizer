@@ -197,8 +197,8 @@ body {
     flex-grow: 1;
   }
 
-  &__pull-requests-info span,
-  &__issues-info span {
+  &__pull-requests-info div,
+  &__issues-info div {
     margin-right: 10px;
     display: inline-block;
     font-size: 14px;

@@ -10,9 +10,11 @@ import {
   GitPullRequestIcon,
   IssueOpenedIcon,
   IssueClosedIcon,
+  LawIcon,
 } from "@primer/octicons-react";
 import PullRequestChart from "../../../shared/charts/PullRequestChart";
 import IssuesChart from "../../../shared/charts/IssuesChart";
+import IconDataLabel from "../../../shared/IconDataLabel";
 const GET_USER_ACTIVITY_IN_REPOSITORIES = gql`
   query ($login: String!) {
     repositoryOwner(login: $login) {
@@ -148,20 +150,26 @@ const UserActivity = ({ login }: Props) => {
         <PageCard.Title>Активность пользователя</PageCard.Title>
       </PageCard.Header>
       <PageCard.Body className="user-activity">
-        <div className="user-activity__item user-activity__pull-requests-info">
-          <div>
+        <div className="user-activity__item">
+          <div className="user-activity__pull-requests-info">
             <p className="user-activity__pull-requests-count">
               Пулл реквесты: {pullRequestsCount}
             </p>
-            <span>
-              <GitPullRequestIcon /> {pullRequestsInfo.OPEN}
-            </span>
-            <span>
-              <GitPullRequestClosedIcon /> {pullRequestsInfo.CLOSED}
-            </span>
-            <span>
-              <GitMergeIcon /> {pullRequestsInfo.MERGED}
-            </span>
+            <IconDataLabel
+              icon={GitPullRequestIcon}
+              value={pullRequestsInfo.OPEN}
+              hintText="Открытые пулл ревквесты"
+            />
+            <IconDataLabel
+              icon={GitMergeIcon}
+              value={pullRequestsInfo.MERGED}
+              hintText="Слитые пулл ревквесты"
+            />
+            <IconDataLabel
+              icon={GitPullRequestClosedIcon}
+              value={pullRequestsInfo.CLOSED}
+              hintText="Закрытые пулл ревквесты"
+            />
           </div>
           <div>
             {pullRequestsInfo.totalCount !== 0 && (
@@ -173,15 +181,19 @@ const UserActivity = ({ login }: Props) => {
           </div>
         </div>
 
-        <div className="user-activity__item user-activity__issues-info">
-          <div>
+        <div className="user-activity__item">
+          <div className="user-activity__issues-info">
             <p>Ишьюс: {issuesInfo.totalCount}</p>
-            <span>
-              <IssueOpenedIcon /> {issuesInfo.OPEN}
-            </span>
-            <span>
-              <IssueClosedIcon /> {issuesInfo.CLOSED}
-            </span>
+            <IconDataLabel
+              icon={IssueOpenedIcon}
+              value={issuesInfo.OPEN}
+              hintText="Открытые ишьюс"
+            />
+            <IconDataLabel
+              icon={IssueClosedIcon}
+              value={issuesInfo.CLOSED}
+              hintText="Закрытые ишьюс"
+            />
           </div>
           <div>
             {issuesInfo.totalCount !== 0 && (
