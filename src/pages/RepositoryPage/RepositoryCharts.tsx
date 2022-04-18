@@ -1,6 +1,7 @@
 import React from "react";
 import PageCard from "../../shared/PageCard";
 import IssuesChartWrapper from "./IssuesChartWrapper";
+import LanguagesChartWrapper from "./LanguagesChartWrapper";
 import LastIssuesChartWrapper from "./LastIssuesChartWrapper";
 import LastPullRequestsChartWrapper from "./LastPullRequestsChartWrapper";
 import PullRequestsChartWrapper from "./PullRequestsChartWrapper";
@@ -36,6 +37,7 @@ const RepositoryCharts = ({ login, repositoryName }: Props) => {
         <LastIssuesChartWrapper {...chartProps} />
         <PullRequestsChartWrapper {...chartProps} />
         <IssuesChartWrapper {...chartProps} />
+        <LanguagesChartWrapper {...chartProps} />
       </PageCard.Body>
     </PageCard>
   );
