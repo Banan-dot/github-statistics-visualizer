@@ -61,7 +61,7 @@ function getLanguagesInfo(repositories: Repositories) {
   });
 
   return {
-    langEdges: Object.values(langEdges),
+    langEdges: Object.values(langEdges).sort((a, b) => b.size - a.size),
     totalSize: totalSize,
   };
 }
