@@ -197,11 +197,16 @@ body {
     flex-grow: 1;
   }
 
-  &__pull-requests-info div,
-  &__issues-info div {
-    margin-right: 10px;
-    display: inline-block;
-    font-size: 14px;
+  &__pull-requests-info,
+  &__issues-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer;
+  }
+
+  .user-activity__pull-requests-count,
+  .user-activity__issues-count {
+    width: 100%;
   }
 
   @media screen and (max-width: $tablet-width) {

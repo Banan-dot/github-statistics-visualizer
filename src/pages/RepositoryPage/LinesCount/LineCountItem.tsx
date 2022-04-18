@@ -1,7 +1,6 @@
 import React from "react";
 import { LineCountResponse } from "./RepositoryLineCountInfo";
 import DataLabel from "../../../shared/DataLabel";
-import hashFnv32a from "../../../utils/getHashCode";
 
 type Props = {
   item: LineCountResponse;
@@ -10,7 +9,7 @@ type Props = {
 const LineCountItem = ({ item }: Props) => {
   const { language, linesOfCode, blanks, files } = item;
   return (
-    <div key={hashFnv32a(JSON.stringify(item))}>
+    <div key={language}>
       <DataLabel
         className="line-count-item-label"
         value={language === "Total" ? "Всего по репозиторию" : language}

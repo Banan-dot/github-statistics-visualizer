@@ -15,6 +15,8 @@ import {
 import PullRequestChart from "../../../shared/charts/PullRequestChart";
 import IssuesChart from "../../../shared/charts/IssuesChart";
 import IconDataLabel from "../../../shared/IconDataLabel";
+import { Spinner } from "@skbkontur/react-ui";
+import Alert from "../../../shared/Alert";
 const GET_USER_ACTIVITY_IN_REPOSITORIES = gql`
   query ($login: String!) {
     repositoryOwner(login: $login) {
@@ -126,10 +128,22 @@ const UserActivity = ({ login }: Props) => {
     }
   );
 
-  if (loading) return <div>Загрузка...</div>;
-  if (error) return <div>Ошибка загрузки репозиториев</div>;
-  if (!data) return <div>Нет данных</div>;
+  if (loading) {
+    return (
+      <Spinner
+        className="spinner spinner_centered"
+        caption="Загрузка информации об активности пользователя"
+      />
+    );
+  }
 
+  if (error) {
+    return <Alert type="danger">Ошибка загрузки репозиториев</Alert>;
+  }
+
+  if (!data) {
+    return <Alert type="danger">Нет данных</Alert>;
+  }
   const repositories = data.repositoryOwner.repositories;
   const { commitCount, forkCount, issueCount, pullRequestsCount } =
     getActivityInfo(repositories);
@@ -183,7 +197,7 @@ const UserActivity = ({ login }: Props) => {
 
         <div className="user-activity__item">
           <div className="user-activity__issues-info">
-            <p>Ишьюс: {issuesInfo.totalCount}</p>
+            <p className="user-activity__issues-count">Ишьюс: {issuesInfo.totalCount}</p>
             <IconDataLabel
               icon={IssueOpenedIcon}
               value={issuesInfo.OPEN}
