@@ -73,7 +73,8 @@ function getActivityInfo(repositories: Repositories) {
   };
 
   repositories.nodes.forEach((repos) => {
-    result.commitCount += repos.defaultBranchRef.target.history.totalCount;
+    if (repos.defaultBranchRef !== null)
+      result.commitCount += repos.defaultBranchRef.target.history.totalCount;
     result.forkCount += repos.forks.totalCount;
     result.issueCount += repos.issues.totalCount;
     result.pullRequestsCount += repos.pullRequests.totalCount;
