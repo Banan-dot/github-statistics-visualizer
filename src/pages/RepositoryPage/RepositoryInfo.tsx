@@ -8,6 +8,7 @@ import Alert from "../../shared/Alert";
 import DataLabel from "../../shared/DataLabel";
 import UserAvatar from "../../shared/UserAvatar";
 import CloneRepositoryButton from "../../shared/CloneRepositoryButton";
+import { EyeIcon, RepoForkedIcon, StarIcon } from "@primer/octicons-react";
 
 const GET_REPOSITORY = gql`
   query GetRepository($login: String!, $repositoryName: String!) {
@@ -26,6 +27,9 @@ const GET_REPOSITORY = gql`
       issues {
         totalCount
       }
+      watchers {
+        totalCount
+      }
       url
       sshUrl
       createdAt
@@ -37,6 +41,9 @@ const GET_REPOSITORY = gql`
         totalCount
       }
       languages {
+        totalCount
+      }
+      refs(refPrefix: "refs/") {
         totalCount
       }
       owner {
@@ -128,8 +135,14 @@ const RepositoryInfo = ({ login, repositoryName }: Props) => {
           <div>
             {data.repository.description && (
               <div className="repository-common-info__description">
-                <div>Описание</div>
+                <label
+                  htmlFor="description"
+                  className="repository-common-info__description-label"
+                >
+                  Описание
+                </label>
                 <Textarea
+                  id="description"
                   defaultValue={data.repository.description}
                   width="100%"
                   resize="none"
@@ -141,10 +154,33 @@ const RepositoryInfo = ({ login, repositoryName }: Props) => {
 
             <div className="repository-common-info__data-label-list">
               <DataLabel
+                value={data.repository.stargazerCount}
+                icon={StarIcon}
+                caption="Звёзды"
+              />
+              <DataLabel
+                value={data.repository.watchers.totalCount}
+                icon={EyeIcon}
+                caption="Наблюдатели"
+              />
+              <DataLabel
+                value={data.repository.forkCount}
+                icon={RepoForkedIcon}
+                caption="Форки"
+              />
+              <DataLabel
+                value={data.repository.languages.totalCount}
+                caption="Использовано языков"
+              />
+              <DataLabel
                 value={
                   data.repository.defaultBranchRef.target.history.totalCount
                 }
                 caption="Коммиты"
+              />
+              <DataLabel
+                value={data.repository.refs?.totalCount}
+                caption="Количество веток"
               />
               <DataLabel
                 value={data.repository.pullRequests.totalCount}
@@ -153,10 +189,6 @@ const RepositoryInfo = ({ login, repositoryName }: Props) => {
               <DataLabel
                 value={data.repository.issues.totalCount}
                 caption="Ишью"
-              />
-              <DataLabel
-                value={data.repository.languages.totalCount}
-                caption="Использовано языков"
               />
             </div>
           </div>
