@@ -405,33 +405,69 @@ body {
     margin-bottom: 2 * $spacer;
   }
 
-  .data-label-list {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    column-gap: 2 * $spacer;
-    row-gap: 1.5 * $spacer;
+  .repository-common-info {
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: $spacer;
 
-    @media screen and (max-width: $tablet-width) {
-      grid-template-columns: repeat(2, 1fr);
+      &-action-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $spacer;
+      }
+
+      &-action-button .react-ui-button-caption {
+        text-align: center;
+      }
+
+      @media screen and (max-width: $mobile-width) {
+        &-action-buttons {
+          flex-basis: 100%;
+        }
+
+        &-action-button {
+          flex-grow: 1;
+        }
+      }
+
+      @media screen and (max-width: $mobile-width-sm) {
+        &-action-button {
+          flex-basis: 100%;
+        }
+      }
     }
 
-    @media screen and (max-width: $mobile-width) {
-      grid-template-columns: 1fr;
+    &__user-link {
+      margin-top: 0.5 * $spacer;
+      display: inline-flex;
+      align-items: center;
+
+      &-avatar {
+        margin-right: 0.5 * $spacer;
+      }
     }
-  }
 
-  .user-link {
-    margin-top: 0.5 * $spacer;
-    display: inline-flex;
-    align-items: center;
-
-    &__avatar {
-      margin-right: 0.5 * $spacer;
+    &__description {
+      margin-bottom: 1.5 * $spacer;
     }
-  }
 
-  .description {
-    margin-bottom: 1.5 * $spacer;
+    &__data-label-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      column-gap: 2 * $spacer;
+      row-gap: 1.5 * $spacer;
+
+      @media screen and (max-width: $tablet-width) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media screen and (max-width: $mobile-width) {
+        grid-template-columns: 1fr;
+      }
+    }
   }
 }
 
