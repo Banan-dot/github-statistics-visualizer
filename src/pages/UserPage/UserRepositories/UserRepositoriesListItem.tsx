@@ -8,16 +8,10 @@ import {
 } from "@primer/octicons-react";
 import IconDataLabel from "../../../shared/IconDataLabel";
 import LanguageLabel from "../../../shared/LanguageLabel";
-import {
-  Link,
-  Button,
-  Dropdown,
-  MenuHeader,
-  MenuSeparator,
-} from "@skbkontur/react-ui";
-import InputWithCopyButton from "../../../shared/InputWithCopyButton";
+import { Link, Button } from "@skbkontur/react-ui";
 import { formatDistance, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
+import CloneRepositoryButton from "../../../shared/CloneRepositoryButton";
 
 type Props = {
   repository: Repository;
@@ -84,21 +78,11 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
               <Button width="100%">Сделать форк</Button>
             </Link>
           )}
-          <Dropdown
-            className="dropdown user-repository__action-button"
-            caption="Клонировать"
-            menuAlign="right"
-          >
-            <MenuHeader>
-              <div className="dropdown__input-label">HTTPS</div>
-              <InputWithCopyButton defaultValue={gitUrl} />
-            </MenuHeader>
-            <MenuSeparator></MenuSeparator>
-            <MenuHeader>
-              <div className="dropdown__input-label">SSH</div>
-              <InputWithCopyButton defaultValue={sshUrl} />
-            </MenuHeader>
-          </Dropdown>
+          <CloneRepositoryButton
+            className="user-repository__action-button"
+            gitUrl={gitUrl}
+            sshUrl={sshUrl}
+          />
         </div>
       </div>
 
