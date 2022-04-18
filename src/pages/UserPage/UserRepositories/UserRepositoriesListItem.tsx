@@ -34,7 +34,6 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
   } = repository;
 
   const repositoryInfoLink = `/user/${owner.login}/repository/${repository.name}`;
-  const gitUrl = `${url}.git`;
   const formattedISO = formatDistance(parseISO(updatedAt), Date.now(), {
     locale: ru,
   });
@@ -80,7 +79,7 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
           )}
           <CloneRepositoryButton
             className="user-repository__action-button"
-            gitUrl={gitUrl}
+            url={url}
             sshUrl={sshUrl}
           />
         </div>

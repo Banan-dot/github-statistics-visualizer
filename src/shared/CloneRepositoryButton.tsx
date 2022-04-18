@@ -4,21 +4,21 @@ import { Dropdown, MenuHeader, MenuSeparator } from "@skbkontur/react-ui";
 
 type Props = {
   className?: string;
-  gitUrl: string;
+  url: string;
   sshUrl: string;
 };
 
-const CloneRepositoryButton = ({ className, gitUrl, sshUrl }: Props) => {
+const CloneRepositoryButton = ({ className, url, sshUrl }: Props) => {
   return (
     <Dropdown
       className={`dropdown ${className}`}
       caption="Клонировать"
       menuAlign="right"
     >
-      {gitUrl ? (
+      {url ? (
         <MenuHeader>
           <div className="dropdown__input-label">HTTPS</div>
-          <InputWithCopyButton defaultValue={gitUrl} />
+          <InputWithCopyButton defaultValue={`${url}.git`} />
         </MenuHeader>
       ) : (
         <MenuHeader>Ошибка получения HTTPS ссылки</MenuHeader>
