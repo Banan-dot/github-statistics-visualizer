@@ -533,3 +533,32 @@ body {
     }
   }
 }
+
+.line-count-item-label {
+  display: flex;
+  gap: $spacer;
+  flex-wrap: wrap;
+}
+
+.line-count-item-label span {
+  display: block;
+  width: 100%;
+}
+//.line-count-item-label:first-child{
+//  display: block;
+//}
+
+.repository-page__line-count-info {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 2 * $spacer;
+  row-gap: 2 * $spacer;
+
+  @media screen and (max-width: $tablet-width) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: $mobile-width) {
+    grid-template-columns: 1fr;
+  }
+}
