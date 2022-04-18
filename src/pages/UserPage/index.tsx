@@ -7,6 +7,8 @@ import UserInfo from "./UserInfo/UserInfo";
 import UserRepositories from "./UserRepositories/UserRepositories";
 import LangStat from "./LangStat/LangStat";
 import UserActivity from "./UserActivity/UserActivity";
+import { Spinner } from "@skbkontur/react-ui";
+import PageCard from "../../shared/PageCard";
 
 const GET_USER = gql`
   query GetUser($login: String!) {
@@ -51,7 +53,14 @@ function UserPage() {
     document.title = `Страница пользователя - ${login}`;
   }, [login]);
 
-  if (loading) return <div>Загрузка...</div>;
+  if (loading)
+    return (
+      <Spinner
+        className="spinner spinner_centered"
+        caption="Загрузка информации о пользователе"
+      />
+    );
+
   if (error)
     return (
       <div className="user-page__search-error">

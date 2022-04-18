@@ -10,8 +10,8 @@ type UserInfoProps = {
 
 const UserInfo = ({ user }: UserInfoProps) => {
   const { followers, following } = user;
-  const createdData = new Date(user.createdAt);
   const { location } = user;
+  const createdData = new Date(user.createdAt);
   const [showMap, setShowMap] = useState(false);
 
   return (
