@@ -180,13 +180,6 @@ body {
   }
 }
 
-.user-languages {
-  &__language-stat {
-    grid-column: 2 / 4;
-    grid-row: 1 / 4;
-  }
-}
-
 .user-activity {
   display: flex;
   align-items: stretch;
@@ -218,25 +211,29 @@ body {
   }
 }
 
-.user-languages {
-  &__language-stat {
-    grid-column: 1 / -1;
-    grid-row: 2 / 4;
-    display: grid;
-    grid-template-columns: 50% 50%;
-    text-align: center;
-  }
+.user-languages__language-stat {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  text-align: center;
+  column-gap: 2 * $spacer;
+  row-gap: 2 * $spacer;
 
+  @media screen and (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.user-languages {
   &__languages-pie-chart {
     display: flex;
     justify-content: center;
     align-items: center;
-    grid-column: 2 / 3;
-    grid-row: 1 / 3;
   }
 
   &__languages-information {
     display: grid;
+    column-gap: 2 * $spacer;
+    row-gap: 2 * $spacer;
     grid-gap: 20px;
     grid-template-columns: 1fr 1fr 1fr;
   }
@@ -371,20 +368,6 @@ body {
 
     &__avatar {
       display: block;
-    }
-  }
-}
-
-@media screen and (max-width: 900px) {
-  .user-languages {
-    &__language-stat {
-      display: block;
-    }
-    &__languages-information {
-      display: none;
-    }
-    &__avatar {
-      display: none;
     }
   }
 }
@@ -553,8 +536,8 @@ body {
 .repository-page__line-count-info {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  column-gap: 2 * $spacer;
-  row-gap: 2 * $spacer;
+  column-gap: 4 * $spacer;
+  row-gap: 4 * $spacer;
 
   @media screen and (max-width: $tablet-width) {
     grid-template-columns: repeat(2, 1fr);
@@ -563,4 +546,10 @@ body {
   @media screen and (max-width: $mobile-width) {
     grid-template-columns: 1fr;
   }
+}
+
+.line-count-item-label__linesOfCode,
+.line-count-item-label__blanks,
+.line-count-item-label__files {
+  margin-top: $spacer;
 }

@@ -45,7 +45,7 @@ const LanguagesPieChart = ({
     <div className={className}>
       <VictoryPie
         colorScale={colorScale}
-        padding={0}
+        padding={30}
         animate={{ easing: "expInOut" }}
         data={graphicData}
         labels={() => null}

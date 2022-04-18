@@ -12,7 +12,7 @@ const DataLabel = ({ className, value, caption, children }: Props) => {
     <div className={`data-label ${className}`}>
       <span className="data-label__value">{value ?? "-"}</span>
       <div className="data-label__caption">{caption}</div>
-        {children?.map(child => child)}
+        {children}
     </div>
   );
 };
