@@ -9,6 +9,7 @@ import RepositoryCollaboratorConnection from "./RepositoryCollaboratorConnection
 import RepositoryConnection from "./RepositoryConnection";
 import UserConnection from "./UserConnection";
 import RefConnection from "./RefConnection";
+import Ref from "./Ref";
 
 interface Repository {
   id: string;
@@ -28,6 +29,7 @@ interface Repository {
   watchers: UserConnection;
   primaryLanguage: Language | null;
   licenseInfo: LicenseInfo | null;
+  ref: Ref | null;
   refs: RefConnection | null;
   parent: Repository;
   forks: RepositoryConnection;

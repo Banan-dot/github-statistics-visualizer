@@ -9,6 +9,7 @@ import DataLabel from "../../shared/DataLabel";
 import UserAvatar from "../../shared/UserAvatar";
 import CloneRepositoryButton from "../../shared/CloneRepositoryButton";
 import { EyeIcon, RepoForkedIcon, StarIcon } from "@primer/octicons-react";
+import { RepositoryItemProps } from ".";
 
 const GET_REPOSITORY = gql`
   query GetRepository($login: String!, $repositoryName: String!) {
@@ -63,12 +64,11 @@ type RepositoryData = {
   repository: Repository;
 };
 
-type Props = {
-  login: string;
-  repositoryName: string;
-};
-
-const RepositoryInfo = ({ login, repositoryName }: Props) => {
+const RepositoryInfo = ({
+  className,
+  login,
+  repositoryName,
+}: RepositoryItemProps) => {
   const { loading, data, error } = useQuery<RepositoryData, RepositoryVars>(
     GET_REPOSITORY,
     {
@@ -82,7 +82,7 @@ const RepositoryInfo = ({ login, repositoryName }: Props) => {
   return (
     <PageCard
       element="section"
-      className="repository-page__common-info repository-page__section"
+      className={`repository-page__common-info ${className ?? ""}`}
     >
       {data?.repository && (
         <PageCard.Header className="repository-common-info__header">

@@ -11,7 +11,7 @@ import {
 import PullRequest from "../../models/PullRequest";
 import { format } from "date-fns";
 import { PRIMARY, SUCCESS } from "../../utils/chartsTheme";
-import { getClosedAtData, getCreatedAtData } from "../../utils/charts";
+import { getData } from "../../utils/charts";
 
 type Props = {
   data: PullRequest[];
@@ -20,8 +20,11 @@ type Props = {
 const COLOR_SCALE = [PRIMARY, SUCCESS];
 
 const LastPullRequestsChart = ({ data }: Props) => {
-  const createdAtPullRequests = useMemo(() => getCreatedAtData(data), [data]);
-  const closedAtPullRequests = useMemo(() => getClosedAtData(data), [data]);
+  const createdAtPullRequests = useMemo(
+    () => getData(data, "createdAt"),
+    [data]
+  );
+  const closedAtPullRequests = useMemo(() => getData(data, "closedAt"), [data]);
 
   return (
     <VictoryChart

@@ -1,9 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
 import { Spinner } from "@skbkontur/react-ui";
 import React from "react";
-import Repository from "../../models/Repository";
 import Alert from "../../shared/Alert";
 import LanguagesPieChart from "../../shared/charts/LanguagesPieChart";
+import { RepositoryData, RepositoryVars } from "../../types/QueryTypes";
 import { RepositoryChartWrapperProps } from "./RepositoryCharts";
 
 const GET_LANGUAGES = gql`
@@ -23,21 +23,12 @@ const GET_LANGUAGES = gql`
   }
 `;
 
-type LanguagesVars = {
-  login: string;
-  repositoryName: string;
-};
-
-type RepositoryData = {
-  repository: Repository;
-};
-
 const LanguagesChartWrapper = ({
   className,
   login,
   repositoryName,
 }: RepositoryChartWrapperProps) => {
-  const { loading, data, error } = useQuery<RepositoryData, LanguagesVars>(
+  const { loading, data, error } = useQuery<RepositoryData, RepositoryVars>(
     GET_LANGUAGES,
     {
       variables: {

@@ -3,11 +3,7 @@ import React, { useEffect, useState } from "react";
 import LineCountItem from "./LineCountItem";
 import { Spinner } from "@skbkontur/react-ui";
 import Alert from "../../../shared/Alert";
-
-type Props = {
-  login: string;
-  repositoryName: string;
-};
+import { RepositoryItemProps } from "..";
 
 export type LineCountResponse = {
   language: string;
@@ -20,7 +16,11 @@ export type LineCountResponse = {
 
 const LINE_COUNT_API_URL = "https://api.codetabs.com/v1/loc?github=";
 
-const RepositoryLineCountInfo = ({ login, repositoryName }: Props) => {
+const RepositoryLineCountInfo = ({
+  className,
+  login,
+  repositoryName,
+}: RepositoryItemProps) => {
   const [lineCountInfo, setLineCountInfo] = useState<LineCountResponse[]>([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -34,12 +34,12 @@ const RepositoryLineCountInfo = ({ login, repositoryName }: Props) => {
         setLineCountInfo(data.reverse());
       })
       .catch(() => setError(true));
-  }, []);
+  }, [login, repositoryName]);
 
   return (
     <PageCard
       element="section"
-      className="line-count-section repository-page__section"
+      className={`line-count-section ${className ?? ""}`}
     >
       <PageCard.Header>
         <PageCard.Title>Количество строк в репозитории</PageCard.Title>
