@@ -2,9 +2,10 @@ import { gql, QueryHookOptions, useQuery } from "@apollo/client";
 import { Spinner } from "@skbkontur/react-ui";
 import React from "react";
 import { PullRequestState } from "../../models/PullRequest";
-import Repository from "../../models/Repository";
 import Alert from "../../shared/Alert";
 import PullRequestChart from "../../shared/charts/PullRequestChart";
+import { RepositoryData, RepositoryVars } from "../../types/QueryTypes";
+import { RepositoryChartWrapperProps } from "./RepositoryCharts";
 
 const getPullRequestsQuery = (name: string, state: PullRequestState) => gql`
   query ${name} ($login: String!, $repositoryName: String!) {
@@ -16,42 +17,27 @@ const getPullRequestsQuery = (name: string, state: PullRequestState) => gql`
   }
 `;
 
-type Props = {
-  className: string;
-  login: string;
-  repositoryName: string;
-};
-
-type PullRequestsVars = {
-  login: string;
-  repositoryName: string;
-};
-
-type PullRequestsData = {
-  repository: Repository;
-};
-
 const PullRequestsChartWrapper = ({
   className,
   login,
   repositoryName,
-}: Props) => {
-  const queryOptions: QueryHookOptions<PullRequestsData, PullRequestsVars> = {
+}: RepositoryChartWrapperProps) => {
+  const queryOptions: QueryHookOptions<RepositoryData, RepositoryVars> = {
     variables: {
       login,
       repositoryName,
     },
   };
 
-  const openPullRequests = useQuery<PullRequestsData, PullRequestsVars>(
+  const openPullRequests = useQuery<RepositoryData, RepositoryVars>(
     getPullRequestsQuery("GetOpenPullRequests", "OPEN"),
     queryOptions
   );
-  const closedPullRequests = useQuery<PullRequestsData, PullRequestsVars>(
+  const closedPullRequests = useQuery<RepositoryData, RepositoryVars>(
     getPullRequestsQuery("GetClosedPullRequests", "CLOSED"),
     queryOptions
   );
-  const mergedPullRequests = useQuery<PullRequestsData, PullRequestsVars>(
+  const mergedPullRequests = useQuery<RepositoryData, RepositoryVars>(
     getPullRequestsQuery("GetMergedPullRequests", "MERGED"),
     queryOptions
   );

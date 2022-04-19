@@ -17,6 +17,9 @@ import IssuesChart from "../../../shared/charts/IssuesChart";
 import IconDataLabel from "../../../shared/IconDataLabel";
 import { Spinner } from "@skbkontur/react-ui";
 import Alert from "../../../shared/Alert";
+import PullRequestEdge from "../../../models/PullRequestEdge";
+import IssueEdge from "../../../models/IssueEdge";
+
 const GET_USER_ACTIVITY_IN_REPOSITORIES = gql`
   query ($login: String!) {
     repositoryOwner(login: $login) {
@@ -96,7 +99,9 @@ function getPullRequestsInfo(repositories: Repositories) {
   };
   repositories.nodes.forEach((repos) => {
     const pullRequests = repos.pullRequests;
-    pullRequests.edges.forEach((edge) => result[edge.node.state]++);
+    pullRequests.edges.forEach(
+      (edge: PullRequestEdge) => result[edge.node.state]++
+    );
     result.totalCount += pullRequests.totalCount;
   });
 
@@ -111,7 +116,7 @@ function getIssuesInfo(repositories: Repositories) {
   };
   repositories.nodes.forEach((repos) => {
     const issues = repos.issues;
-    issues.edges.forEach((edge) => result[edge.node.state]++);
+    issues.edges.forEach((edge: IssueEdge) => result[edge.node.state]++);
     result.totalCount += issues.totalCount;
   });
 
@@ -197,7 +202,9 @@ const UserActivity = ({ login }: Props) => {
 
         <div className="user-activity__item">
           <div className="user-activity__issues-info">
-            <p className="user-activity__issues-count">Ишьюс: {issuesInfo.totalCount}</p>
+            <p className="user-activity__issues-count">
+              Ишьюс: {issuesInfo.totalCount}
+            </p>
             <IconDataLabel
               icon={IssueOpenedIcon}
               value={issuesInfo.OPEN}

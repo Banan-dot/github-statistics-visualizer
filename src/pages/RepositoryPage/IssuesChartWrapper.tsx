@@ -2,9 +2,9 @@ import { gql, QueryHookOptions, useQuery } from "@apollo/client";
 import { Spinner } from "@skbkontur/react-ui";
 import React from "react";
 import { IssueState } from "../../models/Issue";
-import Repository from "../../models/Repository";
 import Alert from "../../shared/Alert";
 import IssuesChart from "../../shared/charts/IssuesChart";
+import { RepositoryData, RepositoryVars } from "../../types/QueryTypes";
 import { RepositoryChartWrapperProps } from "./RepositoryCharts";
 
 const getIssuesQuery = (name: string, state: IssueState) => gql`
@@ -17,32 +17,23 @@ const getIssuesQuery = (name: string, state: IssueState) => gql`
   }
 `;
 
-type IssuesVars = {
-  login: string;
-  repositoryName: string;
-};
-
-type IssuesData = {
-  repository: Repository;
-};
-
 const IssuesChartWrapper = ({
   className,
   login,
   repositoryName,
 }: RepositoryChartWrapperProps) => {
-  const queryOptions: QueryHookOptions<IssuesData, IssuesVars> = {
+  const queryOptions: QueryHookOptions<RepositoryData, RepositoryVars> = {
     variables: {
       login,
       repositoryName,
     },
   };
 
-  const openIssues = useQuery<IssuesData, IssuesVars>(
+  const openIssues = useQuery<RepositoryData, RepositoryVars>(
     getIssuesQuery("GetOpenIssues", "OPEN"),
     queryOptions
   );
-  const closedIssues = useQuery<IssuesData, IssuesVars>(
+  const closedIssues = useQuery<RepositoryData, RepositoryVars>(
     getIssuesQuery("GetClosedIssues", "CLOSED"),
     queryOptions
   );

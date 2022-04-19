@@ -33,6 +33,16 @@
   &__value {
     font-size: 1.3em;
     font-weight: bold;
+    flex-grow: 1;
+
+    &-container {
+      display: flex;
+      align-items: center;
+    }
+
+    &-icon {
+      margin-right: 0.75 * $spacer;
+    }
   }
 
   &__caption {

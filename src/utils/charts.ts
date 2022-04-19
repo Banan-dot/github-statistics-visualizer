@@ -8,37 +8,52 @@ import {
   max,
 } from "date-fns";
 
-type ObjectWithCreatedAt = {
-  createdAt: string;
-};
+interface DataObject {
+  createdAt?: string;
+  closedAt?: string | null;
+  pushedDate?: string | null;
+}
 
-type ObjectWithClosedAt = {
-  closedAt: string | null;
-};
+const getMinMaxDates = (dates: Date[]) => {
+  if (dates.length === 0) {
+    const currentDate = startOfDay(new Date());
+    return [currentDate, currentDate];
+  }
 
-const getMinMaxDates = <T extends ObjectWithClosedAt & ObjectWithCreatedAt>(
-  data: T[]
-): [minDate: Date, maxDate: Date] => {
-  let dateSet = new Set<Date>();
-  data.forEach((dataItem) => {
-    dateSet.add(startOfDay(parseISO(dataItem.createdAt)));
-    if (dataItem.closedAt) {
-      dateSet.add(startOfDay(parseISO(dataItem.closedAt)));
-    }
-  });
-  const dates = Array.from(dateSet);
   const minDate = min(dates);
   const maxDate = max(dates);
   return [minDate, maxDate];
 };
 
-const initializeMapDate = <T extends ObjectWithClosedAt & ObjectWithCreatedAt>(
-  data: T[]
-) => {
-  const map = new Map<string, number>();
-  const [minDate, maxDate] = getMinMaxDates(data);
-  let current = minDate;
+const getDates = (data: DataObject[]): Date[] => {
+  const dateSet = new Set<Date>();
 
+  if (data.length === 0) {
+    return Array.from(dateSet);
+  }
+
+  data.forEach((item) => {
+    if (item.pushedDate) {
+      dateSet.add(startOfDay(parseISO(item.pushedDate)));
+    }
+    if (item.closedAt) {
+      dateSet.add(startOfDay(parseISO(item.closedAt)));
+    }
+    if (item.createdAt) {
+      dateSet.add(startOfDay(parseISO(item.createdAt)));
+    }
+  });
+
+  return Array.from(dateSet);
+};
+
+const initializeMapDate = (data: DataObject[]) => {
+  const map = new Map<string, number>();
+
+  const dates = getDates(data);
+  const [minDate, maxDate] = getMinMaxDates(dates);
+
+  let current = minDate;
   while (isBefore(current, maxDate)) {
     map.set(format(current, "yyyy-MM-dd"), 0);
     current = addDays(current, 1);
@@ -59,29 +74,11 @@ const transformMapToXY = <T, R>(
   });
 };
 
-export const getCreatedAtData = <
-  T extends ObjectWithClosedAt & ObjectWithCreatedAt
->(
-  data: T[]
-) => {
+export const getData = (data: DataObject[], fieldName: keyof DataObject) => {
   const map = initializeMapDate(data);
-  data.forEach((pullRequest) => {
-    const key = pullRequest.createdAt.split("T")[0];
-    const value = map.get(key) ?? 0;
-    map.set(key, value + 1);
-  });
-  return transformMapToXY(map, (x) => new Date(x));
-};
-
-export const getClosedAtData = <
-  T extends ObjectWithClosedAt & ObjectWithCreatedAt
->(
-  data: T[]
-) => {
-  const map = initializeMapDate(data);
-  data.forEach((pullRequest) => {
-    if (pullRequest.closedAt) {
-      const key = pullRequest.closedAt.split("T")[0];
+  data.forEach((item) => {
+    if (item[fieldName]) {
+      const key = (item[fieldName] as string).split("T")[0];
       const value = map.get(key) ?? 0;
       map.set(key, value + 1);
     }

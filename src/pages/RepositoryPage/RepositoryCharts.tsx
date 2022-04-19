@@ -1,4 +1,5 @@
 import React from "react";
+import { RepositoryItemProps } from ".";
 import PageCard from "../../shared/PageCard";
 import IssuesChartWrapper from "./IssuesChartWrapper";
 import LanguagesChartWrapper from "./LanguagesChartWrapper";
@@ -6,18 +7,17 @@ import LastIssuesChartWrapper from "./LastIssuesChartWrapper";
 import LastPullRequestsChartWrapper from "./LastPullRequestsChartWrapper";
 import PullRequestsChartWrapper from "./PullRequestsChartWrapper";
 
-type Props = {
-  login: string;
-  repositoryName: string;
-};
-
 export type RepositoryChartWrapperProps = {
-  className: string;
+  className?: string;
   login: string;
   repositoryName: string;
 };
 
-const RepositoryCharts = ({ login, repositoryName }: Props) => {
+const RepositoryCharts = ({
+  className,
+  login,
+  repositoryName,
+}: RepositoryItemProps) => {
   const chartProps = {
     className: "charts-section__chart",
     login,
@@ -25,10 +25,7 @@ const RepositoryCharts = ({ login, repositoryName }: Props) => {
   };
 
   return (
-    <PageCard
-      element="section"
-      className="charts-section repository-page__section"
-    >
+    <PageCard element="section" className={`charts-section ${className ?? ""}`}>
       <PageCard.Header>
         <PageCard.Title>Статистика репозитория</PageCard.Title>
       </PageCard.Header>

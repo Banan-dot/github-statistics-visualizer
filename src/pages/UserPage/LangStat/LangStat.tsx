@@ -49,7 +49,7 @@ function getLanguagesInfo(repositories: Repositories) {
   const langEdges: Record<string, LanguageEdge> = {};
   repositories.nodes.forEach((repository) => {
     totalSize += repository.languages.totalSize;
-    repository.languages.edges.forEach((language) => {
+    repository.languages.edges.forEach((language: LanguageEdge) => {
       let langName = language.node.name;
       langEdges[langName] = {
         size: (langEdges[langName]?.size || 0) + language.size,
