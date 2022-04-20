@@ -6,8 +6,8 @@ import { getFrequencyData } from "../../utils/charts";
 import { PRIMARY, theme } from "../../utils/chartsTheme";
 
 type Props = {
-  legendTitle: string;
-  emptyMessage: string;
+  legendTitle?: string;
+  emptyMessage?: string;
   data: (Issue | PullRequest)[];
 };
 
