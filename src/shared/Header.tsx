@@ -4,6 +4,8 @@ import { MarkGithubIcon } from "@primer/octicons-react";
 import SearchInput from "./SearchInput";
 import { Button } from "@skbkontur/react-ui";
 
+const PATHS_TO_HIDE = ["/", "/compare"];
+
 export default function Header() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -16,16 +18,17 @@ export default function Header() {
           <span className="gitstat-logo__name">GitStat</span>
         </div>
       </Link>
-      {pathname !== "/" && (
+      { !PATHS_TO_HIDE.includes(pathname) && (
         <div className="header__search">
           <SearchInput
             onSubmit={(value) => navigate(`../user/${value}`)}
             showValidationErrors={false}
+            width={"100%"}
           />
         </div>
       )}
       <div className="header__actions">
-        <Button width="100%">В сравнении (2)</Button>
+        <Button width="100%" onClick={() => navigate("./compare")}>Сравнить</Button>
       </div>
     </header>
   );

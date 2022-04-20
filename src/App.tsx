@@ -8,6 +8,7 @@ import RepositoryPage from "./pages/RepositoryPage";
 import NotFound from "./pages/NotFound";
 
 import "./assets/styles/style.scss";
+import UserComparison from "./pages/UsersComparison/UsersComparison";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
             element={<RepositoryPage />}
           />
         </Route>
+        <Route path="/compare" element={<UserComparison />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
