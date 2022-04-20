@@ -11,7 +11,7 @@ type Props = {
 const CloneRepositoryButton = ({ className, url, sshUrl }: Props) => {
   return (
     <Dropdown
-      className={`dropdown ${className}`}
+      className={`dropdown ${className ?? ""}`}
       caption="Клонировать"
       menuAlign="right"
     >

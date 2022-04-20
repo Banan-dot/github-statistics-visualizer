@@ -9,7 +9,7 @@ type Props = {
 
 const LanguagesLabel = ({ className, value, caption, children }: Props) => {
   return (
-    <div className={`languages-label ${className}`}>
+    <div className={`languages-label ${className ?? ""}`}>
       <span className="languages-label__value">{value ?? 0}</span>
       <div className="languages-label__caption">{caption}</div>
       {children}
