@@ -1,15 +1,16 @@
 import { gql, QueryHookOptions, useQuery } from "@apollo/client";
 import { Spinner } from "@skbkontur/react-ui";
 import React from "react";
-import { IssueState } from "../../models/Issue";
-import Alert from "../../shared/Alert";
-import IssuesChart from "../../shared/charts/IssuesChart";
-import { RepositoryData, RepositoryVars } from "../../types/QueryTypes";
-import { RepositoryChartWrapperProps } from "./RepositoryCharts";
+import { IssueState } from "../../../models/Issue";
+import Alert from "../../../shared/Alert";
+import IssuesChart from "../../../shared/charts/IssuesChart";
+import { RepositoryData, RepositoryVars } from "../../../types/QueryTypes";
+import { RepositoryChartWrapperProps } from "../RepositoryCharts";
 
 const getIssuesQuery = (name: string, state: IssueState) => gql`
   query ${name} ($login: String!, $repositoryName: String!) {
     repository(owner: $login, name: $repositoryName) {
+      id
       issues(states: ${state}) {
         totalCount
       }

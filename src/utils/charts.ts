@@ -7,7 +7,38 @@ import {
   min,
   max,
   parse,
+  differenceInHours,
+  isAfter,
+  differenceInDays,
+  differenceInWeeks,
+  differenceInMonths,
+  differenceInQuarters,
+  differenceInYears,
 } from "date-fns";
+
+enum FrequencyPeriod {
+  LessThanHour,
+  Day,
+  Week,
+  Month,
+  Quarter,
+  Year,
+  MoreThanYear,
+}
+
+type FrequencyLocale = {
+  [key in FrequencyPeriod]: string;
+};
+
+const FrequencyLocaleRu: FrequencyLocale = {
+  [FrequencyPeriod.LessThanHour]: "Меньше часа",
+  [FrequencyPeriod.Day]: "День",
+  [FrequencyPeriod.Week]: "Неделя",
+  [FrequencyPeriod.Month]: "Месяц",
+  [FrequencyPeriod.Quarter]: "Квартал",
+  [FrequencyPeriod.Year]: "Год",
+  [FrequencyPeriod.MoreThanYear]: "Больше года",
+};
 
 interface DataObject {
   createdAt?: string;
@@ -96,4 +127,51 @@ export const getData = (data: DataObject[], fieldName: keyof DataObject) => {
   return removeEmptyValues(
     transformMapToXY(map, (x) => parse(x, "yyyy-MM-dd", new Date()))
   );
+};
+
+const getFrequencyPeriod = (
+  startDate: Date,
+  endDate: Date
+): FrequencyPeriod => {
+  if (isAfter(startDate, endDate)) {
+    throw new Error("Дата конца не может быть раньше даты начала");
+  }
+  if (differenceInHours(endDate, startDate) < 1) {
+    return FrequencyPeriod.LessThanHour;
+  }
+  if (differenceInDays(endDate, startDate) < 1) {
+    return FrequencyPeriod.Day;
+  }
+  if (differenceInWeeks(endDate, startDate) < 1) {
+    return FrequencyPeriod.Week;
+  }
+  if (differenceInMonths(endDate, startDate) < 1) {
+    return FrequencyPeriod.Month;
+  }
+  if (differenceInQuarters(endDate, startDate) < 1) {
+    return FrequencyPeriod.Quarter;
+  }
+  if (differenceInYears(endDate, startDate)) {
+    return FrequencyPeriod.Year;
+  }
+  return FrequencyPeriod.MoreThanYear;
+};
+
+export const getFrequencyData = (data: DataObject[]) => {
+  const map = new Map<FrequencyPeriod, number>();
+
+  data.forEach((dataItem) => {
+    if (dataItem.createdAt && dataItem.closedAt) {
+      const createdAt = parseISO(dataItem.createdAt);
+      const closedAt = parseISO(dataItem.closedAt);
+      const key = getFrequencyPeriod(createdAt, closedAt);
+      const value = map.get(key) ?? 0;
+
+      map.set(key, value + 1);
+    }
+  });
+
+  return transformMapToXY(map)
+    .sort((a, b) => a.x - b.x)
+    .map(({ x, y }) => ({ x: FrequencyLocaleRu[x as FrequencyPeriod], y }));
 };

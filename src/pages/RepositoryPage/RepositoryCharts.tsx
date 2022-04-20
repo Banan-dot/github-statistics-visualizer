@@ -1,11 +1,12 @@
 import React from "react";
 import { RepositoryItemProps } from ".";
 import PageCard from "../../shared/PageCard";
-import IssuesChartWrapper from "./IssuesChartWrapper";
-import LanguagesChartWrapper from "./LanguagesChartWrapper";
-import LastIssuesChartWrapper from "./LastIssuesChartWrapper";
-import LastPullRequestsChartWrapper from "./LastPullRequestsChartWrapper";
-import PullRequestsChartWrapper from "./PullRequestsChartWrapper";
+import IssuesChartWrapper from "./ChartWrappers/IssuesChartWrapper";
+import LanguagesChartWrapper from "./ChartWrappers/LanguagesChartWrapper";
+import LastIssuesChartWrapper from "./ChartWrappers/LastIssuesChartWrapper";
+import LastPullRequestsChartWrapper from "./ChartWrappers/LastPullRequestsChartWrapper";
+import PullRequestsChartWrapper from "./ChartWrappers/PullRequestsChartWrapper";
+import PullRequestsClosingFrequencyChartWrapper from "./ChartWrappers/PullRequestsClosingFrequencyChartWrapper";
 
 export type RepositoryChartWrapperProps = {
   className?: string;
@@ -35,6 +36,7 @@ const RepositoryCharts = ({
         <PullRequestsChartWrapper {...chartProps} />
         <IssuesChartWrapper {...chartProps} />
         <LanguagesChartWrapper {...chartProps} />
+        <PullRequestsClosingFrequencyChartWrapper {...chartProps} />
       </PageCard.Body>
     </PageCard>
   );
