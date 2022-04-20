@@ -1,10 +1,10 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
-import Repository from "../../models/Repository";
 import { Spinner } from "@skbkontur/react-ui";
-import Alert from "../../shared/Alert";
-import LastIssuesChart from "../../shared/charts/LastIssuesChart";
-import { RepositoryChartWrapperProps } from "./RepositoryCharts";
+import Alert from "../../../shared/Alert";
+import LastIssuesChart from "../../../shared/charts/LastIssuesChart";
+import { RepositoryChartWrapperProps } from "../RepositoryCharts";
+import { RepositoryData, RepositoryVars } from "../../../types/QueryTypes";
 
 const GET_ISSUES = gql`
   query GET_ISSUES($login: String!, $repositoryName: String!) {
@@ -20,15 +20,6 @@ const GET_ISSUES = gql`
     }
   }
 `;
-
-type RepositoryVars = {
-  login: string;
-  repositoryName: string;
-};
-
-type RepositoryData = {
-  repository: Repository;
-};
 
 const LastIssuesChartWrapper = ({
   className,

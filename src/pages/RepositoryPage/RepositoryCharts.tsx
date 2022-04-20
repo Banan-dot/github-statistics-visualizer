@@ -1,22 +1,24 @@
 import React from "react";
+import { RepositoryItemProps } from ".";
 import PageCard from "../../shared/PageCard";
-import IssuesChartWrapper from "./IssuesChartWrapper";
-import LastIssuesChartWrapper from "./LastIssuesChartWrapper";
-import LastPullRequestsChartWrapper from "./LastPullRequestsChartWrapper";
-import PullRequestsChartWrapper from "./PullRequestsChartWrapper";
-
-type Props = {
-  login: string;
-  repositoryName: string;
-};
+import IssuesChartWrapper from "./ChartWrappers/IssuesChartWrapper";
+import LanguagesChartWrapper from "./ChartWrappers/LanguagesChartWrapper";
+import LastIssuesChartWrapper from "./ChartWrappers/LastIssuesChartWrapper";
+import LastPullRequestsChartWrapper from "./ChartWrappers/LastPullRequestsChartWrapper";
+import PullRequestsChartWrapper from "./ChartWrappers/PullRequestsChartWrapper";
+import PullRequestsClosingFrequencyChartWrapper from "./ChartWrappers/PullRequestsClosingFrequencyChartWrapper";
 
 export type RepositoryChartWrapperProps = {
-  className: string;
+  className?: string;
   login: string;
   repositoryName: string;
 };
 
-const RepositoryCharts = ({ login, repositoryName }: Props) => {
+const RepositoryCharts = ({
+  className,
+  login,
+  repositoryName,
+}: RepositoryItemProps) => {
   const chartProps = {
     className: "charts-section__chart",
     login,
@@ -24,10 +26,7 @@ const RepositoryCharts = ({ login, repositoryName }: Props) => {
   };
 
   return (
-    <PageCard
-      element="section"
-      className="charts-section repository-page__section"
-    >
+    <PageCard element="section" className={`charts-section ${className ?? ""}`}>
       <PageCard.Header>
         <PageCard.Title>Статистика репозитория</PageCard.Title>
       </PageCard.Header>
@@ -36,6 +35,8 @@ const RepositoryCharts = ({ login, repositoryName }: Props) => {
         <LastIssuesChartWrapper {...chartProps} />
         <PullRequestsChartWrapper {...chartProps} />
         <IssuesChartWrapper {...chartProps} />
+        <LanguagesChartWrapper {...chartProps} />
+        <PullRequestsClosingFrequencyChartWrapper {...chartProps} />
       </PageCard.Body>
     </PageCard>
   );

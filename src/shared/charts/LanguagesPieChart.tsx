@@ -4,11 +4,12 @@ import LanguageEdge from "../../models/LanguageEdge";
 
 type LanguagesPieChartProps = {
   languageEdges: LanguageEdge[];
-  className: string;
+  className?: string;
 };
 
-const defaultGraphicData = [{ y: 0 }, { y: 0 }, { y: 100 }];
-
+type GraphicData = {
+  y: number;
+};
 
 const LanguagesPieChart = ({
   languageEdges,
@@ -18,13 +19,18 @@ const LanguagesPieChart = ({
     (languageEdge) => languageEdge.node.color
   );
 
+  const defaultGraphicData: GraphicData[] = [];
+
   const legendLanguagesNames = languageEdges.map((edge) => {
+    defaultGraphicData.push({ y: 0 });
     return {
       name: edge.node.name,
     };
   });
-
-  const [graphicData, setGraphicData] = useState(defaultGraphicData);
+  defaultGraphicData.pop();
+  defaultGraphicData.push({ y: 100 });
+  const [graphicData, setGraphicData] =
+    useState<GraphicData[]>(defaultGraphicData);
 
   const fromLanguageEdgesToGraphData = (languageEdges: LanguageEdge[]) =>
     languageEdges.map((edge) => {
@@ -39,8 +45,8 @@ const LanguagesPieChart = ({
     <div className={className}>
       <VictoryPie
         colorScale={colorScale}
-        padding={0}
-        animate={{ easing: "back" }}
+        padding={30}
+        animate={{ easing: "expInOut" }}
         data={graphicData}
         labels={() => null}
       />

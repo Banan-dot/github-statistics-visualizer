@@ -10,9 +10,16 @@ import {
   GitPullRequestIcon,
   IssueOpenedIcon,
   IssueClosedIcon,
+  LawIcon,
 } from "@primer/octicons-react";
 import PullRequestChart from "../../../shared/charts/PullRequestChart";
 import IssuesChart from "../../../shared/charts/IssuesChart";
+import IconDataLabel from "../../../shared/IconDataLabel";
+import { Spinner } from "@skbkontur/react-ui";
+import Alert from "../../../shared/Alert";
+import PullRequestEdge from "../../../models/PullRequestEdge";
+import IssueEdge from "../../../models/IssueEdge";
+
 const GET_USER_ACTIVITY_IN_REPOSITORIES = gql`
   query ($login: String!) {
     repositoryOwner(login: $login) {
@@ -73,7 +80,8 @@ function getActivityInfo(repositories: Repositories) {
   };
 
   repositories.nodes.forEach((repos) => {
-    result.commitCount += repos.defaultBranchRef.target.history.totalCount;
+    if (repos.defaultBranchRef !== null)
+      result.commitCount += repos.defaultBranchRef.target.history.totalCount;
     result.forkCount += repos.forks.totalCount;
     result.issueCount += repos.issues.totalCount;
     result.pullRequestsCount += repos.pullRequests.totalCount;
@@ -91,7 +99,9 @@ function getPullRequestsInfo(repositories: Repositories) {
   };
   repositories.nodes.forEach((repos) => {
     const pullRequests = repos.pullRequests;
-    pullRequests.edges.forEach((edge) => result[edge.node.state]++);
+    pullRequests.edges.forEach(
+      (edge: PullRequestEdge) => result[edge.node.state]++
+    );
     result.totalCount += pullRequests.totalCount;
   });
 
@@ -106,7 +116,7 @@ function getIssuesInfo(repositories: Repositories) {
   };
   repositories.nodes.forEach((repos) => {
     const issues = repos.issues;
-    issues.edges.forEach((edge) => result[edge.node.state]++);
+    issues.edges.forEach((edge: IssueEdge) => result[edge.node.state]++);
     result.totalCount += issues.totalCount;
   });
 
@@ -123,10 +133,22 @@ const UserActivity = ({ login }: Props) => {
     }
   );
 
-  if (loading) return <div>Загрузка...</div>;
-  if (error) return <div>Ошибка загрузки репозиториев</div>;
-  if (!data) return <div>Нет данных</div>;
+  if (loading) {
+    return (
+      <Spinner
+        className="spinner spinner_centered"
+        caption="Загрузка информации об активности пользователя"
+      />
+    );
+  }
 
+  if (error) {
+    return <Alert type="danger">Ошибка загрузки репозиториев</Alert>;
+  }
+
+  if (!data || data.repositoryOwner === null) {
+    return <Alert type="danger">Нет данных</Alert>;
+  }
   const repositories = data.repositoryOwner.repositories;
   const { commitCount, forkCount, issueCount, pullRequestsCount } =
     getActivityInfo(repositories);
@@ -147,20 +169,26 @@ const UserActivity = ({ login }: Props) => {
         <PageCard.Title>Активность пользователя</PageCard.Title>
       </PageCard.Header>
       <PageCard.Body className="user-activity">
-        <div className="user-activity__item user-activity__pull-requests-info">
-          <div>
+        <div className="user-activity__item">
+          <div className="user-activity__pull-requests-info">
             <p className="user-activity__pull-requests-count">
               Пулл реквесты: {pullRequestsCount}
             </p>
-            <span>
-              <GitPullRequestIcon /> {pullRequestsInfo.OPEN}
-            </span>
-            <span>
-              <GitPullRequestClosedIcon /> {pullRequestsInfo.CLOSED}
-            </span>
-            <span>
-              <GitMergeIcon /> {pullRequestsInfo.MERGED}
-            </span>
+            <IconDataLabel
+              icon={GitPullRequestIcon}
+              value={pullRequestsInfo.OPEN}
+              hintText="Открытые пулл ревквесты"
+            />
+            <IconDataLabel
+              icon={GitMergeIcon}
+              value={pullRequestsInfo.MERGED}
+              hintText="Слитые пулл ревквесты"
+            />
+            <IconDataLabel
+              icon={GitPullRequestClosedIcon}
+              value={pullRequestsInfo.CLOSED}
+              hintText="Закрытые пулл ревквесты"
+            />
           </div>
           <div>
             {pullRequestsInfo.totalCount !== 0 && (
@@ -172,15 +200,21 @@ const UserActivity = ({ login }: Props) => {
           </div>
         </div>
 
-        <div className="user-activity__item user-activity__issues-info">
-          <div>
-            <p>Ишьюс: {issuesInfo.totalCount}</p>
-            <span>
-              <IssueOpenedIcon /> {issuesInfo.OPEN}
-            </span>
-            <span>
-              <IssueClosedIcon /> {issuesInfo.CLOSED}
-            </span>
+        <div className="user-activity__item">
+          <div className="user-activity__issues-info">
+            <p className="user-activity__issues-count">
+              Ишьюс: {issuesInfo.totalCount}
+            </p>
+            <IconDataLabel
+              icon={IssueOpenedIcon}
+              value={issuesInfo.OPEN}
+              hintText="Открытые ишьюс"
+            />
+            <IconDataLabel
+              icon={IssueClosedIcon}
+              value={issuesInfo.CLOSED}
+              hintText="Закрытые ишьюс"
+            />
           </div>
           <div>
             {issuesInfo.totalCount !== 0 && (

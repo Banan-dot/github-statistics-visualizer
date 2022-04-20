@@ -4,11 +4,15 @@ import { Button, Group, Input } from "@skbkontur/react-ui";
 type SearchInputProps = {
   onSubmit: (value: string) => void;
   showValidationErrors?: boolean;
+  width: string | number;
+  className?: string;
 };
 
 const SearchInput = ({
   onSubmit,
   showValidationErrors = true,
+  className,
+  width,
 }: SearchInputProps) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [isIncorrectName, setIsCorrectName] = useState<boolean>(false);
@@ -28,23 +32,21 @@ const SearchInput = ({
   };
 
   return (
-    <div className="search-input">
-      <form onSubmit={onFormSubmit}>
-        <Group width="100%">
+    <div className={`search-input ${className || ""}`}>
+      <form onSubmit={onFormSubmit} className="search-input__form">
+        <Group width={width}>
           <Input
+            required={true}
             value={searchValue}
             onChange={onChange}
             error={isIncorrectName}
             placeholder="Введите никнейм пользователя..."
             style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
-            width="100%"
+            width={"100%"}
           />
           <Button type="submit">Найти</Button>
         </Group>
       </form>
-      {isIncorrectName && showValidationErrors && (
-        <span className="search-input__error">Заполните поле</span>
-      )}
     </div>
   );
 };

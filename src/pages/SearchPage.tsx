@@ -15,7 +15,7 @@ const SearchPage = () => {
 
   return (
     <div className="search-page">
-      <SearchInput onSubmit={onSubmit} />
+      <SearchInput width={"100%"} onSubmit={onSubmit} />
     </div>
   );
 };

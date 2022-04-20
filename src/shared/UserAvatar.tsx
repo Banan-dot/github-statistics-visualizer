@@ -9,7 +9,7 @@ type Props = {
 const UserAvatar = ({ className, src, size = 32 }: Props) => {
   return (
     <img
-      className={`user-avatar ${className}`}
+      className={`user-avatar ${className ?? ""}`}
       src={src}
       width={size}
       height={size}

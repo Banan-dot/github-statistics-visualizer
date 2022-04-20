@@ -6,45 +6,101 @@ import {
   addDays,
   min,
   max,
+  parse,
+  differenceInHours,
+  isAfter,
+  differenceInDays,
+  differenceInWeeks,
+  differenceInMonths,
+  differenceInQuarters,
+  differenceInYears,
 } from "date-fns";
 
-type ObjectWithCreatedAt = {
-  createdAt: string;
+enum FrequencyPeriod {
+  LessThanHour,
+  Day,
+  Week,
+  Month,
+  Quarter,
+  Year,
+  MoreThanYear,
+}
+
+type FrequencyLocale = {
+  [key in FrequencyPeriod]: string;
 };
 
-type ObjectWithClosedAt = {
-  closedAt: string | null;
+const FrequencyLocaleRu: FrequencyLocale = {
+  [FrequencyPeriod.LessThanHour]: "Меньше часа",
+  [FrequencyPeriod.Day]: "День",
+  [FrequencyPeriod.Week]: "Неделя",
+  [FrequencyPeriod.Month]: "Месяц",
+  [FrequencyPeriod.Quarter]: "Квартал",
+  [FrequencyPeriod.Year]: "Год",
+  [FrequencyPeriod.MoreThanYear]: "Больше года",
 };
 
-const getMinMaxDates = <T extends ObjectWithClosedAt & ObjectWithCreatedAt>(
-  data: T[]
-): [minDate: Date, maxDate: Date] => {
-  let dateSet = new Set<Date>();
-  data.forEach((dataItem) => {
-    dateSet.add(startOfDay(parseISO(dataItem.createdAt)));
-    if (dataItem.closedAt) {
-      dateSet.add(startOfDay(parseISO(dataItem.closedAt)));
-    }
-  });
-  const dates = Array.from(dateSet);
+interface DataObject {
+  createdAt?: string;
+  closedAt?: string | null;
+  pushedDate?: string | null;
+}
+
+const getMinMaxDates = (dates: Date[]) => {
+  if (dates.length === 0) {
+    const currentDate = startOfDay(new Date());
+    return [currentDate, currentDate];
+  }
+
   const minDate = min(dates);
   const maxDate = max(dates);
   return [minDate, maxDate];
 };
 
-const initializeMapDate = <T extends ObjectWithClosedAt & ObjectWithCreatedAt>(
-  data: T[]
-) => {
-  const map = new Map<string, number>();
-  const [minDate, maxDate] = getMinMaxDates(data);
-  let current = minDate;
+const getDates = (data: DataObject[]): Date[] => {
+  const dateSet = new Set<Date>();
 
+  if (data.length === 0) {
+    return Array.from(dateSet);
+  }
+
+  data.forEach((item) => {
+    if (item.pushedDate) {
+      dateSet.add(startOfDay(parseISO(item.pushedDate)));
+    }
+    if (item.closedAt) {
+      dateSet.add(startOfDay(parseISO(item.closedAt)));
+    }
+    if (item.createdAt) {
+      dateSet.add(startOfDay(parseISO(item.createdAt)));
+    }
+  });
+
+  return Array.from(dateSet);
+};
+
+const initializeMapDate = (data: DataObject[]) => {
+  const map = new Map<string, number>();
+
+  const dates = getDates(data);
+  const [minDate, maxDate] = getMinMaxDates(dates);
+
+  let current = minDate;
   while (isBefore(current, maxDate)) {
     map.set(format(current, "yyyy-MM-dd"), 0);
     current = addDays(current, 1);
   }
 
   return map;
+};
+
+const removeEmptyValues = (arr: { x: Date; y: number }[]) => {
+  return arr.filter((item, index, arr) => {
+    if (item.y === 0 && arr[index - 1]?.y === 0 && arr[index + 1]?.y === 0) {
+      return false;
+    }
+    return true;
+  });
 };
 
 const transformMapToXY = <T, R>(
@@ -59,32 +115,63 @@ const transformMapToXY = <T, R>(
   });
 };
 
-export const getCreatedAtData = <
-  T extends ObjectWithClosedAt & ObjectWithCreatedAt
->(
-  data: T[]
-) => {
+export const getData = (data: DataObject[], fieldName: keyof DataObject) => {
   const map = initializeMapDate(data);
-  data.forEach((pullRequest) => {
-    const key = pullRequest.createdAt.split("T")[0];
-    const value = map.get(key) ?? 0;
-    map.set(key, value + 1);
-  });
-  return transformMapToXY(map, (x) => new Date(x));
-};
-
-export const getClosedAtData = <
-  T extends ObjectWithClosedAt & ObjectWithCreatedAt
->(
-  data: T[]
-) => {
-  const map = initializeMapDate(data);
-  data.forEach((pullRequest) => {
-    if (pullRequest.closedAt) {
-      const key = pullRequest.closedAt.split("T")[0];
+  data.forEach((item) => {
+    if (item[fieldName]) {
+      const key = (item[fieldName] as string).split("T")[0];
       const value = map.get(key) ?? 0;
       map.set(key, value + 1);
     }
   });
-  return transformMapToXY(map, (x) => new Date(x));
+  return removeEmptyValues(
+    transformMapToXY(map, (x) => parse(x, "yyyy-MM-dd", new Date()))
+  );
+};
+
+const getFrequencyPeriod = (
+  startDate: Date,
+  endDate: Date
+): FrequencyPeriod => {
+  if (isAfter(startDate, endDate)) {
+    throw new Error("Дата конца не может быть раньше даты начала");
+  }
+  if (differenceInHours(endDate, startDate) < 1) {
+    return FrequencyPeriod.LessThanHour;
+  }
+  if (differenceInDays(endDate, startDate) < 1) {
+    return FrequencyPeriod.Day;
+  }
+  if (differenceInWeeks(endDate, startDate) < 1) {
+    return FrequencyPeriod.Week;
+  }
+  if (differenceInMonths(endDate, startDate) < 1) {
+    return FrequencyPeriod.Month;
+  }
+  if (differenceInQuarters(endDate, startDate) < 1) {
+    return FrequencyPeriod.Quarter;
+  }
+  if (differenceInYears(endDate, startDate)) {
+    return FrequencyPeriod.Year;
+  }
+  return FrequencyPeriod.MoreThanYear;
+};
+
+export const getFrequencyData = (data: DataObject[]) => {
+  const map = new Map<FrequencyPeriod, number>();
+
+  data.forEach((dataItem) => {
+    if (dataItem.createdAt && dataItem.closedAt) {
+      const createdAt = parseISO(dataItem.createdAt);
+      const closedAt = parseISO(dataItem.closedAt);
+      const key = getFrequencyPeriod(createdAt, closedAt);
+      const value = map.get(key) ?? 0;
+
+      map.set(key, value + 1);
+    }
+  });
+
+  return transformMapToXY(map)
+    .sort((a, b) => a.x - b.x)
+    .map(({ x, y }) => ({ x: FrequencyLocaleRu[x as FrequencyPeriod], y }));
 };

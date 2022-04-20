@@ -10,8 +10,8 @@ type UserInfoProps = {
 
 const UserInfo = ({ user }: UserInfoProps) => {
   const { followers, following } = user;
-  const createdData = new Date(user.createdAt);
   const { location } = user;
+  const createdData = new Date(user.createdAt);
   const [showMap, setShowMap] = useState(false);
 
   return (
@@ -20,14 +20,20 @@ const UserInfo = ({ user }: UserInfoProps) => {
         <PageCard.Title>Информация о пользователе {user.login}</PageCard.Title>
       </PageCard.Header>
       <PageCard.Body className="user-common-info">
-        <UserAvatar
-          src={user.avatarUrl}
-          className="user-common-info__avatar"
-          size="100%"
-        />
-        {user.name && <span className="user-common-info__name">Имя: {user.name}</span>}
+        {user.avatarUrl && (
+          <UserAvatar
+            src={user.avatarUrl}
+            className="user-common-info__avatar"
+            size="100%"
+          />
+        )}
+        {user.name && (
+          <span className="user-common-info__name">Имя: {user.name}</span>
+        )}
         {user.company && (
-          <span className="user-common-info__company">Компания: {user.company}</span>
+          <span className="user-common-info__company">
+            Компания: {user.company}
+          </span>
         )}
         {user.email && (
           <span className="user-common-info__email">Почта: {user.email}</span>
@@ -42,13 +48,17 @@ const UserInfo = ({ user }: UserInfoProps) => {
         )}
         {location && (
           <div className="user-common-info__location-info">
-            <p className="user-common-info__location">Местонахождение: {location}</p>
+            <p className="user-common-info__location">
+              Местонахождение: {location}
+            </p>
             <Button size="small" onClick={() => setShowMap(!showMap)}>
               Показать на карте
             </Button>
           </div>
         )}
-        {showMap && <YaMap location={location} className="user-common-info__map" />}
+        {showMap && (
+          <YaMap location={location} className="user-common-info__map" />
+        )}
         <Link href={user.url} className="user-common-info__github-link">
           <Button size="medium">Перейти на GitHub</Button>
         </Link>

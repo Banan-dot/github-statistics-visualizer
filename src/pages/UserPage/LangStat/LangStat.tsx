@@ -7,6 +7,8 @@ import LanguageEdge from "../../../models/LanguageEdge";
 
 import LanguagesPieChart from "../../../shared/charts/LanguagesPieChart";
 import PageCard from "../../../shared/PageCard";
+import LanguagesLabel from "../../../shared/LanguagesLabel";
+import DataLabel from "../../../shared/DataLabel";
 
 const GET_USER_LANGUAGES = gql`
   query ($login: String!) {
@@ -47,7 +49,7 @@ function getLanguagesInfo(repositories: Repositories) {
   const langEdges: Record<string, LanguageEdge> = {};
   repositories.nodes.forEach((repository) => {
     totalSize += repository.languages.totalSize;
-    repository.languages.edges.forEach((language) => {
+    repository.languages.edges.forEach((language: LanguageEdge) => {
       let langName = language.node.name;
       langEdges[langName] = {
         size: (langEdges[langName]?.size || 0) + language.size,
@@ -61,7 +63,7 @@ function getLanguagesInfo(repositories: Repositories) {
   });
 
   return {
-    langEdges: Object.values(langEdges),
+    langEdges: Object.values(langEdges).sort((a, b) => b.size - a.size),
     totalSize: totalSize,
   };
 }
@@ -70,18 +72,23 @@ function renderStatistic(langEdges: LanguageEdge[], totalSize: number) {
   const mostRepeatedLanguage = getMostUsedLanguage(langEdges);
   return (
     <div className="user-languages__languages-information">
-      <div className="user-languages__languages-result-size">
-        Итоговый размер языков в сумме по репозиториям{" "}
-        {(totalSize / 1024).toFixed(1)} MB
-      </div>
+      <DataLabel
+        className="user-languages__languages-result-size"
+        caption={"Итоговый размер языков в сумме по репозиториям"}
+        value={(totalSize / 1024).toFixed(1) + " MB"}
+      />
       {langEdges.map((edge) => (
-        <div key={edge.node.id}>
-          {edge.node.name} {((edge.size / totalSize) * 100).toFixed(2)}%
-        </div>
+        <LanguagesLabel
+          key={edge.node.name}
+          caption={edge.node.name}
+          value={((edge.size / totalSize) * 100).toFixed(2) + "%"}
+        />
       ))}
-      <div className="user-languages__most-used-language">
-        Наиболее используемый язык {mostRepeatedLanguage}
-      </div>
+      <DataLabel
+        className="user-languages__most-used-language"
+        caption={"Наиболее используемый язык"}
+        value={mostRepeatedLanguage}
+      />
     </div>
   );
 }
@@ -108,8 +115,7 @@ const LangStat = ({ login }: Props) => {
     }
   );
 
-  if (!data) return <div>Нет данных</div>;
-
+  if (!data || data.repositoryOwner === null) return <div>Нет данных</div>;
   const { langEdges, totalSize } = getLanguagesInfo(
     data.repositoryOwner.repositories
   );

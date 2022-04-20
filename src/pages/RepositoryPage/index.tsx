@@ -3,6 +3,14 @@ import { useParams } from "react-router-dom";
 import Alert from "../../shared/Alert";
 import RepositoryCharts from "./RepositoryCharts";
 import RepositoryInfo from "./RepositoryInfo";
+import RepositoryLineCountInfo from "./LinesCount/RepositoryLineCountInfo";
+import RepositoryCommitsInfo from "./RepositoryCommitsInfo";
+
+export type RepositoryItemProps = {
+  className?: string;
+  login: string;
+  repositoryName: string;
+};
 
 const RepositoryPage = () => {
   const { login, repositoryName } = useParams();
@@ -15,10 +23,18 @@ const RepositoryPage = () => {
     return <Alert type="danger">Репозиторй не найден</Alert>;
   }
 
+  const repositoryProps = {
+    className: "repository-page__section",
+    login,
+    repositoryName,
+  };
+
   return (
     <div className="repository-page">
-      <RepositoryInfo login={login} repositoryName={repositoryName} />
-      <RepositoryCharts login={login} repositoryName={repositoryName} />
+      <RepositoryInfo {...repositoryProps} />
+      <RepositoryCommitsInfo {...repositoryProps} />
+      <RepositoryLineCountInfo {...repositoryProps} />
+      <RepositoryCharts {...repositoryProps} />
     </div>
   );
 };
