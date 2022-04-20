@@ -11,6 +11,7 @@ import {
   VictoryZoomContainerProps,
   VictoryScatter,
   VictoryLabel,
+  VictoryClipContainer,
 } from "victory";
 import PullRequest from "../../models/PullRequest";
 import { format } from "date-fns";
@@ -41,7 +42,16 @@ const LastPullRequestsChart = ({ data }: Props) => {
       padding={{ top: 60, right: 30, bottom: 50, left: 50 }}
       scale={{ y: "linear", x: "time" }}
       minDomain={{ y: 0 }}
-      containerComponent={<VictoryZoomVoronoiContainer zoomDimension="x" />}
+      containerComponent={
+        <VictoryZoomVoronoiContainer
+          zoomDimension="x"
+          clipContainerComponent={
+            <VictoryClipContainer
+              clipPadding={{ top: 5, right: 5, bottom: 5, left: 5 }}
+            />
+          }
+        />
+      }
       theme={theme}
     >
       {!hasItems && (
