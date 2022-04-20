@@ -5,19 +5,26 @@ import {
   VictoryAxis,
   VictoryGroup,
   VictoryTooltip,
-  VictoryVoronoiContainer,
   VictoryLegend,
+  createContainer,
+  VictoryVoronoiProps,
+  VictoryZoomContainerProps,
+  VictoryScatter,
+  VictoryLabel,
 } from "victory";
 import PullRequest from "../../models/PullRequest";
 import { format } from "date-fns";
-import { PRIMARY, SUCCESS } from "../../utils/chartsTheme";
+import { PRIMARY, SUCCESS, theme } from "../../utils/chartsTheme";
 import { getData } from "../../utils/charts";
 
 type Props = {
   data: PullRequest[];
 };
 
-const COLOR_SCALE = [PRIMARY, SUCCESS];
+const VictoryZoomVoronoiContainer = createContainer<
+  VictoryVoronoiProps,
+  VictoryZoomContainerProps
+>("zoom", "voronoi");
 
 const LastPullRequestsChart = ({ data }: Props) => {
   const createdAtPullRequests = useMemo(
@@ -26,33 +33,63 @@ const LastPullRequestsChart = ({ data }: Props) => {
   );
   const closedAtPullRequests = useMemo(() => getData(data, "closedAt"), [data]);
 
+  const hasItems =
+    createdAtPullRequests.length > 0 || closedAtPullRequests.length > 0;
+
   return (
     <VictoryChart
       padding={{ top: 60, right: 30, bottom: 50, left: 50 }}
-      containerComponent={
-        <VictoryVoronoiContainer
-          labels={({ datum }) => datum.y}
-          labelComponent={<VictoryTooltip />}
-        />
-      }
+      scale={{ y: "linear", x: "time" }}
+      minDomain={{ y: 0 }}
+      containerComponent={<VictoryZoomVoronoiContainer zoomDimension="x" />}
+      theme={theme}
     >
-      <VictoryGroup colorScale={COLOR_SCALE}>
-        <VictoryLine data={createdAtPullRequests} />
-        <VictoryLine data={closedAtPullRequests} />
-      </VictoryGroup>
+      {!hasItems && (
+        <VictoryLabel
+          verticalAnchor="middle"
+          textAnchor="middle"
+          style={{ fontSize: 16, fontWeight: "bold" }}
+          x={230}
+          y={150}
+          text="Список пулл реквестов пустой"
+        />
+      )}
+
+      {createdAtPullRequests.length > 0 && (
+        <VictoryGroup data={createdAtPullRequests} color={PRIMARY}>
+          <VictoryLine />
+          <VictoryScatter
+            size={({ datum }) => (datum.y > 0 ? 3 : 0)}
+            labels={({ datum }) => datum.y}
+            labelComponent={<VictoryTooltip />}
+          />
+        </VictoryGroup>
+      )}
+
+      {closedAtPullRequests && (
+        <VictoryGroup data={closedAtPullRequests} color={SUCCESS}>
+          <VictoryLine />
+          <VictoryScatter
+            size={({ datum }) => (datum.y > 0 ? 3 : 0)}
+            labels={({ datum }) => datum.y}
+            labelComponent={<VictoryTooltip />}
+          />
+        </VictoryGroup>
+      )}
 
       <VictoryAxis
         style={{
-          grid: { stroke: "grey", strokeWidth: 0.25, opacity: 0.5 },
+          tickLabels: { opacity: hasItems ? 1 : 0 },
         }}
         tickFormat={(tick: Date) => format(tick, "dd.MM")}
       />
       <VictoryAxis
-        dependentAxis
         style={{
-          grid: { stroke: "grey", strokeWidth: 0.25, opacity: 0.5 },
+          tickLabels: { opacity: hasItems ? 1 : 0 },
         }}
+        dependentAxis
       />
+
       <VictoryLegend
         x={30}
         title="Последние пулл реквесты"
@@ -63,7 +100,7 @@ const LastPullRequestsChart = ({ data }: Props) => {
           { name: "Открытые пулл реквесты" },
           { name: "Закрытые пулл реквесты" },
         ]}
-        colorScale={COLOR_SCALE}
+        colorScale={[PRIMARY, SUCCESS]}
       />
     </VictoryChart>
   );

@@ -6,6 +6,7 @@ import {
   addDays,
   min,
   max,
+  parse,
 } from "date-fns";
 
 interface DataObject {
@@ -62,6 +63,15 @@ const initializeMapDate = (data: DataObject[]) => {
   return map;
 };
 
+const removeEmptyValues = (arr: { x: Date; y: number }[]) => {
+  return arr.filter((item, index, arr) => {
+    if (item.y === 0 && arr[index - 1]?.y === 0 && arr[index + 1]?.y === 0) {
+      return false;
+    }
+    return true;
+  });
+};
+
 const transformMapToXY = <T, R>(
   map: Map<T, R>,
   transformX?: (x: T) => any,
@@ -83,5 +93,7 @@ export const getData = (data: DataObject[], fieldName: keyof DataObject) => {
       map.set(key, value + 1);
     }
   });
-  return transformMapToXY(map, (x) => new Date(x));
+  return removeEmptyValues(
+    transformMapToXY(map, (x) => parse(x, "yyyy-MM-dd", new Date()))
+  );
 };
