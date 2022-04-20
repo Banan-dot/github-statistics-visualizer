@@ -6,12 +6,10 @@ import {
   VictoryGroup,
   VictoryTooltip,
   VictoryLegend,
-  createContainer,
-  VictoryVoronoiProps,
-  VictoryZoomContainerProps,
   VictoryScatter,
   VictoryLabel,
   VictoryClipContainer,
+  VictoryZoomContainer,
 } from "victory";
 import PullRequest from "../../models/PullRequest";
 import { format } from "date-fns";
@@ -21,11 +19,6 @@ import { getData } from "../../utils/charts";
 type Props = {
   data: PullRequest[];
 };
-
-const VictoryZoomVoronoiContainer = createContainer<
-  VictoryVoronoiProps,
-  VictoryZoomContainerProps
->("zoom", "voronoi");
 
 const LastPullRequestsChart = ({ data }: Props) => {
   const createdAtPullRequests = useMemo(
@@ -43,7 +36,7 @@ const LastPullRequestsChart = ({ data }: Props) => {
       scale={{ y: "linear", x: "time" }}
       minDomain={{ y: 0 }}
       containerComponent={
-        <VictoryZoomVoronoiContainer
+        <VictoryZoomContainer
           zoomDimension="x"
           clipContainerComponent={
             <VictoryClipContainer

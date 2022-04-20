@@ -7,11 +7,9 @@ import {
   VictoryTooltip,
   VictoryLegend,
   VictoryLabel,
-  createContainer,
   VictoryScatter,
-  VictoryVoronoiProps,
-  VictoryZoomContainerProps,
   VictoryClipContainer,
+  VictoryZoomContainer,
 } from "victory";
 import Issue from "../../models/Issue";
 import { format } from "date-fns";
@@ -22,16 +20,9 @@ type Props = {
   data: Issue[];
 };
 
-const VictoryZoomVoronoiContainer = createContainer<
-  VictoryVoronoiProps,
-  VictoryZoomContainerProps
->("zoom", "voronoi");
-
 const LastIssuesChart = ({ data }: Props) => {
   const createdAtIssues = useMemo(() => getData(data, "createdAt"), [data]);
   const closedAtIssues = useMemo(() => getData(data, "closedAt"), [data]);
-
-  console.log(closedAtIssues)
 
   const hasItems = createdAtIssues.length > 0 || closedAtIssues.length > 0;
 
@@ -41,7 +32,7 @@ const LastIssuesChart = ({ data }: Props) => {
       scale={{ y: "linear", x: "time" }}
       minDomain={{ y: 0 }}
       containerComponent={
-        <VictoryZoomVoronoiContainer
+        <VictoryZoomContainer
           zoomDimension="x"
           clipContainerComponent={
             <VictoryClipContainer
