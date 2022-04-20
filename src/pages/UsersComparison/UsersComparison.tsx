@@ -12,7 +12,6 @@ export default function UserComparison() {
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
 
   const queryLength = Array.from(query).length;
-
   useEffect(() => {
     document.title = "Сравнение пользователей";
   }, []);
@@ -23,8 +22,6 @@ export default function UserComparison() {
     secondUser: string
   ) => {
     e.preventDefault();
-    setFirstUser(firstUser);
-    setSecondUser(secondUser);
     navigate(`/compare?firstUser=${firstUser}&secondUser=${secondUser}`);
   };
 
@@ -35,8 +32,8 @@ export default function UserComparison() {
       ) : (
         <ComparisonInfo
           className="user-comparison__info"
-          firstUser={firstUser}
-          secondUser={secondUser}
+          firstUser={query.get("firstUser") ?? ""}
+          secondUser={query.get("secondUser") ?? ""}
         />
       )}
     </div>

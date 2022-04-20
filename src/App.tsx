@@ -22,7 +22,7 @@ const App = () => {
             element={<RepositoryPage />}
           />
         </Route>
-        <Route path="compare" element={<UserComparison />} />
+        <Route path="/compare" element={<UserComparison />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
