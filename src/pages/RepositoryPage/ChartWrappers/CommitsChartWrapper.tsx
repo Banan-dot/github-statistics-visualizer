@@ -1,13 +1,15 @@
 import { gql, useQuery } from "@apollo/client";
 import React from "react";
-import CommitsChart from "../../shared/charts/CommitsChart";
-import { RepositoryData, RepositoryVars } from "../../types/QueryTypes";
-import { RepositoryChartWrapperProps } from "./RepositoryCharts";
+import CommitsChart from "../../../shared/charts/CommitsChart";
+import { RepositoryData, RepositoryVars } from "../../../types/QueryTypes";
+import { RepositoryChartWrapperProps } from "../RepositoryCharts";
 
 const GET_COMMITS_HISTORY = gql`
   query GetCommitsHistory($login: String!, $repositoryName: String!) {
     repository(owner: $login, name: $repositoryName) {
+      id
       ref(qualifiedName: "master") {
+        id
         target {
           ... on Commit {
             id

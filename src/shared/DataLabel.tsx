@@ -9,15 +9,21 @@ type Props = {
   caption: string;
 };
 
-const DataLabel = ({ className, icon: Icon, value, caption, children }: Props) => {
+const DataLabel = ({
+  className,
+  icon: Icon,
+  value,
+  caption,
+  children,
+}: Props) => {
   return (
-    <div className={`data-label ${className}`} title={caption}>
+    <div className={`data-label ${className ?? ""}`} title={caption}>
       <div className="data-label__value-container">
         {Icon && <Icon className="data-label__value-icon" size={20} />}
         <div className="data-label__value">{value ?? "-"}</div>
       </div>
       <div className="data-label__caption">{caption}</div>
-        {children}
+      {children}
     </div>
   );
 };

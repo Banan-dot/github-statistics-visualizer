@@ -1,7 +1,7 @@
 import React from "react";
 import { RepositoryItemProps } from ".";
 import PageCard from "../../shared/PageCard";
-import CommitsChartWrapper from "./CommitsChartWrapper";
+import CommitsChartWrapper from "./ChartWrappers/CommitsChartWrapper";
 
 const RepositoryCommitsInfo = ({
   className,

@@ -1,19 +1,18 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
-import LastPullRequestsChart from "../../shared/charts/LastPullRequestsChart";
-import Alert from "../../shared/Alert";
 import { Spinner } from "@skbkontur/react-ui";
-import { RepositoryChartWrapperProps } from "./RepositoryCharts";
-import { RepositoryData, RepositoryVars } from "../../types/QueryTypes";
+import Alert from "../../../shared/Alert";
+import LastIssuesChart from "../../../shared/charts/LastIssuesChart";
+import { RepositoryChartWrapperProps } from "../RepositoryCharts";
+import { RepositoryData, RepositoryVars } from "../../../types/QueryTypes";
 
-const GET_PULL_REQUESTS = gql`
-  query GET_PULL_REQUESTS($login: String!, $repositoryName: String!) {
+const GET_ISSUES = gql`
+  query GET_ISSUES($login: String!, $repositoryName: String!) {
     repository(name: $repositoryName, owner: $login) {
       id
-      pullRequests(last: 100, orderBy: { field: UPDATED_AT, direction: ASC }) {
+      issues(last: 100, orderBy: { field: UPDATED_AT, direction: ASC }) {
         nodes {
           id
-          title
           createdAt
           closedAt
         }
@@ -22,13 +21,13 @@ const GET_PULL_REQUESTS = gql`
   }
 `;
 
-const LastPullRequestsChartWrapper = ({
+const LastIssuesChartWrapper = ({
   className,
   login,
   repositoryName,
 }: RepositoryChartWrapperProps) => {
   const { loading, data, error } = useQuery<RepositoryData, RepositoryVars>(
-    GET_PULL_REQUESTS,
+    GET_ISSUES,
     {
       variables: { login, repositoryName },
     }
@@ -46,10 +45,10 @@ const LastPullRequestsChartWrapper = ({
       {error && <Alert type="danger">Ошибка загрузки данных</Alert>}
 
       {data && !loading && (
-        <LastPullRequestsChart data={data.repository.pullRequests.nodes} />
+        <LastIssuesChart data={data.repository.issues.nodes} />
       )}
     </div>
   );
 };
 
-export default LastPullRequestsChartWrapper;
+export default LastIssuesChartWrapper;
