@@ -115,8 +115,7 @@ const LangStat = ({ login }: Props) => {
     }
   );
 
-  if (!data) return <div>Нет данных</div>;
-
+  if (!data || data.repositoryOwner === null) return <div>Нет данных</div>;
   const { langEdges, totalSize } = getLanguagesInfo(
     data.repositoryOwner.repositories
   );

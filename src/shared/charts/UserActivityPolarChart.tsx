@@ -28,7 +28,7 @@ const UserActivityPolarChart = ({ usersActivity, className }: Props) => {
   const data = transformDataToXY(usersActivity);
 
   return (
-    <svg viewBox="0 0 325 325" width="325" className={className}>
+    <svg viewBox="0 0 325 325" className={className}>
       <VictoryChart
         width={300}
         height={300}
