@@ -5,6 +5,7 @@ import {
   VictoryChart,
   VictoryLabel,
   VictoryLegend,
+  VictoryLegendProps,
 } from "victory";
 import Issue from "../../models/Issue";
 import PullRequest from "../../models/PullRequest";
@@ -13,12 +14,12 @@ import { PRIMARY, theme } from "../../utils/chartsTheme";
 import VictoryEmptyMessage from "./components/VictoryEmptyMessage";
 
 type Props = {
-  legendTitle: string;
+  legendProps: VictoryLegendProps;
   emptyMessage: string;
   data: (Issue | PullRequest)[];
 };
 
-const ClosingFrequencyChart = ({ data, emptyMessage, legendTitle }: Props) => {
+const ClosingFrequencyChart = ({ data, emptyMessage, legendProps }: Props) => {
   const frequencyData = useMemo(() => getFrequencyData(data), [data]);
   const hasItems = frequencyData.length > 0;
 
@@ -53,11 +54,10 @@ const ClosingFrequencyChart = ({ data, emptyMessage, legendTitle }: Props) => {
       />
 
       <VictoryLegend
-        x={130}
-        title={legendTitle}
         orientation="horizontal"
         centerTitle
         data={[]}
+        {...legendProps}
       />
     </VictoryChart>
   );
