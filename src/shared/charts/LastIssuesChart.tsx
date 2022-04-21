@@ -6,7 +6,6 @@ import {
   VictoryGroup,
   VictoryTooltip,
   VictoryLegend,
-  VictoryLabel,
   VictoryScatter,
   VictoryClipContainer,
   VictoryZoomContainer,
@@ -15,6 +14,7 @@ import Issue from "../../models/Issue";
 import { format } from "date-fns";
 import { PRIMARY, SUCCESS, theme } from "../../utils/chartsTheme";
 import { getData } from "../../utils/charts";
+import VictoryEmptyMessage from "./components/VictoryEmptyMessage";
 
 type Props = {
   data: Issue[];
@@ -44,14 +44,7 @@ const LastIssuesChart = ({ data }: Props) => {
       theme={theme}
     >
       {!hasItems && (
-        <VictoryLabel
-          verticalAnchor="middle"
-          textAnchor="middle"
-          style={{ fontSize: 16, fontWeight: "bold" }}
-          x={230}
-          y={150}
-          text="Список ишью пустой"
-        />
+        <VictoryEmptyMessage x={230} y={150} text="Список ишью пустой" />
       )}
 
       {createdAtIssues.length > 0 && (
