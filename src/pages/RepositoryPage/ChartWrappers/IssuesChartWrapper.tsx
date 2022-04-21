@@ -45,10 +45,10 @@ const IssuesChartWrapper = ({
   return (
     <div className={className}>
       {loading && (
-        <Spinner className="spinner spinner_centered" caption="Загрузка ишью" />
+        <Spinner className="spinner spinner_centered" caption="Загрузка ишьюс" />
       )}
 
-      {error && <Alert type="danger">Ошибка загрузки ишью</Alert>}
+      {error && <Alert type="danger">Ошибка загрузки ишьюс</Alert>}
 
       {!loading && (
         <IssuesChart

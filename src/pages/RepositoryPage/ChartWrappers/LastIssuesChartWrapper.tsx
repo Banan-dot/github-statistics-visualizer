@@ -64,11 +64,11 @@ const LastIssuesChartWrapper = ({
       {loading && (
         <Spinner
           className="spinner spinner_centered"
-          caption="Загрузка пулл реквестов"
+          caption="Загрузка ишьюс"
         />
       )}
 
-      {error && <Alert type="danger">Ошибка загрузки данных</Alert>}
+      {error && <Alert type="danger">Ошибка загрузки ишьюс</Alert>}
 
       {data && !loading && (
         <LastIssuesChart width={chartWidth} data={data.repository.issues.nodes} />

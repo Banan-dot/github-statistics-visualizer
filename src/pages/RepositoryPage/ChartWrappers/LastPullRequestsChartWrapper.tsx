@@ -69,7 +69,7 @@ const LastPullRequestsChartWrapper = ({
         />
       )}
 
-      {error && <Alert type="danger">Ошибка загрузки данных</Alert>}
+      {error && <Alert type="danger">Ошибка загрузки пулл реквестов</Alert>}
 
       {data && !loading && (
         <LastPullRequestsChart

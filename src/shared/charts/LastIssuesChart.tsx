@@ -49,7 +49,7 @@ const LastIssuesChart = ({ width, data }: Props) => {
         <VictoryEmptyMessage
           x={width / 2 + 20}
           y={150}
-          text="Список ишью пустой"
+          text="Пустой список ишьюс"
         />
       )}
 

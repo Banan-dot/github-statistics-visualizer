@@ -41,7 +41,12 @@ const LanguagesChartWrapper = ({
 
   return (
     <div className={className}>
-      {loading && <Spinner className="spinner spinner_centered" />}
+      {loading && (
+        <Spinner
+          className="spinner spinner_centered"
+          caption="Загрузка информации о языка репозитория"
+        />
+      )}
 
       {error && (
         <Alert type="danger">
