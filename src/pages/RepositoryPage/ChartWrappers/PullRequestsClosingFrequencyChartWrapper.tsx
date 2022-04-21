@@ -47,7 +47,11 @@ const PullRequestsClosingFrequencyChartWrapper = ({
       )}
 
       {data && !loading && (
-        <ClosingFrequencyChart data={data.repository.pullRequests.nodes} />
+        <ClosingFrequencyChart
+          data={data.repository.pullRequests.nodes}
+          legendTitle="Частота зыкрытия пулл реквестов"
+          emptyMessage="Пустой список пулл реквестов"
+        />
       )}
     </div>
   );
