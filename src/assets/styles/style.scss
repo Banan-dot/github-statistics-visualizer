@@ -553,7 +553,8 @@ body {
   }
 }
 
-.repository-pull-request-charts {
+.repository-pull-request-charts,
+.repository-issues-charts {
   display: flex;
   flex-wrap: wrap;
 

@@ -6,6 +6,7 @@ import RepositoryInfo from "./RepositoryInfo";
 import RepositoryLineCountInfo from "./LinesCount/RepositoryLineCountInfo";
 import RepositoryCommitsInfo from "./RepositoryCommitsInfo";
 import RepositoryPullRequestsCharts from "./RepositoryPullRequestsCharts";
+import RepositoryIssuesCharts from "./RepositoryIssuesCharts";
 
 export type RepositoryItemProps = {
   className?: string;
@@ -36,6 +37,7 @@ const RepositoryPage = () => {
       <RepositoryCommitsInfo {...repositoryItemProps} />
       <RepositoryLineCountInfo {...repositoryItemProps} />
       <RepositoryPullRequestsCharts {...repositoryItemProps} />
+      <RepositoryIssuesCharts {...repositoryItemProps} />
       <RepositoryCharts {...repositoryItemProps} />
     </div>
   );
