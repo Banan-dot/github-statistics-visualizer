@@ -7,6 +7,8 @@ import LanguageEdge from "../../../models/LanguageEdge";
 
 import LanguagesPieChart from "../../../shared/charts/LanguagesPieChart";
 import PageCard from "../../../shared/PageCard";
+import LanguagesLabel from "../../../shared/LanguagesLabel";
+import DataLabel from "../../../shared/DataLabel";
 
 const GET_USER_LANGUAGES = gql`
   query ($login: String!) {
@@ -47,7 +49,7 @@ function getLanguagesInfo(repositories: Repositories) {
   const langEdges: Record<string, LanguageEdge> = {};
   repositories.nodes.forEach((repository) => {
     totalSize += repository.languages.totalSize;
-    repository.languages.edges.forEach((language) => {
+    repository.languages.edges.forEach((language: LanguageEdge) => {
       let langName = language.node.name;
       langEdges[langName] = {
         size: (langEdges[langName]?.size || 0) + language.size,
@@ -61,7 +63,7 @@ function getLanguagesInfo(repositories: Repositories) {
   });
 
   return {
-    langEdges: Object.values(langEdges),
+    langEdges: Object.values(langEdges).sort((a, b) => b.size - a.size),
     totalSize: totalSize,
   };
 }
@@ -69,17 +71,24 @@ function getLanguagesInfo(repositories: Repositories) {
 function renderStatistic(langEdges: LanguageEdge[], totalSize: number) {
   const mostRepeatedLanguage = getMostUsedLanguage(langEdges);
   return (
-    <div className="user-page__languages-information">
-      <div className="user-page__languages-result-size">
-        Итоговый размер языков в сумме по репозиториям {totalSize} KB or{" "}
-        {(totalSize / 1024).toFixed(1)} MB
-      </div>
+    <div className="user-languages__languages-information">
+      <DataLabel
+        className="user-languages__languages-result-size"
+        caption={"Итоговый размер языков в сумме по репозиториям"}
+        value={(totalSize / 1024).toFixed(1) + " MB"}
+      />
       {langEdges.map((edge) => (
-        <div key={edge.node.id}>
-          {edge.node.name} {((edge.size / totalSize) * 100).toFixed(2)}%
-        </div>
+        <LanguagesLabel
+          key={edge.node.name}
+          caption={edge.node.name}
+          value={((edge.size / totalSize) * 100).toFixed(2) + "%"}
+        />
       ))}
-      <div className="user-page__most-used-language">Наиболее используемый язык {mostRepeatedLanguage}</div>
+      <DataLabel
+        className="user-languages__most-used-language"
+        caption={"Наиболее используемый язык"}
+        value={mostRepeatedLanguage}
+      />
     </div>
   );
 }
@@ -106,24 +115,33 @@ const LangStat = ({ login }: Props) => {
     }
   );
 
-  if (!data) return <div>Нет данных</div>;
-
+  if (!data || data.repositoryOwner === null) return <div>Нет данных</div>;
   const { langEdges, totalSize } = getLanguagesInfo(
     data.repositoryOwner.repositories
   );
 
+  const isSizeMoreThanPercent = (size: number, percents: number) =>
+    (size / totalSize) * 100 > percents;
+
+  const languagesToViewChart = langEdges.filter((lang) =>
+    isSizeMoreThanPercent(lang.size, 1)
+  );
+
   return (
-    <PageCard element="section" className="page-card user-page__languages user-page__section">
+    <PageCard element="section" className="user-page__section">
       <PageCard.Header>
         <PageCard.Title>Статистика языков</PageCard.Title>
       </PageCard.Header>
-      <PageCard.Body>
+      <PageCard.Body className="user-languages">
         {loading && <div>Загрузка...</div>}
         {error && <div>Ошибка загрузки языков: {error.message}</div>}
         {data && (
-          <div className="user-page__language-stat">
+          <div className="user-languages__language-stat">
             {renderStatistic(langEdges, totalSize)}
-            <LanguagesPieChart languageEdges={langEdges} className="user-page__languages-pie-chart"/>
+            <LanguagesPieChart
+              languageEdges={languagesToViewChart}
+              className="user-languages__languages-pie-chart"
+            />
           </div>
         )}
       </PageCard.Body>

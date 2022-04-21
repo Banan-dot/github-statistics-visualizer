@@ -1,5 +1,7 @@
-interface Issue {
-    totalCount: number;
-}
+export type IssueState = "OPEN" | "CLOSED"
 
-export default Issue;
+export default interface Issue{
+    state: IssueState;
+    createdAt: string;
+    closedAt: string | null;
+}

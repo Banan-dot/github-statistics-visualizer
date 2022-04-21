@@ -1,5 +1,5 @@
 import React from "react";
-import { Center, Gapped, Button } from "@skbkontur/react-ui";
+import { Button, Gapped } from "@skbkontur/react-ui";
 import { ArrowLeftIcon, ArrowRightIcon } from "@primer/octicons-react";
 
 type Props = {
@@ -16,22 +16,28 @@ const NavigateButtons = ({
   disabledPrevButton,
 }: Props) => {
   return (
-    <Center>
-      <Gapped gap={8}>
-        <Button onClick={onPrevButtonClick} disabled={disabledPrevButton}>
-          <Gapped gap={8}>
-            <ArrowLeftIcon />
-            <span>Назад</span>
-          </Gapped>
-        </Button>
-        <Button onClick={onNextButtonClick} disabled={disabledNextButton}>
-          <Gapped gap={8}>
-            <span>Далее</span>
-            <ArrowRightIcon />
-          </Gapped>
-        </Button>
-      </Gapped>
-    </Center>
+    <div className="navigate-buttons">
+      <Button
+        className="navigate-buttons__item"
+        onClick={onPrevButtonClick}
+        disabled={disabledPrevButton}
+      >
+        <Gapped gap={8}>
+          <ArrowLeftIcon />
+          <span>Назад</span>
+        </Gapped>
+      </Button>
+      <Button
+        className="navigate-buttons__item"
+        onClick={onNextButtonClick}
+        disabled={disabledNextButton}
+      >
+        <Gapped gap={8}>
+          <span>Далее</span>
+          <ArrowRightIcon />
+        </Gapped>
+      </Button>
+    </div>
   );
 };
 

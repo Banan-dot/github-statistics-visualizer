@@ -1,0 +1,71 @@
+.label {
+  &_icon-label {
+    @include label($spacer, $border-radius-sm, $white);
+    border: 1px solid $light-gray;
+
+    .label__icon {
+      margin-right: 0.5 * $spacer;
+    }
+  }
+
+  &_language-label {
+    @include label($spacer, $border-radius-sm, transparent);
+    padding-left: 0;
+    padding-right: 0;
+
+    .label__icon {
+      margin-top: -0.5 * $spacer;
+      margin-right: -0.25 * $spacer;
+      margin-bottom: -0.5 * $spacer;
+      margin-left: -0.5 * $spacer;
+    }
+  }
+}
+
+.data-label {
+  display: inline-block;
+  padding: 1 * $spacer;
+  border-radius: $border-radius-sm;
+  background-color: $white;
+  box-shadow: $box-shadow-sm;
+  cursor: default;
+
+  &__value {
+    font-size: 1.3em;
+    font-weight: bold;
+    flex-grow: 1;
+
+    &-container {
+      display: flex;
+      align-items: center;
+    }
+
+    &-icon {
+      margin-right: 0.75 * $spacer;
+    }
+  }
+
+  &__caption {
+    font-size: 0.9em;
+  }
+}
+
+.languages-label {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  padding: 1 * $spacer;
+  flex-wrap: wrap;
+  border-radius: $border-radius-sm;
+  background-color: $white;
+  box-shadow: $box-shadow-sm;
+  cursor: default;
+
+  &__value {
+    font-size: 1rem;
+  }
+
+  &__caption {
+    font-size: 1rem;
+  }
+}

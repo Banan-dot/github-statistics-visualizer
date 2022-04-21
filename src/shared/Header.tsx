@@ -1,10 +1,10 @@
 import React from "react";
-import "../assets/styles/header.scss";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MarkGithubIcon } from "@primer/octicons-react";
 import SearchInput from "./SearchInput";
+import { Button } from "@skbkontur/react-ui";
 
-const LOGO_WIDTH: number = window.screen.width / 32;
+const PATHS_TO_HIDE = ["/", "/compare"];
 
 export default function Header() {
   const navigate = useNavigate();
@@ -12,16 +12,24 @@ export default function Header() {
 
   return (
     <header className="header">
-      <Link to="/" className="link-block-logo">
-        <div className="logo-with-name">
-          <MarkGithubIcon className="logo" size={LOGO_WIDTH} />
-          <span className="logo-name">GitStat</span>
+      <Link to="/" className="header__logo-link">
+        <div className="gitstat-logo">
+          <MarkGithubIcon className="gitstat-logo__icon" size={32} />
+          <span className="gitstat-logo__name">GitStat</span>
         </div>
       </Link>
-      {pathname !== "/" && (
-        <SearchInput onSubmit={(value) => navigate(`../user/${value}`)} />
+      { !PATHS_TO_HIDE.includes(pathname) && (
+        <div className="header__search">
+          <SearchInput
+            onSubmit={(value) => navigate(`../user/${value}`)}
+            showValidationErrors={false}
+            width={"100%"}
+          />
+        </div>
       )}
-      <div className="comparison-info">В сравнении 2</div>
+      <div className="header__actions">
+        <Button width="100%" onClick={() => navigate("./compare")}>Сравнить</Button>
+      </div>
     </header>
   );
 }

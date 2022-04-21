@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 
@@ -7,6 +7,8 @@ import UserInfo from "./UserInfo/UserInfo";
 import UserRepositories from "./UserRepositories/UserRepositories";
 import LangStat from "./LangStat/LangStat";
 import UserActivity from "./UserActivity/UserActivity";
+import { Spinner } from "@skbkontur/react-ui";
+import PageCard from "../../shared/PageCard";
 
 const GET_USER = gql`
   query GetUser($login: String!) {
@@ -47,8 +49,24 @@ function UserPage() {
     variables: { login },
   });
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error {error.message}</div>;
+  useEffect(() => {
+    document.title = `Страница пользователя - ${login}`;
+  }, [login]);
+
+  if (loading)
+    return (
+      <Spinner
+        className="spinner spinner_centered"
+        caption="Загрузка информации о пользователе"
+      />
+    );
+
+  if (error)
+    return (
+      <div className="user-page__search-error">
+        Ошибка, пользователя с таким ником не существует, попробуйте снова.
+      </div>
+    );
 
   if (!login) return <div>Введите логин пользователя</div>;
   if (!data) return <div>Неожиданная ошибка</div>;

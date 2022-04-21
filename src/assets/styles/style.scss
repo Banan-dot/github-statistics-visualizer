@@ -1,5 +1,7 @@
 @import "./variables";
 @import "./mixins";
+@import "./alert";
+@import "./labels";
 
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
@@ -9,45 +11,99 @@
   box-sizing: border-box;
 }
 
-html {
-  overflow-y: scroll;
-}
-
 body {
   font-size: 16px;
   font-family: "Open Sans", Arial, sans-serif;
 }
-@media only screen and (max-device-width: 600px) {
-  body {
-    font-size: 12px;
+
+.header {
+  min-height: 50px;
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacer;
+  flex-wrap: wrap;
+  padding: $spacer;
+  box-shadow: $box-shadow-sm;
+  background-color: $white;
+  z-index: 1000;
+
+  &__logo-link {
+    text-decoration: none;
+    color: $black;
+  }
+
+  &__search {
+    .search-input {
+      margin: 0 auto;
+      width: 350px;
+    }
+  }
+
+  @media screen and (max-width: $tablet-width) {
+    &__logo-link {
+      order: 1;
+    }
+
+    &__actions {
+      order: 2;
+    }
+
+    &__search {
+      flex-basis: 100%;
+      order: 3;
+      .search-input {
+        width: 100%;
+      }
+    }
+  }
+
+  @media screen and (max-width: $mobile-width-sm) {
+    &__actions {
+      flex-grow: 1;
+    }
   }
 }
 
 .page-wrapper {
+  height: 100vh;
+  overflow: auto;
+}
+
+.content-wrapper {
   margin: 0 auto;
   padding: 2 * $spacer;
   position: relative;
-  min-height: 100%;
   max-width: 1200px;
 }
 
-.page-card {
-  padding: 2 * $spacer;
-  border-radius: $border-radius-md;
-  border: 1px solid $light-gray;
-  background-color: $white;
+.search-page {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacer;
+
+  & .search-input {
+    width: 400px;
+  }
 }
 
-.user-page__common-info .page-card {
-  &__header {
-    margin-bottom: 8px;
-    grid-column: 1 / 4;
-    grid-row: 1 / 3;
+.user-avatar {
+  border-radius: 50%;
+  border: 1px solid $light-gray;
+}
 
-    &-title {
-      font-size: 1.2em;
-      font-weight: bold;
-    }
+.search-input {
+  &__error {
+    font-size: 0.8em;
+    color: $danger;
   }
 }
 
@@ -55,6 +111,14 @@ body {
   &__section:not(:last-child) {
     margin-bottom: 2 * $spacer;
   }
+}
+
+.user-common-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-gap: 15px;
+  text-align: center;
 
   &__github-link {
     grid-column: 4 / 5;
@@ -62,15 +126,15 @@ body {
   }
 
   &__avatar {
-    border-radius: 50%;
-    border: 1px solid $light-gray;
     grid-column: 1 / 2;
     grid-row: 1 / 4;
+    max-width: 150px;
+    max-height: 150px;
   }
 
   &__company {
     grid-column: 2 / 3;
-    grid-row: 3 / 4;
+    grid-row: 2 / 3;
   }
 
   &__name {
@@ -80,7 +144,7 @@ body {
 
   &__email {
     grid-column: 2 / 3;
-    grid-row: 2 / 3;
+    grid-row: 3 / 4;
   }
 
   &__website {
@@ -88,9 +152,14 @@ body {
     grid-row: 1 / 2;
   }
 
-  &__location {
+  &__map {
+    grid-column: 1 / 4;
+    grid-row: 4 / 5;
+  }
+
+  &__location-info {
     grid-column: 4 / 5;
-    grid-row: 2 / 3;
+    grid-row: 4 / 5;
   }
 
   &__created-date {
@@ -107,45 +176,63 @@ body {
     grid-column: 3 / 4;
     grid-row: 3 / 4;
   }
+}
 
-  &__language-stat {
-    grid-column: 2 / 4;
-    grid-row: 1 / 4;
+.user-activity {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2 * $spacer;
+
+  &__item {
+    flex-grow: 1;
+  }
+
+  &__pull-requests-info,
+  &__issues-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer;
+  }
+
+  .user-activity__pull-requests-count,
+  .user-activity__issues-count {
+    width: 100%;
+  }
+
+  @media screen and (max-width: $tablet-width) {
+    flex-direction: column;
+    display: flex;
+    &__item {
+      width: 100%;
+    }
   }
 }
 
-.user-page__common-info .page-card {
-  &__body {
-    width: calc(100% - 32px);
-    grid-column: 1 / -1;
-    grid-row: 2 / 4;
-    display: grid;
-    grid-template-columns: 150px 1fr 1fr 1fr;
-    grid-template-rows: auto;
-    grid-gap: 15px;
-    text-align: center;
+.user-languages__language-stat {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  text-align: center;
+  column-gap: 2 * $spacer;
+  row-gap: 2 * $spacer;
+
+  @media screen and (max-width: 900px) {
+    grid-template-columns: 1fr;
   }
 }
 
-.user-page {
-  &__language-stat {
-    width: calc(100% - 32px);
-    grid-column: 1 / -1;
-    grid-row: 2 / 4;
-    display: grid;
-    grid-template-columns: 50% 50%;
-    text-align: center;
-  }
-
+.user-languages {
   &__languages-pie-chart {
-    grid-column: 2 / 3;
-    grid-row: 1 / 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   &__languages-information {
     display: grid;
+    column-gap: 2 * $spacer;
+    row-gap: 2 * $spacer;
     grid-gap: 20px;
-    grid-template-columns: 20% 20% 20%;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   &__languages-result-size {
@@ -157,19 +244,30 @@ body {
   &__most-used-language {
     grid-column: 1 / 4;
   }
+}
 
-  .user-repository-list {
-    &__item {
-      list-style: none;
+.user-repository-list {
+  &__item {
+    list-style: none;
 
-      &:not(:last-child) {
-        margin-bottom: $spacer;
-      }
+    &:not(:last-child) {
+      margin-bottom: $spacer;
     }
   }
 }
 
+.VictoryContainer {
+  position: relative;
+}
+
 .page-card {
+  padding: 2 * $spacer;
+  border-radius: $border-radius-md;
+  background-color: $white;
+  border: 1px solid $light;
+  box-shadow: $box-shadow-md;
+  overflow: hidden;
+
   &__header {
     margin-bottom: $spacer;
 
@@ -180,19 +278,13 @@ body {
   }
 }
 
-.user-page__languages .page-card {
-  &__header {
-    grid-column: 1 / 4;
-    grid-row: 1 / 2;
-  }
-}
-
 .user-repository {
   padding: $spacer;
   display: flex;
   flex-direction: column;
   gap: $spacer;
   border-radius: $border-radius-md;
+  transition: all 0.4s ease;
 
   &:hover {
     background-color: $light;
@@ -202,6 +294,7 @@ body {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    gap: $spacer;
   }
 
   &__title {
@@ -213,6 +306,7 @@ body {
   }
 
   &__name-link {
+    word-wrap: break-word;
     font-size: 1.2em;
   }
 
@@ -232,28 +326,356 @@ body {
     align-items: center;
     justify-content: end;
     align-self: flex-start;
-    flex-wrap: wrap;
     gap: $spacer;
+  }
+
+  & .react-ui-button-caption {
+    text-align: center;
+  }
+
+  @media screen and (max-width: $tablet-width) {
+    &__action-buttons {
+      flex-basis: 100%;
+    }
+
+    &__action-button {
+      flex-grow: 1;
+      text-align: center;
+    }
+  }
+
+  @media screen and (max-width: $mobile-width) {
+    &__action-buttons {
+      flex-direction: column;
+    }
+
+    &__action-button {
+      width: 100%;
+    }
   }
 }
 
-.label {
-  &_icon-label {
-    @include label($spacer, $border-radius-sm, $white);
-    border: 1px solid $light-gray;
+@media screen and (max-width: $tablet-width) {
+  .user-common-info {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 
-    .label__icon {
-      margin-right: 0.25 * $spacer;
+    &__avatar {
+      display: block;
+    }
+    &__map {
+      width: 100%;
+    }
+  }
+}
+
+.map-container {
+  height: 400px;
+}
+
+.mapboxgl-ctrl-geocoder,
+.mapboxgl-ctrl {
+  visibility: hidden;
+}
+
+.spinner {
+  &_centered {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.repository-page {
+  &__section:not(:last-child) {
+    margin-bottom: 2 * $spacer;
+  }
+
+  .repository-common-info {
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: $spacer;
+
+      &-action-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $spacer;
+      }
+
+      &-action-button .react-ui-button-caption {
+        text-align: center;
+      }
+
+      @media screen and (max-width: $mobile-width) {
+        &-action-buttons {
+          flex-basis: 100%;
+        }
+
+        &-action-button {
+          flex-grow: 1;
+        }
+      }
+
+      @media screen and (max-width: $mobile-width-sm) {
+        &-action-button {
+          flex-basis: 100%;
+        }
+      }
+    }
+
+    &__user-link {
+      margin-top: 0.5 * $spacer;
+      display: inline-flex;
+      align-items: center;
+
+      &-avatar {
+        margin-right: 0.5 * $spacer;
+      }
+    }
+
+    &__description {
+      margin-bottom: 1.5 * $spacer;
+
+      &-label {
+        display: block;
+        margin-bottom: 0.5 * $spacer;
+      }
+    }
+
+    &__data-label-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      column-gap: 2 * $spacer;
+      row-gap: 1.5 * $spacer;
+
+      @media screen and (max-width: $tablet-width) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media screen and (max-width: $mobile-width) {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}
+
+.charts-section {
+  &__charts-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__chart {
+    flex-basis: 50%;
+  }
+
+  &__languages-pie-chart {
+    display: flex;
+  }
+
+  @media screen and (max-width: $tablet-width) {
+    &__charts-container {
+      flex-direction: column;
+      flex-wrap: nowrap;
+    }
+
+    &__chart {
+      flex-basis: 100%;
+    }
+  }
+}
+
+.gitstat-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75 * $spacer;
+
+  &__name {
+    font-size: 1.3em;
+    font-weight: bold;
+    font-family: monospace;
+  }
+}
+
+.dropdown {
+  &__input-label {
+    margin-bottom: 0.5 * $spacer;
+  }
+}
+
+.navigate-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacer;
+
+  @media screen and (max-width: $mobile-width) {
+    &__item {
+      width: 100%;
     }
   }
 
-  &_language-label {
-    @include label($spacer, $border-radius-sm, transparent);
-    padding-left: 0;
-    padding-right: 0;
-
-    .label__icon {
-      margin: -0.5 * $spacer;
+  @media screen and (max-width: $mobile-width-sm) {
+    & {
+      flex-direction: column;
     }
+  }
+}
+
+.line-count-item-label {
+  display: flex;
+  gap: $spacer;
+  flex-wrap: wrap;
+}
+
+.line-count-item-label span {
+  display: block;
+  width: 100%;
+}
+
+.repository-page__line-count-info {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 4 * $spacer;
+  row-gap: 4 * $spacer;
+
+  @media screen and (max-width: $tablet-width) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: $mobile-width) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.repository-pull-request-charts,
+.repository-issues-charts {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__item:first-child {
+    flex-basis: 100%;
+  }
+
+  &__item:not(:first-child) {
+    flex-basis: 50%;
+  }
+
+  @media screen and (max-width: $tablet-width) {
+    &__item:not(:first-child) {
+      flex-basis: 100%;
+    }
+  }
+}
+
+.line-count-item-label__linesOfCode,
+.line-count-item-label__blanks,
+.line-count-item-label__files {
+  margin-top: $spacer;
+}
+
+.user-comparison {
+  height: calc(100vh - 112px);
+
+  &__input {
+    max-width: 400px;
+  }
+
+  &__form {
+    position: relative;
+    display: flex;
+    top: calc(50% - 112px);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2 * $spacer;
+  }
+
+  &__info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 2 * $spacer;
+
+    .page-card {
+      .user-activity {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .user-languages {
+        &__language-stat {
+          display: flex;
+          flex-wrap: wrap;
+        }
+        @media screen and (max-width: $tablet-width) {
+          &__languages-information {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+.user-comparison-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-gap: 15px;
+  text-align: center;
+
+  &__avatar {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    max-width: 150px;
+    max-height: 150px;
+  }
+
+  &__created-date {
+    grid-column: 2 / 4;
+    grid-row: 1 / 2;
+  }
+
+  &__following-count {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+  }
+
+  &__followers-count {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+  }
+  @media screen and (max-width: $tablet-width) {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    &__avatar {
+      display: block;
+    }
+  }
+}
+
+.user-activity {
+  &__pull-request-chart,
+  &__issues-chart,
+  &__user-activity-chart {
+    max-width: 300px;
   }
 }

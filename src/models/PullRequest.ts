@@ -1,5 +1,9 @@
-interface PullRequest {
-    totalCount: number;
-}
+export type PullRequestState = "CLOSED" | "OPEN" | "MERGED";
 
-export default PullRequest;
+export default interface PullRequest{
+    id: string;
+    state: PullRequestState;
+    createdAt: string;
+    closedAt: string | null;
+    title: string;
+}

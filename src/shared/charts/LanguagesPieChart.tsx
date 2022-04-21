@@ -1,24 +1,69 @@
-import React from "react";
-import { VictoryPie } from "victory";
+import React, { useEffect, useState } from "react";
+import { VictoryLegend, VictoryPie } from "victory";
 import LanguageEdge from "../../models/LanguageEdge";
 
 type LanguagesPieChartProps = {
   languageEdges: LanguageEdge[];
-  className: string;
+  className?: string;
 };
 
-const LanguagesPieChart = ({ languageEdges, className }: LanguagesPieChartProps) => {
+type GraphicData = {
+  y: number;
+};
+
+const LanguagesPieChart = ({
+  languageEdges,
+  className,
+}: LanguagesPieChartProps) => {
   const colorScale = languageEdges.map(
     (languageEdge) => languageEdge.node.color
   );
 
+  const defaultGraphicData: GraphicData[] = [];
+
+  const legendLanguagesNames = languageEdges.map((edge) => {
+    defaultGraphicData.push({ y: 0 });
+    return {
+      name: edge.node.name,
+    };
+  });
+  defaultGraphicData.pop();
+  defaultGraphicData.push({ y: 100 });
+  const [graphicData, setGraphicData] =
+    useState<GraphicData[]>(defaultGraphicData);
+
+  const fromLanguageEdgesToGraphData = (languageEdges: LanguageEdge[]) =>
+    languageEdges.map((edge) => {
+      return { x: edge.node.name, y: edge.size };
+    });
+
+  useEffect(() => {
+    setGraphicData(fromLanguageEdgesToGraphData(languageEdges));
+  }, []);
+
   return (
-    <div style={{ width: 300, height: 300 }} className={className}>
+    <div className={className}>
       <VictoryPie
-        data={languageEdges}
         colorScale={colorScale}
-        x={(languageEdge: LanguageEdge) => languageEdge.node.name}
-        y={(languageEdge: LanguageEdge) => languageEdge.size}
+        padding={30}
+        animate={{ easing: "expInOut" }}
+        data={graphicData}
+        labels={() => null}
+      />
+      <VictoryLegend
+        x={50}
+        height={350}
+        width={250}
+        orientation="vertical"
+        colorScale={colorScale}
+        gutter={30}
+        title="Languages"
+        centerTitle
+        style={{
+          border: { stroke: "#dcdde1", strokeWidth: "1px" },
+          title: { fontSize: 20 },
+        }}
+        data={legendLanguagesNames}
       />
     </div>
   );

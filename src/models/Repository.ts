@@ -1,11 +1,15 @@
 import Language from "./Language";
 import RepositoryOwner from "./RepositoryOwner";
-import Languages from "./Languages";
-import Fork from "./Fork";
-import Issue from "./Issue";
-import PullRequest from "./PullRequest";
-import BranchRef from "./BranchRef";
+import LanguageConnection from "./LanguageConnection";
+import IssueConnection from "./IssueConnection";
+import PullRequestConnection from "./PullRequestConnection";
+import DefaultBranchRef from "./DefaultBranchRef";
 import LicenseInfo from "./LicenseInfo";
+import RepositoryCollaboratorConnection from "./RepositoryCollaboratorConnection";
+import RepositoryConnection from "./RepositoryConnection";
+import UserConnection from "./UserConnection";
+import RefConnection from "./RefConnection";
+import Ref from "./Ref";
 
 interface Repository {
   id: string;
@@ -13,19 +17,25 @@ interface Repository {
   isFork: boolean;
   forkingAllowed: boolean;
   forkCount: number;
+  description: string;
   stargazerCount: number;
   url: string;
   sshUrl: string;
   owner: RepositoryOwner;
-  forks: Fork;
-  issues: Issue;
-  defaultBranchRef: BranchRef;
+  defaultBranchRef: DefaultBranchRef;
   updatedAt: string;
-  pullRequests: PullRequest;
-  languages: Languages;
+  createdAt: string;
+  languages: LanguageConnection;
+  watchers: UserConnection;
   primaryLanguage: Language | null;
   licenseInfo: LicenseInfo | null;
+  ref: Ref | null;
+  refs: RefConnection | null;
   parent: Repository;
+  forks: RepositoryConnection;
+  issues: IssueConnection;
+  pullRequests: PullRequestConnection;
+  collaborators: RepositoryCollaboratorConnection | null;
 }
 
 export default Repository;

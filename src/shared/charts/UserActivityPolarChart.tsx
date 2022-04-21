@@ -21,14 +21,18 @@ const transformDataToXY = (usersActivity: UserActivity[]) => {
 
 type Props = {
   usersActivity: UserActivity[];
+  className: string;
 };
 
-const UserActivityPolarChart = ({ usersActivity }: Props) => {
+const UserActivityPolarChart = ({ usersActivity, className }: Props) => {
   const data = transformDataToXY(usersActivity);
 
   return (
-    <div style={{ width: 300, height: 300 }}>
+    <svg viewBox="0 0 325 325" className={className}>
       <VictoryChart
+        width={300}
+        height={300}
+        standalone={false}
         polar
         containerComponent={
           <VictoryVoronoiContainer labels={({ datum }) => datum.y} />
@@ -65,7 +69,7 @@ const UserActivityPolarChart = ({ usersActivity }: Props) => {
           }}
         />
       </VictoryChart>
-    </div>
+    </svg>
   );
 };
 
