@@ -3,9 +3,10 @@ import { useQuery, gql, NetworkStatus } from "@apollo/client";
 
 import RepositoryOwner from "../../../models/RepositoryOwner";
 import UserRepositoriesList from "./UserRepositoriesList";
-import { Center, Spinner, Gapped, Loader } from "@skbkontur/react-ui";
+import { Spinner, Gapped, Loader } from "@skbkontur/react-ui";
 import PageCard from "../../../shared/PageCard";
 import NavigateButtons from "../../../shared/NavigateButtons";
+import Alert from "../../../shared/Alert";
 
 const GET_USER_REPOSITORIES = gql`
   query GetUserRepositories(
@@ -88,7 +89,7 @@ type RepositoriesVars = {
 const ITEMS_COUNT = 10;
 
 const UserRepositories = ({ login }: Props) => {
-  const { data, error, networkStatus, refetch } = useQuery<
+  const { data, error, networkStatus, fetchMore } = useQuery<
     RepositoriesData,
     RepositoriesVars
   >(GET_USER_REPOSITORIES, {
@@ -102,22 +103,32 @@ const UserRepositories = ({ login }: Props) => {
   const repositories = data?.repositoryOwner.repositories;
 
   const toPrevCursor = () => {
-    refetch({
-      login,
-      last: ITEMS_COUNT,
-      before: data?.repositoryOwner.repositories.pageInfo.startCursor,
-      first: undefined,
-      after: undefined,
+    fetchMore({
+      variables: {
+        login,
+        last: ITEMS_COUNT,
+        before: data?.repositoryOwner.repositories.pageInfo.startCursor,
+        first: undefined,
+        after: undefined,
+      },
+      updateQuery: (previousQueryResult, { fetchMoreResult }) => {
+        return fetchMoreResult ?? previousQueryResult;
+      },
     });
   };
 
   const toNextCursor = () => {
-    refetch({
-      login,
-      first: ITEMS_COUNT,
-      after: data?.repositoryOwner.repositories.pageInfo.endCursor,
-      last: undefined,
-      before: undefined,
+    fetchMore({
+      variables: {
+        login,
+        first: ITEMS_COUNT,
+        after: data?.repositoryOwner.repositories.pageInfo.endCursor,
+        last: undefined,
+        before: undefined,
+      },
+      updateQuery: (previousQueryResult, { fetchMoreResult }) => {
+        return fetchMoreResult ?? previousQueryResult;
+      },
     });
   };
 
@@ -128,15 +139,16 @@ const UserRepositories = ({ login }: Props) => {
       </PageCard.Header>
       <PageCard.Body>
         {networkStatus === NetworkStatus.loading && (
-          <Center>
-            <Spinner caption="Загрузка репозиториев" />
-          </Center>
+          <Spinner
+            className="spinner spinner_centered"
+            caption="Загрузка репозиториев"
+          />
         )}
 
-        {error && <div>Ошибка загрузки репозиториев</div>}
+        {error && <Alert type="danger">Ошибка загрузки репозиториев</Alert>}
 
         {repositories && (
-          <Loader active={networkStatus === NetworkStatus.setVariables}>
+          <Loader active={networkStatus === NetworkStatus.fetchMore}>
             <Gapped gap={16} vertical>
               <UserRepositoriesList repositories={repositories} />
               <NavigateButtons
