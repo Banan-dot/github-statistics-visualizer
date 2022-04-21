@@ -31,12 +31,9 @@ const RepositoryCharts = ({
         <PageCard.Title>Статистика репозитория</PageCard.Title>
       </PageCard.Header>
       <PageCard.Body className="charts-section__charts-container">
-        <LastPullRequestsChartWrapper {...chartProps} />
         <LastIssuesChartWrapper {...chartProps} />
-        <PullRequestsChartWrapper {...chartProps} />
         <IssuesChartWrapper {...chartProps} />
         <LanguagesChartWrapper {...chartProps} />
-        <PullRequestsClosingFrequencyChartWrapper {...chartProps} />
       </PageCard.Body>
     </PageCard>
   );

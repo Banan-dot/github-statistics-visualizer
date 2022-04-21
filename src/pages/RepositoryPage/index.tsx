@@ -5,6 +5,7 @@ import RepositoryCharts from "./RepositoryCharts";
 import RepositoryInfo from "./RepositoryInfo";
 import RepositoryLineCountInfo from "./LinesCount/RepositoryLineCountInfo";
 import RepositoryCommitsInfo from "./RepositoryCommitsInfo";
+import RepositoryPullRequestsCharts from "./RepositoryPullRequestsCharts";
 
 export type RepositoryItemProps = {
   className?: string;
@@ -23,7 +24,7 @@ const RepositoryPage = () => {
     return <Alert type="danger">Репозиторй не найден</Alert>;
   }
 
-  const repositoryProps = {
+  const repositoryItemProps = {
     className: "repository-page__section",
     login,
     repositoryName,
@@ -31,10 +32,11 @@ const RepositoryPage = () => {
 
   return (
     <div className="repository-page">
-      <RepositoryInfo {...repositoryProps} />
-      <RepositoryCommitsInfo {...repositoryProps} />
-      <RepositoryLineCountInfo {...repositoryProps} />
-      <RepositoryCharts {...repositoryProps} />
+      <RepositoryInfo {...repositoryItemProps} />
+      <RepositoryCommitsInfo {...repositoryItemProps} />
+      <RepositoryLineCountInfo {...repositoryItemProps} />
+      <RepositoryPullRequestsCharts {...repositoryItemProps} />
+      <RepositoryCharts {...repositoryItemProps} />
     </div>
   );
 };
