@@ -11,7 +11,7 @@ const RepositoryCommitsInfo = ({
   return (
     <PageCard className={className}>
       <PageCard.Header>
-        <PageCard.Title>Статистка коммитов</PageCard.Title>
+        <PageCard.Title>Статистка коммитов в ветке по умолчанию</PageCard.Title>
       </PageCard.Header>
       <PageCard.Body>
         <CommitsChartWrapper login={login} repositoryName={repositoryName} />

@@ -5,7 +5,6 @@ import {
   VictoryChart,
   VictoryClipContainer,
   VictoryGroup,
-  VictoryLabel,
   VictoryLegend,
   VictoryLine,
   VictoryScatter,
