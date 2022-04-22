@@ -366,7 +366,7 @@ body {
     &__avatar {
       display: block;
     }
-    &__map{
+    &__map {
       width: 100%;
     }
   }
@@ -550,6 +550,32 @@ body {
 
   @media screen and (max-width: $mobile-width) {
     grid-template-columns: 1fr;
+  }
+}
+
+.repository-pull-request-charts,
+.repository-issues-charts {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__item:first-child {
+    flex-basis: 100%;
+  }
+
+  &__item:not(:first-child) {
+    flex-basis: 50%;
+  }
+
+  @media screen and (max-width: $tablet-width) {
+    &__item:not(:first-child) {
+      flex-basis: 100%;
+    }
   }
 }
 

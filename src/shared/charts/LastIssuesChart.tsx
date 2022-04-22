@@ -5,62 +5,97 @@ import {
   VictoryAxis,
   VictoryGroup,
   VictoryTooltip,
-  VictoryVoronoiContainer,
   VictoryLegend,
+  VictoryScatter,
+  VictoryClipContainer,
+  VictoryZoomContainer,
 } from "victory";
 import Issue from "../../models/Issue";
 import { format } from "date-fns";
-import { PRIMARY, SUCCESS } from "../../utils/chartsTheme";
+import { PRIMARY, SUCCESS, theme } from "../../utils/chartsTheme";
 import { getData } from "../../utils/charts";
+import VictoryEmptyMessage from "./components/VictoryEmptyMessage";
 
 type Props = {
+  width: number;
   data: Issue[];
 };
 
-const COLOR_SCALE = [PRIMARY, SUCCESS];
+const LastIssuesChart = ({ width, data }: Props) => {
+  const createdAtIssues = useMemo(() => getData(data, "createdAt"), [data]);
+  const closedAtIssues = useMemo(() => getData(data, "closedAt"), [data]);
 
-const LastIssuesChart = ({ data }: Props) => {
-  const createdAtPullRequests = useMemo(
-    () => getData(data, "createdAt"),
-    [data]
-  );
-  const closedAtPullRequests = useMemo(() => getData(data, "closedAt"), [data]);
+  const hasItems = createdAtIssues.length > 0 || closedAtIssues.length > 0;
 
   return (
     <VictoryChart
       padding={{ top: 60, right: 30, bottom: 50, left: 50 }}
+      width={width}
+      scale={{ y: "linear", x: "time" }}
+      minDomain={{ y: 0 }}
       containerComponent={
-        <VictoryVoronoiContainer
-          labels={({ datum }) => datum.y}
-          labelComponent={<VictoryTooltip />}
+        <VictoryZoomContainer
+          zoomDimension="x"
+          clipContainerComponent={
+            <VictoryClipContainer
+              clipPadding={{ top: 5, right: 5, bottom: 5, left: 5 }}
+            />
+          }
         />
       }
+      theme={theme}
     >
-      <VictoryGroup colorScale={COLOR_SCALE}>
-        <VictoryLine data={createdAtPullRequests} />
-        <VictoryLine data={closedAtPullRequests} />
-      </VictoryGroup>
+      {!hasItems && (
+        <VictoryEmptyMessage
+          x={width / 2 + 20}
+          y={150}
+          text="Пустой список ишьюс"
+        />
+      )}
+
+      {createdAtIssues.length > 0 && (
+        <VictoryGroup data={createdAtIssues} color={PRIMARY}>
+          <VictoryLine />
+          <VictoryScatter
+            size={({ datum }) => (datum.y > 0 ? 3 : 0)}
+            labels={({ datum }) => datum.y}
+            labelComponent={<VictoryTooltip />}
+          />
+        </VictoryGroup>
+      )}
+
+      {closedAtIssues.length > 0 && (
+        <VictoryGroup data={closedAtIssues} color={SUCCESS}>
+          <VictoryLine />
+          <VictoryScatter
+            size={({ datum }) => (datum.y > 0 ? 3 : 0)}
+            labels={({ datum }) => datum.y}
+            labelComponent={<VictoryTooltip />}
+          />
+        </VictoryGroup>
+      )}
 
       <VictoryAxis
         style={{
-          grid: { stroke: "grey", strokeWidth: 0.25, opacity: 0.5 },
+          tickLabels: { opacity: hasItems ? 1 : 0 },
         }}
         tickFormat={(tick: Date) => format(tick, "dd.MM")}
       />
       <VictoryAxis
         dependentAxis
         style={{
-          grid: { stroke: "grey", strokeWidth: 0.25, opacity: 0.5 },
+          tickLabels: { opacity: hasItems ? 1 : 0 },
         }}
       />
+
       <VictoryLegend
-        x={80}
+        x={Math.max(width / 2 - 130, 0)}
         title="Последние ишью"
         orientation="horizontal"
         centerTitle
         gutter={40}
         data={[{ name: "Открытые ишью" }, { name: "Закрытые ишью" }]}
-        colorScale={COLOR_SCALE}
+        colorScale={[PRIMARY, SUCCESS]}
       />
     </VictoryChart>
   );
