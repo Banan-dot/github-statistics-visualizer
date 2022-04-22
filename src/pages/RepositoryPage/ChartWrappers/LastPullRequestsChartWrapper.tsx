@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import LastPullRequestsChart from "../../../shared/charts/LastPullRequestsChart";
 import Alert from "../../../shared/Alert";
@@ -22,6 +22,8 @@ const GET_PULL_REQUESTS = gql`
   }
 `;
 
+const MIN_CHART_WIDTH = 450;
+
 const LastPullRequestsChartWrapper = ({
   className,
   login,
@@ -33,9 +35,33 @@ const LastPullRequestsChartWrapper = ({
       variables: { login, repositoryName },
     }
   );
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const [chartWidth, setChartWidth] = useState(MIN_CHART_WIDTH);
+
+  const onChartContainerResize = (
+    resizeObserverEntry: ResizeObserverEntry[]
+  ) => {
+    const chartContainer = resizeObserverEntry[0];
+    setChartWidth(Math.max(chartContainer.contentRect.width, MIN_CHART_WIDTH));
+  };
+
+  useEffect(() => {
+    const chartContainer = chartContainerRef.current;
+    if (chartContainer) {
+      const containerWidth = chartContainer.getBoundingClientRect().width;
+      setChartWidth(Math.max(containerWidth, MIN_CHART_WIDTH));
+
+      const resizeObserver = new ResizeObserver(onChartContainerResize);
+      resizeObserver.observe(chartContainer);
+
+      return () => {
+        resizeObserver.unobserve(chartContainer);
+      };
+    }
+  }, []);
 
   return (
-    <div className={className}>
+    <div ref={chartContainerRef} className={className}>
       {loading && (
         <Spinner
           className="spinner spinner_centered"
@@ -43,10 +69,13 @@ const LastPullRequestsChartWrapper = ({
         />
       )}
 
-      {error && <Alert type="danger">Ошибка загрузки данных</Alert>}
+      {error && <Alert type="danger">Ошибка загрузки пулл реквестов</Alert>}
 
       {data && !loading && (
-        <LastPullRequestsChart data={data.repository.pullRequests.nodes} />
+        <LastPullRequestsChart
+          width={chartWidth}
+          data={data.repository.pullRequests.nodes}
+        />
       )}
     </div>
   );

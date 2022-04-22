@@ -7,7 +7,6 @@ import {
   VictoryTooltip,
   VictoryLegend,
   VictoryScatter,
-  VictoryLabel,
   VictoryClipContainer,
   VictoryZoomContainer,
 } from "victory";
@@ -15,12 +14,14 @@ import PullRequest from "../../models/PullRequest";
 import { format } from "date-fns";
 import { PRIMARY, SUCCESS, theme } from "../../utils/chartsTheme";
 import { getData } from "../../utils/charts";
+import VictoryEmptyMessage from "./components/VictoryEmptyMessage";
 
 type Props = {
+  width: number;
   data: PullRequest[];
 };
 
-const LastPullRequestsChart = ({ data }: Props) => {
+const LastPullRequestsChart = ({ data, width }: Props) => {
   const createdAtPullRequests = useMemo(
     () => getData(data, "createdAt"),
     [data]
@@ -32,7 +33,8 @@ const LastPullRequestsChart = ({ data }: Props) => {
 
   return (
     <VictoryChart
-      padding={{ top: 60, right: 30, bottom: 50, left: 50 }}
+      padding={{ top: 60, right: 30, bottom: 30, left: 50 }}
+      width={width}
       scale={{ y: "linear", x: "time" }}
       minDomain={{ y: 0 }}
       containerComponent={
@@ -48,11 +50,8 @@ const LastPullRequestsChart = ({ data }: Props) => {
       theme={theme}
     >
       {!hasItems && (
-        <VictoryLabel
-          verticalAnchor="middle"
-          textAnchor="middle"
-          style={{ fontSize: 16, fontWeight: "bold" }}
-          x={230}
+        <VictoryEmptyMessage
+          x={width / 2}
           y={150}
           text="Список пулл реквестов пустой"
         />
@@ -94,7 +93,7 @@ const LastPullRequestsChart = ({ data }: Props) => {
       />
 
       <VictoryLegend
-        x={30}
+        x={Math.max(width / 2 - 200, 0)}
         title="Последние пулл реквесты"
         orientation="horizontal"
         centerTitle

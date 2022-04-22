@@ -6,7 +6,6 @@ import {
   VictoryGroup,
   VictoryTooltip,
   VictoryLegend,
-  VictoryLabel,
   VictoryScatter,
   VictoryClipContainer,
   VictoryZoomContainer,
@@ -15,12 +14,14 @@ import Issue from "../../models/Issue";
 import { format } from "date-fns";
 import { PRIMARY, SUCCESS, theme } from "../../utils/chartsTheme";
 import { getData } from "../../utils/charts";
+import VictoryEmptyMessage from "./components/VictoryEmptyMessage";
 
 type Props = {
+  width: number;
   data: Issue[];
 };
 
-const LastIssuesChart = ({ data }: Props) => {
+const LastIssuesChart = ({ width, data }: Props) => {
   const createdAtIssues = useMemo(() => getData(data, "createdAt"), [data]);
   const closedAtIssues = useMemo(() => getData(data, "closedAt"), [data]);
 
@@ -29,6 +30,7 @@ const LastIssuesChart = ({ data }: Props) => {
   return (
     <VictoryChart
       padding={{ top: 60, right: 30, bottom: 50, left: 50 }}
+      width={width}
       scale={{ y: "linear", x: "time" }}
       minDomain={{ y: 0 }}
       containerComponent={
@@ -44,13 +46,10 @@ const LastIssuesChart = ({ data }: Props) => {
       theme={theme}
     >
       {!hasItems && (
-        <VictoryLabel
-          verticalAnchor="middle"
-          textAnchor="middle"
-          style={{ fontSize: 16, fontWeight: "bold" }}
-          x={230}
+        <VictoryEmptyMessage
+          x={width / 2 + 20}
           y={150}
-          text="Список ишью пустой"
+          text="Пустой список ишьюс"
         />
       )}
 
@@ -90,7 +89,7 @@ const LastIssuesChart = ({ data }: Props) => {
       />
 
       <VictoryLegend
-        x={80}
+        x={Math.max(width / 2 - 130, 0)}
         title="Последние ишью"
         orientation="horizontal"
         centerTitle

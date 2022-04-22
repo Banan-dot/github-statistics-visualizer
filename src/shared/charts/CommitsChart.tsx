@@ -15,6 +15,7 @@ import {
 import Commit from "../../models/Commit";
 import { getData } from "../../utils/charts";
 import { PRIMARY, theme } from "../../utils/chartsTheme";
+import VictoryEmptyMessage from "./components/VictoryEmptyMessage";
 
 type Props = {
   data: Commit[];
@@ -43,14 +44,7 @@ const CommitsChart = ({ data }: Props) => {
       }
     >
       {!hasItems && (
-        <VictoryLabel
-          verticalAnchor="middle"
-          textAnchor="middle"
-          style={{ fontSize: 16, fontWeight: "bold" }}
-          x={420}
-          y={100}
-          text="Список коммитов пустой"
-        />
+        <VictoryEmptyMessage x={420} y={100} text="Список коммитов пустой" />
       )}
 
       {hasItems && (
