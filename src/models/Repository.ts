@@ -25,6 +25,7 @@ interface Repository {
   defaultBranchRef: DefaultBranchRef;
   updatedAt: string;
   createdAt: string;
+  pushedAt: string | null;
   languages: LanguageConnection;
   watchers: UserConnection;
   primaryLanguage: Language | null;
