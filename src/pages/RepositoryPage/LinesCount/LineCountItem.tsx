@@ -1,6 +1,5 @@
 import React from "react";
 import { LineCountResponse } from "./RepositoryLineCountInfo";
-import DataLabel from "../../../shared/DataLabel";
 import LanguagesLabel from "../../../shared/LanguagesLabel";
 
 type Props = {

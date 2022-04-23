@@ -9,12 +9,24 @@ import {
 import IconDataLabel from "../../../shared/IconDataLabel";
 import LanguageLabel from "../../../shared/LanguageLabel";
 import { Link, Button } from "@skbkontur/react-ui";
-import { formatDistance, parseISO } from "date-fns";
+import { formatDistance, max, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
 import CloneRepositoryButton from "../../../shared/CloneRepositoryButton";
 
 type Props = {
   repository: Repository;
+};
+
+const getFromattedUpdateDate = (updatedAt: string, pushedAt: string | null) => {
+  const updatedAtDate = parseISO(updatedAt);
+  let updatedDate = updatedAtDate;
+
+  if (pushedAt) {
+    const pushedAtDate = parseISO(pushedAt);
+    updatedDate = max([updatedAtDate, pushedAtDate]);
+  }
+
+  return formatDistance(updatedDate, Date.now(), { locale: ru });
 };
 
 const UserRepositoriesListItem = ({ repository }: Props) => {
@@ -31,12 +43,10 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
     forkingAllowed,
     parent,
     updatedAt,
+    pushedAt,
   } = repository;
 
   const repositoryInfoLink = `/user/${owner.login}/repository/${repository.name}`;
-  const formattedISO = formatDistance(parseISO(updatedAt), Date.now(), {
-    locale: ru,
-  });
 
   return (
     <li className="user-repository user-repository-list__item">
@@ -88,7 +98,7 @@ const UserRepositoriesListItem = ({ repository }: Props) => {
       <div className="user-repository__label-list">
         <IconDataLabel
           icon={HistoryIcon}
-          value={formattedISO}
+          value={getFromattedUpdateDate(updatedAt, pushedAt)}
           hintText="Последнее изменение"
         />
         <IconDataLabel

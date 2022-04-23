@@ -69,7 +69,6 @@ body {
 
 .page-wrapper {
   height: 100vh;
-  overflow: auto;
 }
 
 .content-wrapper {
@@ -677,5 +676,38 @@ body {
   &__issues-chart,
   &__user-activity-chart {
     max-width: 300px;
+  }
+}
+
+.repository-languages {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacer;
+
+  &__languages-information {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer;
+    flex-basis: 50%;
+  }
+
+  &__languages-label {
+    flex-grow: 1;
+  }
+
+  &__languages-result-size,
+  &__most-used-language {
+    text-align: center;
+    flex-basis: 100%;
+  }
+
+  &__languages_chart {
+    flex-basis: 50%;
+  }
+
+  @media screen and (max-width: $tablet-width) {
+    & {
+      flex-direction: column;
+    }
   }
 }
