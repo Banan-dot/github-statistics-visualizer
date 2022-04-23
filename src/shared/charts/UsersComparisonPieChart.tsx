@@ -28,7 +28,6 @@ const UsersComparisonPieChart = ({ data, title, legendX = 0 }: Props) => {
       <VictoryLegend
         standalone={false}
         x={legendX}
-        width={300}
         gutter={20}
         orientation="horizontal"
         title={title}
