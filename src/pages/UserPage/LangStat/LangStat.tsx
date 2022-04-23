@@ -27,6 +27,7 @@ const GET_USER_LANGUAGES = gql`
             }
           }
         }
+        totalDiskUsage
       }
     }
   }
@@ -84,7 +85,8 @@ const LangStat = ({ login }: Props) => {
             <LanguagesStatistic
               classNamePrefix="user-languages"
               languageEdges={langEdges}
-              totalSize={totalSize}
+              totalLanguagesSize={totalSize}
+              totalFilesSize={data.repositoryOwner.repositories.totalDiskUsage}
             />
             <LanguagesPieChart
               languageEdges={languagesToViewChart}

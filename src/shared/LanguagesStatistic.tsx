@@ -1,19 +1,24 @@
 import React from "react";
 import LanguageEdge from "../models/LanguageEdge";
-import { getMostUsedLanguage } from "../utils/languagesAnalysis";
+import {
+  formatFileSize,
+  getMostUsedLanguage,
+} from "../utils/languagesAnalysis";
 import DataLabel from "./DataLabel";
 import LanguagesLabel from "./LanguagesLabel";
 
 type Props = {
   classNamePrefix: string;
   languageEdges: LanguageEdge[];
-  totalSize: number;
+  totalLanguagesSize: number;
+  totalFilesSize: number;
 };
 
 const LanguagesStatistic = ({
   classNamePrefix,
   languageEdges,
-  totalSize,
+  totalLanguagesSize,
+  totalFilesSize,
 }: Props) => {
   const mostRepeatedLanguage = getMostUsedLanguage(languageEdges);
 
@@ -22,14 +27,14 @@ const LanguagesStatistic = ({
       <DataLabel
         className={`${classNamePrefix}__languages-result-size`}
         caption="Итоговый размер файлов"
-        value={(totalSize / 1024).toFixed(1) + " MB"}
+        value={formatFileSize(totalFilesSize)}
       />
       {languageEdges.map((edge) => (
         <LanguagesLabel
           className={`${classNamePrefix}__languages-label`}
           key={edge.node.name}
           caption={edge.node.name}
-          value={((edge.size / totalSize) * 100).toFixed(2) + "%"}
+          value={((edge.size * 100) / totalLanguagesSize).toFixed(2) + "%"}
         />
       ))}
       <DataLabel

@@ -5,6 +5,7 @@ interface Repositories {
   nodes: Repository[];
   pageInfo: PageInfo;
   totalCount: number;
+  totalDiskUsage: number;
 }
 
 export default Repositories;

@@ -4,10 +4,10 @@ import { RepositoryData, RepositoryVars } from "../../types/QueryTypes";
 import { gql, useQuery } from "@apollo/client";
 import PageCard from "../../shared/PageCard";
 import LanguagesChartWrapper from "./ChartWrappers/LanguagesChartWrapper";
-import { getLanguagesInfo, LanguagesInfo } from "../../utils/languagesAnalysis";
 import LanguagesStatistic from "../../shared/LanguagesStatistic";
 import { Spinner } from "@skbkontur/react-ui";
 import Alert from "../../shared/Alert";
+import { getLanguagesInfo, LanguagesInfo } from "../../utils/languagesAnalysis";
 
 const GET_REPOSITORY_LANGUAGES = gql`
   query GetRepositoryLanguages($login: String!, $repositoryName: String!) {
@@ -24,6 +24,7 @@ const GET_REPOSITORY_LANGUAGES = gql`
           }
         }
       }
+      diskUsage
     }
   }
 `;
@@ -77,7 +78,8 @@ const RepositoryLanguageStats = ({
             <LanguagesStatistic
               classNamePrefix="repository-languages"
               languageEdges={languagesInfo.langEdges}
-              totalSize={languagesInfo.totalSize}
+              totalLanguagesSize={languagesInfo.totalSize}
+              totalFilesSize={data.repository.diskUsage ?? 0}
             />
             <LanguagesChartWrapper
               className="repository-languages__languages_chart"

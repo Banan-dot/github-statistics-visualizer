@@ -1,5 +1,6 @@
 import LanguageEdge from "../models/LanguageEdge";
 import Repository from "../models/Repository";
+import { formatToLocaleString } from "./number.helper";
 
 export type LanguagesInfo = {
   langEdges: LanguageEdge[];
@@ -41,3 +42,22 @@ export function getLanguagesInfo(repositories: Repository[] | undefined) {
     totalSize: totalSize,
   };
 }
+
+export const formatFileSize = (sizeInKB: number) => {
+  const units = ["KB", "MB", "GB", "TB"];
+  const lastIndex = units.length - 1;
+  let unitIndex = 0;
+  let currentSize = sizeInKB;
+
+  while (currentSize > 1024) {
+    if (unitIndex >= lastIndex) {
+      return `>1 ${units[lastIndex]}`;
+    }
+    unitIndex += 1;
+    currentSize /= 1024;
+  }
+  const fractionDigitsCount = unitIndex === 0 ? 0 : 2;
+  return `${formatToLocaleString(currentSize, fractionDigitsCount)} ${
+    units[unitIndex]
+  }`;
+};

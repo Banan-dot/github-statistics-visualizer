@@ -32,6 +32,7 @@ interface Repository {
   ref: Ref | null;
   refs: RefConnection | null;
   parent: Repository;
+  diskUsage: number | null;
   forks: RepositoryConnection;
   issues: IssueConnection;
   pullRequests: PullRequestConnection;
