@@ -11,7 +11,7 @@ type Props = {
 };
 
 const formatValue = (value: string | number | null | undefined) => {
-  if (value) {
+  if (value !== null && value !== undefined) {
     return typeof value === "number" ? formatToLocaleString(value, 0) : value;
   }
   return "-";
