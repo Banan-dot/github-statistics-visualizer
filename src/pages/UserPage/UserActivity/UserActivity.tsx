@@ -10,7 +10,6 @@ import {
   GitPullRequestIcon,
   IssueOpenedIcon,
   IssueClosedIcon,
-  LawIcon,
 } from "@primer/octicons-react";
 import PullRequestChart from "../../../shared/charts/PullRequestChart";
 import IssuesChart from "../../../shared/charts/IssuesChart";

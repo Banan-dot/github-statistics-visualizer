@@ -5,7 +5,7 @@ import { PullRequestState } from "../../../models/PullRequest";
 import Alert from "../../../shared/Alert";
 import PullRequestChart from "../../../shared/charts/PullRequestChart";
 import { RepositoryData, RepositoryVars } from "../../../types/QueryTypes";
-import { RepositoryChartWrapperProps } from "../RepositoryCharts";
+import { RepositoryChartWrapperProps } from "../index";
 
 const getPullRequestsQuery = (name: string, state: PullRequestState) => gql`
   query ${name} ($login: String!, $repositoryName: String!) {

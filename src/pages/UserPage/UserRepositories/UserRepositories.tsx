@@ -36,6 +36,7 @@ const GET_USER_REPOSITORIES = gql`
           url
           sshUrl
           updatedAt
+          pushedAt
           primaryLanguage {
             id
             name

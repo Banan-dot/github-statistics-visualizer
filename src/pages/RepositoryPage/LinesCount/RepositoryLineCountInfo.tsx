@@ -29,11 +29,9 @@ const RepositoryLineCountInfo = ({
     setLoading(true);
     fetch(`${LINE_COUNT_API_URL}${login}/${repositoryName}`)
       .then((response) => response.json())
-      .then((data) => {
-        setLoading(false);
-        setLineCountInfo(data.reverse());
-      })
-      .catch(() => setError(true));
+      .then((data) => setLineCountInfo(data.reverse()))
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
   }, [login, repositoryName]);
 
   return (
@@ -57,11 +55,13 @@ const RepositoryLineCountInfo = ({
         </Alert>
       )}
 
-      <PageCard.Body className="repository-page__line-count-info">
-        {lineCountInfo.map((item, index) => (
-          <LineCountItem item={item} key={index} />
-        ))}
-      </PageCard.Body>
+      {lineCountInfo && !loading && (
+        <PageCard.Body className="repository-page__line-count-info">
+          {lineCountInfo.map((item, index) => (
+            <LineCountItem item={item} key={index} />
+          ))}
+        </PageCard.Body>
+      )}
     </PageCard>
   );
 };

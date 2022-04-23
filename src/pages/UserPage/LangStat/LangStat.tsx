@@ -2,13 +2,13 @@ import React from "react";
 import { useQuery, gql } from "@apollo/client";
 
 import RepositoryOwner from "../../../models/RepositoryOwner";
-import Repositories from "../../../models/Repositories";
-import LanguageEdge from "../../../models/LanguageEdge";
 
 import LanguagesPieChart from "../../../shared/charts/LanguagesPieChart";
 import PageCard from "../../../shared/PageCard";
-import LanguagesLabel from "../../../shared/LanguagesLabel";
-import DataLabel from "../../../shared/DataLabel";
+import { getLanguagesInfo } from "../../../utils/languagesAnalysis";
+import LanguagesStatistic from "../../../shared/LanguagesStatistic";
+import { Spinner } from "@skbkontur/react-ui";
+import Alert from "../../../shared/Alert";
 
 const GET_USER_LANGUAGES = gql`
   query ($login: String!) {
@@ -27,71 +27,11 @@ const GET_USER_LANGUAGES = gql`
             }
           }
         }
+        totalDiskUsage
       }
     }
   }
 `;
-
-function getMostUsedLanguage(languagesFrequency: LanguageEdge[]) {
-  let max = 0;
-  let mostRepeatedLanguage = "";
-  languagesFrequency.forEach((edge) => {
-    if (max < edge.size) {
-      max = edge.size;
-      mostRepeatedLanguage = edge.node.name;
-    }
-  });
-  return mostRepeatedLanguage;
-}
-
-function getLanguagesInfo(repositories: Repositories) {
-  let totalSize = 0;
-  const langEdges: Record<string, LanguageEdge> = {};
-  repositories.nodes.forEach((repository) => {
-    totalSize += repository.languages.totalSize;
-    repository.languages.edges.forEach((language: LanguageEdge) => {
-      let langName = language.node.name;
-      langEdges[langName] = {
-        size: (langEdges[langName]?.size || 0) + language.size,
-        node: {
-          id: language.node.id,
-          color: language.node.color,
-          name: langName,
-        },
-      };
-    });
-  });
-
-  return {
-    langEdges: Object.values(langEdges).sort((a, b) => b.size - a.size),
-    totalSize: totalSize,
-  };
-}
-
-function renderStatistic(langEdges: LanguageEdge[], totalSize: number) {
-  const mostRepeatedLanguage = getMostUsedLanguage(langEdges);
-  return (
-    <div className="user-languages__languages-information">
-      <DataLabel
-        className="user-languages__languages-result-size"
-        caption={"Итоговый размер языков в сумме по репозиториям"}
-        value={(totalSize / 1024).toFixed(1) + " MB"}
-      />
-      {langEdges.map((edge) => (
-        <LanguagesLabel
-          key={edge.node.name}
-          caption={edge.node.name}
-          value={((edge.size / totalSize) * 100).toFixed(2) + "%"}
-        />
-      ))}
-      <DataLabel
-        className="user-languages__most-used-language"
-        caption={"Наиболее используемый язык"}
-        value={mostRepeatedLanguage}
-      />
-    </div>
-  );
-}
 
 type Props = {
   login: string;
@@ -115,9 +55,8 @@ const LangStat = ({ login }: Props) => {
     }
   );
 
-  if (!data || data.repositoryOwner === null) return <div>Нет данных</div>;
   const { langEdges, totalSize } = getLanguagesInfo(
-    data.repositoryOwner.repositories
+    data?.repositoryOwner.repositories.nodes
   );
 
   const isSizeMoreThanPercent = (size: number, percents: number) =>
@@ -133,11 +72,22 @@ const LangStat = ({ login }: Props) => {
         <PageCard.Title>Статистика языков</PageCard.Title>
       </PageCard.Header>
       <PageCard.Body className="user-languages">
-        {loading && <div>Загрузка...</div>}
-        {error && <div>Ошибка загрузки языков: {error.message}</div>}
+        {loading && (
+          <Spinner className="spinner spinner_centered">
+            Загрузка информации о языках
+          </Spinner>
+        )}
+        {error && (
+          <Alert type="danger">Ошибка загрузки языков: {error.message}</Alert>
+        )}
         {data && (
           <div className="user-languages__language-stat">
-            {renderStatistic(langEdges, totalSize)}
+            <LanguagesStatistic
+              classNamePrefix="user-languages"
+              languageEdges={langEdges}
+              totalLanguagesSize={totalSize}
+              totalFilesSize={data.repositoryOwner.repositories.totalDiskUsage}
+            />
             <LanguagesPieChart
               languageEdges={languagesToViewChart}
               className="user-languages__languages-pie-chart"

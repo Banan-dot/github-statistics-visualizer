@@ -1,6 +1,6 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
-import { RepositoryChartWrapperProps } from "../RepositoryCharts";
+import { RepositoryChartWrapperProps } from "../index";
 import { RepositoryData, RepositoryVars } from "../../../types/QueryTypes";
 import { Spinner } from "@skbkontur/react-ui";
 import Alert from "../../../shared/Alert";
@@ -38,7 +38,7 @@ const IssuesClosingFrequencyChartWrapper = ({
       {loading && (
         <Spinner
           className="spinner spinner_centered"
-          caption="Загрузка закрытых ишью"
+          caption="Загрузка закрытых ишьюc"
         />
       )}
 

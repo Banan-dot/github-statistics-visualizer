@@ -25,6 +25,7 @@ interface Repository {
   defaultBranchRef: DefaultBranchRef;
   updatedAt: string;
   createdAt: string;
+  pushedAt: string | null;
   languages: LanguageConnection;
   watchers: UserConnection;
   primaryLanguage: Language | null;
@@ -32,6 +33,7 @@ interface Repository {
   ref: Ref | null;
   refs: RefConnection | null;
   parent: Repository;
+  diskUsage: number | null;
   forks: RepositoryConnection;
   issues: IssueConnection;
   pullRequests: PullRequestConnection;

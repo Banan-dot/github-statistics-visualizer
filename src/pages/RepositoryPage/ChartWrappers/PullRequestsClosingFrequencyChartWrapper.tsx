@@ -4,7 +4,7 @@ import React from "react";
 import Alert from "../../../shared/Alert";
 import ClosingFrequencyChart from "../../../shared/charts/ClosingFrequencyChart";
 import { RepositoryData, RepositoryVars } from "../../../types/QueryTypes";
-import { RepositoryChartWrapperProps } from "../RepositoryCharts";
+import { RepositoryChartWrapperProps } from "../index";
 
 const GET_PULL_REQUESTS = gql`
   query GetPullRequests($login: String!, $repositoryName: String!) {
@@ -43,7 +43,7 @@ const PullRequestsClosingFrequencyChartWrapper = ({
       )}
 
       {error && (
-        <Alert type="danger">Ошибка закрузки закрытых пулл реквестов</Alert>
+        <Alert type="danger">Ошибка загрузки закрытых пулл реквестов</Alert>
       )}
 
       {data && !loading && (

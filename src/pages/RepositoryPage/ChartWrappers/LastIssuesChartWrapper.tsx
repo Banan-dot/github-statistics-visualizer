@@ -3,11 +3,11 @@ import { gql, useQuery } from "@apollo/client";
 import { Spinner } from "@skbkontur/react-ui";
 import Alert from "../../../shared/Alert";
 import LastIssuesChart from "../../../shared/charts/LastIssuesChart";
-import { RepositoryChartWrapperProps } from "../RepositoryCharts";
+import { RepositoryChartWrapperProps } from "../index";
 import { RepositoryData, RepositoryVars } from "../../../types/QueryTypes";
 
-const GET_ISSUES = gql`
-  query GET_ISSUES($login: String!, $repositoryName: String!) {
+const GET_LAST_ISSUES = gql`
+  query GetLastIssues($login: String!, $repositoryName: String!) {
     repository(name: $repositoryName, owner: $login) {
       id
       issues(last: 100, orderBy: { field: UPDATED_AT, direction: ASC }) {
@@ -29,7 +29,7 @@ const LastIssuesChartWrapper = ({
   repositoryName,
 }: RepositoryChartWrapperProps) => {
   const { loading, data, error } = useQuery<RepositoryData, RepositoryVars>(
-    GET_ISSUES,
+    GET_LAST_ISSUES,
     {
       variables: { login, repositoryName },
     }

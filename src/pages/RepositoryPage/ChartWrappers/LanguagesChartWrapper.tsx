@@ -4,7 +4,7 @@ import React from "react";
 import Alert from "../../../shared/Alert";
 import LanguagesPieChart from "../../../shared/charts/LanguagesPieChart";
 import { RepositoryData, RepositoryVars } from "../../../types/QueryTypes";
-import { RepositoryChartWrapperProps } from "../RepositoryCharts";
+import { RepositoryChartWrapperProps } from "../index";
 
 const GET_LANGUAGES = gql`
   query GetLanguages($login: String!, $repositoryName: String!) {
@@ -44,7 +44,7 @@ const LanguagesChartWrapper = ({
       {loading && (
         <Spinner
           className="spinner spinner_centered"
-          caption="Загрузка информации о языка репозитория"
+          caption="Загрузка информации о языках репозитория"
         />
       )}
 
