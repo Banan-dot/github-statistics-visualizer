@@ -6,8 +6,6 @@ import ComparisonInfo from "./ComparisonInfo";
 export default function UserComparison() {
   const navigate = useNavigate();
   const { search } = useLocation();
-  const [firstUser, setFirstUser] = useState<string>("");
-  const [secondUser, setSecondUser] = useState<string>("");
 
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
 
