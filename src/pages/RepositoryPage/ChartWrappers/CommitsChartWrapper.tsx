@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import Alert from "../../../shared/Alert";
 import CommitsChart from "../../../shared/charts/CommitsChart";
 import { RepositoryData, RepositoryVars } from "../../../types/QueryTypes";
-import { RepositoryChartWrapperProps } from "../RepositoryCharts";
+import { RepositoryChartWrapperProps } from "../index";
 
 const GET_DEFAULT_BRANCH = gql`
   query GetDefaultBranch($login: String!, $repositoryName: String!) {

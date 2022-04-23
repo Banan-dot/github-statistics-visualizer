@@ -5,7 +5,7 @@ import { IssueState } from "../../../models/Issue";
 import Alert from "../../../shared/Alert";
 import IssuesChart from "../../../shared/charts/IssuesChart";
 import { RepositoryData, RepositoryVars } from "../../../types/QueryTypes";
-import { RepositoryChartWrapperProps } from "../RepositoryCharts";
+import { RepositoryChartWrapperProps } from "../index";
 
 const getIssuesQuery = (name: string, state: IssueState) => gql`
   query ${name} ($login: String!, $repositoryName: String!) {
@@ -45,7 +45,10 @@ const IssuesChartWrapper = ({
   return (
     <div className={className}>
       {loading && (
-        <Spinner className="spinner spinner_centered" caption="Загрузка ишьюс" />
+        <Spinner
+          className="spinner spinner_centered"
+          caption="Загрузка ишьюс"
+        />
       )}
 
       {error && <Alert type="danger">Ошибка загрузки ишьюс</Alert>}
