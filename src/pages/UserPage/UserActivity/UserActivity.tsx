@@ -10,45 +10,52 @@ import {
   GitPullRequestIcon,
   IssueOpenedIcon,
   IssueClosedIcon,
-  LawIcon,
 } from "@primer/octicons-react";
 import PullRequestChart from "../../../shared/charts/PullRequestChart";
 import IssuesChart from "../../../shared/charts/IssuesChart";
 import IconDataLabel from "../../../shared/IconDataLabel";
 import { Spinner } from "@skbkontur/react-ui";
 import Alert from "../../../shared/Alert";
-import PullRequestEdge from "../../../models/PullRequestEdge";
-import IssueEdge from "../../../models/IssueEdge";
+import User from "../../../models/User";
+import Issue from "../../../models/Issue";
 
 const GET_USER_ACTIVITY_IN_REPOSITORIES = gql`
   query ($login: String!) {
+    user(login: $login) {
+      name
+      contributionsCollection {
+        totalCommitContributions
+      }
+      issues(first: 100) {
+        totalCount
+        nodes {
+          state
+        }
+      }
+      pullRequests(first: 100) {
+        totalCount
+        nodes {
+          state
+        }
+      }
+    }
     repositoryOwner(login: $login) {
       repositories(first: 100, ownerAffiliations: OWNER) {
         nodes {
           forks {
             totalCount
           }
-          issues(first: 100) {
-            totalCount
-            edges {
-              node {
-                state
-              }
-            }
-          }
-          pullRequests(first: 100) {
-            totalCount
-            edges {
-              node {
-                state
-              }
-            }
-          }
           defaultBranchRef {
             target {
               ... on Commit {
                 history {
-                  totalCount
+                  nodes {
+                    author {
+                      user {
+                        login
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -64,6 +71,7 @@ type Props = {
 };
 
 type RepositoriesData = {
+  user: User;
   repositoryOwner: RepositoryOwner;
 };
 
@@ -71,54 +79,49 @@ type RepositoriesVars = {
   login: string;
 };
 
-function getActivityInfo(repositories: Repositories) {
+function getForkAndCommitCount(repositories: Repositories, login: string) {
   const result = {
     commitCount: 0,
     forkCount: 0,
-    issueCount: 0,
-    pullRequestsCount: 0,
   };
 
   repositories.nodes.forEach((repos) => {
-    if (repos.defaultBranchRef !== null)
-      result.commitCount += repos.defaultBranchRef.target.history.totalCount;
+    if (repos.defaultBranchRef !== null) {
+      repos.defaultBranchRef.target.history.nodes.forEach((commit) => {
+        const user = commit.author.user;
+        if (user && user.login.toLowerCase() === login.toLowerCase())
+          result.commitCount++;
+      });
+    }
     result.forkCount += repos.forks.totalCount;
-    result.issueCount += repos.issues.totalCount;
-    result.pullRequestsCount += repos.pullRequests.totalCount;
   });
 
   return result;
 }
 
-function getPullRequestsInfo(repositories: Repositories) {
+function getPullRequestsInfo(user: User) {
   const result = {
-    OPEN: 0,
-    MERGED: 0,
-    CLOSED: 0,
-    totalCount: 0,
+    pullRequestsInfo: {
+      OPEN: 0,
+      CLOSED: 0,
+      MERGED: 0,
+    },
+    pullRequestsCount: user.pullRequests.totalCount,
   };
-  repositories.nodes.forEach((repos) => {
-    const pullRequests = repos.pullRequests;
-    pullRequests.edges.forEach(
-      (edge: PullRequestEdge) => result[edge.node.state]++
-    );
-    result.totalCount += pullRequests.totalCount;
-  });
+  user.pullRequests.nodes.forEach((pr) => result.pullRequestsInfo[pr.state]++);
 
   return result;
 }
 
-function getIssuesInfo(repositories: Repositories) {
+function getIssuesInfo(user: User) {
   const result = {
-    OPEN: 0,
-    CLOSED: 0,
-    totalCount: 0,
+    issuesInfo: {
+      OPEN: 0,
+      CLOSED: 0,
+    },
+    issuesCount: user.issues.totalCount,
   };
-  repositories.nodes.forEach((repos) => {
-    const issues = repos.issues;
-    issues.edges.forEach((edge: IssueEdge) => result[edge.node.state]++);
-    result.totalCount += issues.totalCount;
-  });
+  user.issues.nodes.forEach((issue: Issue) => result.issuesInfo[issue.state]++);
 
   return result;
 }
@@ -150,16 +153,16 @@ const UserActivity = ({ login }: Props) => {
     return <Alert type="danger">Нет данных</Alert>;
   }
   const repositories = data.repositoryOwner.repositories;
-  const { commitCount, forkCount, issueCount, pullRequestsCount } =
-    getActivityInfo(repositories);
-
-  const pullRequestsInfo = getPullRequestsInfo(repositories);
-  const issuesInfo = getIssuesInfo(repositories);
+  const { commitCount, forkCount } = getForkAndCommitCount(repositories, login);
+  const { issuesCount, issuesInfo } = getIssuesInfo(data.user);
+  const { pullRequestsCount, pullRequestsInfo } = getPullRequestsInfo(
+    data.user
+  );
 
   const userActivity = {
     Коммиты: commitCount,
     Форки: forkCount,
-    Ишью: issueCount,
+    Ишью: issuesCount,
     "Пул реквесты": pullRequestsCount,
   };
 
@@ -191,7 +194,7 @@ const UserActivity = ({ login }: Props) => {
             />
           </div>
           <div>
-            {pullRequestsInfo.totalCount !== 0 && (
+            {pullRequestsCount !== 0 && (
               <PullRequestChart
                 pullRequestsInfo={pullRequestsInfo}
                 className="user-activity__pull-request-chart"
@@ -202,9 +205,7 @@ const UserActivity = ({ login }: Props) => {
 
         <div className="user-activity__item">
           <div className="user-activity__issues-info">
-            <p className="user-activity__issues-count">
-              Ишьюс: {issuesInfo.totalCount}
-            </p>
+            <p className="user-activity__issues-count">Ишьюс: {issuesCount}</p>
             <IconDataLabel
               icon={IssueOpenedIcon}
               value={issuesInfo.OPEN}
@@ -217,7 +218,7 @@ const UserActivity = ({ login }: Props) => {
             />
           </div>
           <div>
-            {issuesInfo.totalCount !== 0 && (
+            {issuesCount !== 0 && (
               <IssuesChart
                 issuesInfo={issuesInfo}
                 className="user-activity__issues-chart"

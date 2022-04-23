@@ -1,4 +1,8 @@
-interface User {
+import IssueConnection from "./IssueConnection";
+import PullRequestConnection from "./PullRequestConnection";
+import ContributionsCollection from "./ContributionsCollection";
+
+export default interface User {
   id: string;
   name: string | null;
   login: string;
@@ -16,6 +20,7 @@ interface User {
   following: {
     totalCount: number;
   };
+  issues: IssueConnection;
+  pullRequests: PullRequestConnection;
+  contributionsCollection: ContributionsCollection;
 }
-
-export default User;

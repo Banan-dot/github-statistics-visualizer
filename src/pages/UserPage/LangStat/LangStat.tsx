@@ -74,7 +74,7 @@ function renderStatistic(langEdges: LanguageEdge[], totalSize: number) {
     <div className="user-languages__languages-information">
       <DataLabel
         className="user-languages__languages-result-size"
-        caption={"Итоговый размер языков в сумме по репозиториям"}
+        caption={"Итоговый размер"}
         value={(totalSize / 1024).toFixed(1) + " MB"}
       />
       {langEdges.map((edge) => (
