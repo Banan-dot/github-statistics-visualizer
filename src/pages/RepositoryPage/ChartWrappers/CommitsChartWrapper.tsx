@@ -1,32 +1,16 @@
-import { gql, useLazyQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { Spinner } from "@skbkontur/react-ui";
-import React, { useEffect } from "react";
+import React from "react";
 import Alert from "../../../shared/Alert";
 import CommitsChart from "../../../shared/charts/CommitsChart";
 import { RepositoryData, RepositoryVars } from "../../../types/QueryTypes";
 import { RepositoryChartWrapperProps } from "../index";
 
-const GET_DEFAULT_BRANCH = gql`
-  query GetDefaultBranch($login: String!, $repositoryName: String!) {
+const GET_COMMITS_HISTORY = gql`
+  query GetCommitsHistory($login: String!, $repositoryName: String!) {
     repository(owner: $login, name: $repositoryName) {
       id
       defaultBranchRef {
-        id
-        name
-      }
-    }
-  }
-`;
-
-const GET_COMMITS_HISTORY = gql`
-  query GetCommitsHistory(
-    $login: String!
-    $repositoryName: String!
-    $branchName: String!
-  ) {
-    repository(owner: $login, name: $repositoryName) {
-      id
-      ref(qualifiedName: $branchName) {
         id
         target {
           ... on Commit {
@@ -44,50 +28,21 @@ const GET_COMMITS_HISTORY = gql`
   }
 `;
 
-type CommitsVars = RepositoryVars & {
-  branchName: string;
-};
-
 const CommitsChartWrapper = ({
   className,
   login,
   repositoryName,
 }: RepositoryChartWrapperProps) => {
-  const [getDefaultBranch, defaultBranchQuery] = useLazyQuery<
-    RepositoryData,
-    RepositoryVars
-  >(GET_DEFAULT_BRANCH);
-
-  const [getCommitsHistory, commitsHistoryQuery] = useLazyQuery<
-    RepositoryData,
-    CommitsVars
-  >(GET_COMMITS_HISTORY);
-
-  const loading = defaultBranchQuery.loading || commitsHistoryQuery.loading;
-  const error = defaultBranchQuery.error || commitsHistoryQuery.error;
-  const commits =
-    commitsHistoryQuery.data?.repository.ref?.target.history.nodes;
-
-  useEffect(() => {
-    getDefaultBranch({
+  const { loading, data, error } = useQuery<RepositoryData, RepositoryVars>(
+    GET_COMMITS_HISTORY,
+    {
       variables: {
         login,
         repositoryName,
       },
-    }).then((response) => {
-      const { data } = response;
-      if (data) {
-        const branchName = data.repository.defaultBranchRef.name;
-        getCommitsHistory({
-          variables: {
-            login,
-            repositoryName,
-            branchName,
-          },
-        });
-      }
-    });
-  }, [getDefaultBranch, getCommitsHistory, login, repositoryName]);
+    }
+  );
+  const commits = data?.repository.defaultBranchRef.target.history.nodes;
 
   return (
     <div className={className}>
