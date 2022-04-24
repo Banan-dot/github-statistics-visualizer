@@ -4,6 +4,7 @@ import LineCountItem from "./LineCountItem";
 import { Spinner } from "@skbkontur/react-ui";
 import Alert from "../../../shared/Alert";
 import { RepositoryItemProps } from "..";
+import ENDPOINTS from "../../../api/endpoints";
 
 export type LineCountResponse = {
   language: string;
@@ -13,8 +14,6 @@ export type LineCountResponse = {
   comments: number;
   linesOfCode: number;
 };
-
-const LINE_COUNT_API_URL = "https://api.codetabs.com/v1/loc?github=";
 
 const RepositoryLineCountInfo = ({
   className,
@@ -27,7 +26,7 @@ const RepositoryLineCountInfo = ({
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${LINE_COUNT_API_URL}${login}/${repositoryName}`)
+    fetch(`${ENDPOINTS.LINE_COUNT_API}/loc?github=${login}/${repositoryName}`)
       .then((response) => response.json())
       .then((data) => setLineCountInfo(data.reverse()))
       .catch(() => setError(true))

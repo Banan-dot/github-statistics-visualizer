@@ -711,3 +711,51 @@ body {
     }
   }
 }
+
+.repository-contributors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5 * $spacer;
+
+  &__item {
+    flex-grow: 1;
+  }
+
+  @media screen and (max-width: $mobile-width) {
+    flex-direction: column;
+  }
+}
+
+.repository-contributor {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75 * $spacer;
+  padding-right: $spacer;
+  padding-bottom: 0.75 * $spacer;
+  padding-left: $spacer;
+  border: 1px solid $light-gray;
+  border-radius: $border-radius-sm;
+  color: $black;
+  background-color: $white;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $light;
+
+    .repository-contributor__info {
+      text-decoration: underline;
+    }
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: $spacer;
+  }
+
+  &__contributions-count {
+    margin-left: 4 * $spacer;
+    font-weight: bold;
+  }
+}
