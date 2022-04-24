@@ -10,12 +10,10 @@ import {
 import { BrowserRouter } from "react-router-dom";
 import { ThemeContext } from "@skbkontur/react-ui";
 import appTheme from "./utils/appTheme";
-
-const GITHUB_BASE_URL = "https://api.github.com/graphql";
-
+import ENDPOINTS from "./api/endpoints";
 
 const httpLink = {
-  uri: GITHUB_BASE_URL,
+  uri: ENDPOINTS.GITHUB_GRAPHQL_API,
   headers: {
     authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`,
   },
