@@ -27,7 +27,7 @@ const PullRequestChart = ({
 
   if (pieData.length > 0) {
     return (
-      <svg viewBox="0 0 300 300" width={300} height={300} className={className}>
+      <svg viewBox="0 0 300 300" className={className}>
         <VictoryPie
           padding={30}
           colorScale={"cool"}

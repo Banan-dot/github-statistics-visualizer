@@ -608,6 +608,8 @@ body {
     gap: 2 * $spacer;
 
     .page-card {
+      margin-bottom: 2 * $spacer;
+
       .user-activity {
         display: flex;
         flex-direction: column;
