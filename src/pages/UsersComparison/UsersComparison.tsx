@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Form from "./Form";
 import ComparisonInfo from "./ComparisonInfo";

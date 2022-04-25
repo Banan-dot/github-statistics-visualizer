@@ -2,10 +2,8 @@ import PageCard from "../../shared/PageCard";
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
 import User from "../../models/User";
-import UserInfo from "../UserPage/UserInfo/UserInfo";
-import { Button, Link, Spinner } from "@skbkontur/react-ui";
+import { Spinner } from "@skbkontur/react-ui";
 import UserAvatar from "../../shared/UserAvatar";
-import YaMap from "../UserPage/UserInfo/Map/Map";
 
 const GET_USER = gql`
   query GetUser($login: String!) {
@@ -24,6 +22,7 @@ const GET_USER = gql`
 `;
 
 type Props = {
+  className?: string;
   login: string;
 };
 
@@ -35,7 +34,7 @@ type UserVars = {
   login: string | undefined;
 };
 
-const CommonUserInfo = ({ login }: Props) => {
+const CommonUserInfo = ({ className, login }: Props) => {
   const { loading, data, error } = useQuery<UserData, UserVars>(GET_USER, {
     variables: { login },
   });
@@ -58,7 +57,7 @@ const CommonUserInfo = ({ login }: Props) => {
   const createdData = new Date(data.user.createdAt);
 
   return (
-    <PageCard element="section" className="user-comparison__section">
+    <PageCard element="section" className={className}>
       <PageCard.Header>
         <PageCard.Title>
           Информация о пользователе {data.user.login}

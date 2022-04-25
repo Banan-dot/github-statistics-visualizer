@@ -8,7 +8,6 @@ import UserRepositories from "./UserRepositories/UserRepositories";
 import LangStat from "./LangStat/LangStat";
 import UserActivity from "./UserActivity/UserActivity";
 import { Spinner } from "@skbkontur/react-ui";
-import PageCard from "../../shared/PageCard";
 
 const GET_USER = gql`
   query GetUser($login: String!) {
@@ -73,10 +72,10 @@ function UserPage() {
 
   return (
     <div className="user-page">
-      <UserInfo user={data.user} />
-      <LangStat login={login} />
-      <UserRepositories login={login} />
-      <UserActivity login={login} />
+      <UserInfo className="user-page__section" user={data.user} />
+      <LangStat className="user-page__section" login={login} />
+      <UserRepositories className="user-page__section" login={login} />
+      <UserActivity className="user-page__section" login={login} />
     </div>
   );
 }
