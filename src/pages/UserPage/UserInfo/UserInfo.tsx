@@ -36,7 +36,9 @@ const UserInfo = ({ user }: UserInfoProps) => {
           </span>
         )}
         {user.email && (
-          <span className="user-common-info__email">Почта: {user.email}</span>
+          <span className="user-common-info__email">
+            Почта: <a href={`mailto:${user.email}`}>{user.email}</a>
+          </span>
         )}
         {user.websiteUrl && (
           <span className="user-page__website">
