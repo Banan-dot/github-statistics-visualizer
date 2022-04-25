@@ -681,6 +681,18 @@ body {
   }
 }
 
+.comparison-charts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  row-gap: 2 * $spacer;
+
+  @media screen and (max-width: $tablet-width) {
+    justify-content: center;
+  }
+}
+
 .user-activity {
   &__pull-request-chart,
   &__issues-chart,

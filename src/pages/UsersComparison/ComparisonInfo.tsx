@@ -2,6 +2,7 @@ import React from "react";
 import CommonUserInfo from "./CommonUserInfo";
 import LangStat from "../UserPage/LangStat/LangStat";
 import UserActivity from "../UserPage/UserActivity/UserActivity";
+import ComparisonCharts from "./ComparisonCharts";
 
 type ComparisonInfoProps = {
   firstUser: string;
@@ -33,6 +34,9 @@ const ComparisonInfo = ({
       <section className="user-comparison__info-item">
         <UserActivity className="user-comparison__section" login={firstUser} />
         <UserActivity className="user-comparison__section" login={secondUser} />
+      </section>
+      <section className="user-comparison__info-item">
+        <ComparisonCharts firstUser={firstUser} secondUser={secondUser} />
       </section>
     </div>
   );
