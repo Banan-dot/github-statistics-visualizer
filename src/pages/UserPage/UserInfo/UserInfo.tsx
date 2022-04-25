@@ -4,6 +4,7 @@ import PageCard from "../../../shared/PageCard";
 import { Link, Button } from "@skbkontur/react-ui";
 import YaMap from "./Map/Map";
 import UserAvatar from "../../../shared/UserAvatar";
+import { format, parseISO } from "date-fns";
 type UserInfoProps = {
   user: User;
 };
@@ -11,7 +12,7 @@ type UserInfoProps = {
 const UserInfo = ({ user }: UserInfoProps) => {
   const { followers, following } = user;
   const { location } = user;
-  const createdData = new Date(user.createdAt);
+  const createdData = parseISO(user.createdAt);
   const [showMap, setShowMap] = useState(false);
 
   return (
@@ -65,7 +66,7 @@ const UserInfo = ({ user }: UserInfoProps) => {
           <Button size="medium">Перейти на GitHub</Button>
         </Link>
         <span className="user-common-info__created-date">
-          Создан: {createdData.toLocaleString()}
+          Создан: {format(createdData, "dd.MM.yyyy")}
         </span>
         <span className="user-common-info__following-count">
           Подписки: {following.totalCount}
