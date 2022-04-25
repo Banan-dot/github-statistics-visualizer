@@ -8,8 +8,8 @@ export default function UserComparison() {
   const { search } = useLocation();
 
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
-
   const queryLength = Array.from(query).length;
+
   useEffect(() => {
     document.title = "Сравнение пользователей";
   }, []);
@@ -23,15 +23,18 @@ export default function UserComparison() {
     navigate(`/compare?firstUser=${firstUser}&secondUser=${secondUser}`);
   };
 
+  const firstUser = query.get("firstUser") ?? ""
+  const secondUser = query.get("secondUser") ?? ""
+
   return (
     <div className="user-comparison">
-      {queryLength === 0 ? (
-        <Form onSubmit={onFormSubmit} />
+      {queryLength < 2 ? (
+        <Form firstUser={firstUser} secondUser={secondUser} onSubmit={onFormSubmit} />
       ) : (
         <ComparisonInfo
           className="user-comparison__info"
-          firstUser={query.get("firstUser") ?? ""}
-          secondUser={query.get("secondUser") ?? ""}
+          firstUser={firstUser}
+          secondUser={secondUser}
         />
       )}
     </div>

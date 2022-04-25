@@ -55,6 +55,23 @@ const LangStat = ({ login }: Props) => {
     }
   );
 
+  if (loading) {
+    return (
+      <Spinner
+        className="spinner spinner_centered"
+        caption="Загрузка информации об языках пользователя"
+      />
+    );
+  }
+
+  if (error) {
+    return <Alert type="danger">Ошибка загрузки языков</Alert>;
+  }
+
+  if (!data || data.repositoryOwner === null) {
+    return <Alert type="danger">Нет данных</Alert>;
+  }
+
   const { langEdges, totalSize } = getLanguagesInfo(
     data?.repositoryOwner.repositories.nodes
   );
@@ -72,28 +89,18 @@ const LangStat = ({ login }: Props) => {
         <PageCard.Title>Статистика языков</PageCard.Title>
       </PageCard.Header>
       <PageCard.Body className="user-languages">
-        {loading && (
-          <Spinner className="spinner spinner_centered">
-            Загрузка информации о языках
-          </Spinner>
-        )}
-        {error && (
-          <Alert type="danger">Ошибка загрузки языков: {error.message}</Alert>
-        )}
-        {data && (
-          <div className="user-languages__language-stat">
-            <LanguagesStatistic
-              classNamePrefix="user-languages"
-              languageEdges={langEdges}
-              totalLanguagesSize={totalSize}
-              totalFilesSize={data.repositoryOwner.repositories.totalDiskUsage}
-            />
-            <LanguagesPieChart
-              languageEdges={languagesToViewChart}
-              className="user-languages__languages-pie-chart"
-            />
-          </div>
-        )}
+        <div className="user-languages__language-stat">
+          <LanguagesStatistic
+            classNamePrefix="user-languages"
+            languageEdges={langEdges}
+            totalLanguagesSize={totalSize}
+            totalFilesSize={data.repositoryOwner.repositories.totalDiskUsage}
+          />
+          <LanguagesPieChart
+            languageEdges={languagesToViewChart}
+            className="user-languages__languages-pie-chart"
+          />
+        </div>
       </PageCard.Body>
     </PageCard>
   );

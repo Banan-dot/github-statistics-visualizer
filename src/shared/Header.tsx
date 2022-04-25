@@ -5,11 +5,27 @@ import SearchInput from "./SearchInput";
 import { Button } from "@skbkontur/react-ui";
 
 const PATHS_TO_HIDE = ["/", "/compare"];
+const USER_PATH = "/user/";
+const COMPARE_PATH = "/compare";
 
 export default function Header() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { search } = useLocation();
+  const query = React.useMemo(() => new URLSearchParams(search), [search]);
+  const queryLength = Array.from(query).length;
 
+  const onClick = () => {
+    if (pathname.startsWith(USER_PATH)) {
+      const firstUser = pathname.split("/").pop();
+      navigate(`${COMPARE_PATH}?firstUser=${firstUser}`);
+    } else if (queryLength === 2) {
+      const firstUser = query.get("firstUser") ?? "";
+      navigate(`${COMPARE_PATH}?firstUser=${firstUser}`);
+    } else {
+      navigate(COMPARE_PATH);
+    }
+  };
   return (
     <header className="header">
       <Link to="/" className="header__logo-link">
@@ -18,7 +34,7 @@ export default function Header() {
           <span className="gitstat-logo__name">GitStat</span>
         </div>
       </Link>
-      { !PATHS_TO_HIDE.includes(pathname) && (
+      {!PATHS_TO_HIDE.includes(pathname) && (
         <div className="header__search">
           <SearchInput
             onSubmit={(value) => navigate(`../user/${value}`)}
@@ -28,7 +44,9 @@ export default function Header() {
         </div>
       )}
       <div className="header__actions">
-        <Button width="100%" onClick={() => navigate("./compare")}>Сравнить</Button>
+        <Button width="100%" onClick={onClick}>
+          Сравнить
+        </Button>
       </div>
     </header>
   );

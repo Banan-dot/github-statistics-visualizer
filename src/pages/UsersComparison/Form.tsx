@@ -10,6 +10,8 @@ const inputOptions = {
 };
 
 type Props = {
+  firstUser: string,
+  secondUser: string
   onSubmit: (
     e: FormEvent<HTMLFormElement>,
     firstUser: string,
@@ -17,24 +19,24 @@ type Props = {
   ) => void;
 };
 
-const Form = ({ onSubmit }: Props) => {
-  const [firstUser, setFirstUser] = useState<string>("");
-  const [secondUser, setSecondUser] = useState<string>("");
+const Form = ({ firstUser, secondUser, onSubmit }: Props) => {
+  const [firstField, setFirstField] = useState<string>(firstUser);
+  const [secondField, setSecondField] = useState<string>(secondUser);
 
   return (
     <form
-      onSubmit={(e) => onSubmit(e, firstUser, secondUser)}
+      onSubmit={(e) => onSubmit(e, firstField, secondField)}
       className="user-comparison__form"
     >
       <Input
         {...inputOptions}
-        value={firstUser}
-        onChange={(e) => setFirstUser(e.target.value)}
+        value={firstField}
+        onChange={(e) => setFirstField(e.target.value)}
         className="user-comparison__input"
       />
       <Input
-        value={secondUser}
-        onChange={(e) => setSecondUser(e.target.value)}
+        value={secondField}
+        onChange={(e) => setSecondField(e.target.value)}
         {...inputOptions}
         className="user-comparison__input"
       />{" "}
