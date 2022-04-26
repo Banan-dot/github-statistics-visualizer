@@ -70,7 +70,7 @@ const ComparisonCharts = ({ firstUser, secondUser }: Props) => {
   const error = firstUserQuery.error || secondUserQuery.error;
 
   return (
-    <PageCard>
+    <PageCard className="comparison-charts-card">
       <PageCard.Header>
         <PageCard.Title>Сравнение пользователей</PageCard.Title>
       </PageCard.Header>
