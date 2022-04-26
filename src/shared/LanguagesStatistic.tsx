@@ -14,6 +14,10 @@ type Props = {
   totalFilesSize: number;
 };
 
+const formatPercentage = (percentage: number) => {
+  return percentage >= 1 ? percentage.toFixed(2) + "%" : "< 1%";
+};
+
 const LanguagesStatistic = ({
   classNamePrefix,
   languageEdges,
@@ -29,14 +33,19 @@ const LanguagesStatistic = ({
         caption="Итоговый размер файлов"
         value={formatFileSize(totalFilesSize)}
       />
-      {languageEdges.map((edge) => (
-        <LanguagesLabel
-          className={`${classNamePrefix}__languages-label`}
-          key={edge.node.name}
-          caption={edge.node.name}
-          value={((edge.size * 100) / totalLanguagesSize).toFixed(2) + "%"}
-        />
-      ))}
+      {languageEdges.map((edge) => {
+        const percentage = (edge.size * 100) / totalLanguagesSize;
+
+        return (
+          <LanguagesLabel
+            className={`${classNamePrefix}__languages-label`}
+            key={edge.node.name}
+            caption={edge.node.name}
+            value={formatPercentage(percentage)}
+            title={`${percentage}%`}
+          />
+        );
+      })}
       <DataLabel
         className={`${classNamePrefix}__most-used-language`}
         caption="Наиболее используемый язык"
