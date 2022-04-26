@@ -34,7 +34,7 @@ const LanguagesPieChart = ({
           colorScale={colorScale}
           data={data}
           labels={({ datum }) => datum.x}
-          labelComponent={<VictoryTooltip />}
+          labelComponent={<VictoryTooltip renderInPortal={false} />}
           standalone={false}
         />
       </svg>
