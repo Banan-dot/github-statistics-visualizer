@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { VictoryLegend, VictoryPie } from "victory";
+import React, { useMemo } from "react";
+import { VictoryPie, VictoryTooltip } from "victory";
 import LanguageEdge from "../../models/LanguageEdge";
+import LanguageLabel from "../LanguageLabel";
 
 type LanguagesPieChartProps = {
   languageEdges: LanguageEdge[];
   className?: string;
-};
-
-type GraphicData = {
-  y: number;
 };
 
 const LanguagesPieChart = ({
@@ -19,51 +16,39 @@ const LanguagesPieChart = ({
     (languageEdge) => languageEdge.node.color
   );
 
-  const defaultGraphicData: GraphicData[] = [];
-
-  const legendLanguagesNames = languageEdges.map((edge) => {
-    defaultGraphicData.push({ y: 0 });
-    return {
-      name: edge.node.name,
-    };
-  });
-  defaultGraphicData.pop();
-  defaultGraphicData.push({ y: 100 });
-  const [graphicData, setGraphicData] =
-    useState<GraphicData[]>(defaultGraphicData);
-
-  const fromLanguageEdgesToGraphData = (languageEdges: LanguageEdge[]) =>
-    languageEdges.map((edge) => {
-      return { x: edge.node.name, y: edge.size };
-    });
-
-  useEffect(() => {
-    setGraphicData(fromLanguageEdgesToGraphData(languageEdges));
-  }, []);
+  const data = useMemo(
+    () =>
+      languageEdges.map((edge) => {
+        return { x: edge.node.name, y: edge.size };
+      }),
+    [languageEdges]
+  );
 
   return (
-    <div className={className}>
-      <VictoryLegend
-        height={150}
-        width={500}
-        orientation="horizontal"
-        itemsPerRow={5}
-        colorScale={colorScale}
-        gutter={20}
-        title="Languages"
-        centerTitle
-        style={{
-          border: { stroke: "#dcdde1", strokeWidth: "1px" },
-          title: { fontSize: 20 },
-        }}
-        data={legendLanguagesNames}
-      />
-      <VictoryPie
-        colorScale={colorScale}
-        animate={{ easing: "expInOut" }}
-        data={graphicData}
-        labels={() => null}
-      />
+    <div className={`languages-pie-chart ${className ?? ""}`}>
+      <svg width={350} height={350} viewBox="0 0 350 350">
+        <VictoryPie
+          padding={50}
+          width={350}
+          height={350}
+          colorScale={colorScale}
+          data={data}
+          labels={({ datum }) => datum.x}
+          labelComponent={<VictoryTooltip />}
+          standalone={false}
+        />
+      </svg>
+
+      <div className="languages-pie-chart__languages-list">
+        <h4>Список языков</h4>
+        {languageEdges.map((edge) => (
+          <LanguageLabel
+            name={edge.node.name}
+            color={edge.node.color}
+            key={edge.node.id}
+          />
+        ))}
+      </div>
     </div>
   );
 };

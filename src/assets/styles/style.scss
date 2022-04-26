@@ -220,7 +220,7 @@ body {
 .user-languages__language-stat {
   display: grid;
   align-items: flex-start;
-  grid-template-columns: 1fr 500px;
+  grid-template-columns: 1fr auto;
   text-align: center;
   column-gap: 2 * $spacer;
   row-gap: 2 * $spacer;
@@ -232,13 +232,8 @@ body {
 
 .user-languages {
   &__languages-pie-chart {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 150px 250px;
-  }
-
-  &__languages-pie-chart g {
-    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 
   &__languages-information {
@@ -486,6 +481,7 @@ body {
 
   &__languages-pie-chart {
     display: flex;
+    justify-content: center;
   }
 
   @media screen and (max-width: $tablet-width) {
@@ -622,6 +618,7 @@ body {
 
     &-item > .user-comparison__section {
       flex-basis: 50%;
+      flex-grow: 1;
     }
 
     .user-activity {
@@ -632,6 +629,7 @@ body {
     .user-languages {
       &__language-stat {
         display: flex;
+        align-items: stretch;
         flex-direction: column;
       }
 
@@ -790,5 +788,15 @@ body {
   &__contributions-count {
     margin-left: 4 * $spacer;
     font-weight: bold;
+  }
+}
+
+.languages-pie-chart {
+  &__languages-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5 * $spacer;
+    min-width: 130px;
+    overflow-y: auto;
   }
 }
