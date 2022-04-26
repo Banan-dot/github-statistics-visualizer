@@ -45,6 +45,7 @@ export default function Map({ className, location }: MapProps) {
       accessToken: accessToken,
       mapboxgl: mapboxMap,
       marker: false,
+      zoom: 9,
     });
 
     const setMarker = ({ result }: GeocoderResponse) => {

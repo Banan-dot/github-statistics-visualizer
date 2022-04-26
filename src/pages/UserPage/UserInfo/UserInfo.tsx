@@ -54,8 +54,8 @@ const UserInfo = ({ user }: UserInfoProps) => {
             <p className="user-common-info__location">
               Местонахождение: {location}
             </p>
-            <Button size="small" onClick={() => setShowMap(!showMap)}>
-              Показать на карте
+            <Button onClick={() => setShowMap(!showMap)}>
+              {showMap ? "Скрыть карту" : "Показать на карте"}
             </Button>
           </div>
         )}
@@ -63,7 +63,7 @@ const UserInfo = ({ user }: UserInfoProps) => {
           <YaMap location={location} className="user-common-info__map" />
         )}
         <Link href={user.url} className="user-common-info__github-link">
-          <Button size="medium">Перейти на GitHub</Button>
+          <Button>Перейти на GitHub</Button>
         </Link>
         <span className="user-common-info__created-date">
           Создан: {format(createdData, "dd.MM.yyyy")}
