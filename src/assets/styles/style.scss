@@ -114,26 +114,29 @@ body {
 
 .user-common-info {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: auto 1fr 1fr 1fr;
   grid-template-rows: auto;
-  grid-gap: 15px;
-  text-align: center;
+  align-items: center;
+  grid-gap: 10px;
 
   &__github-link {
-    grid-column: 4 / 5;
-    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    grid-row: 5 / 6;
   }
 
   &__avatar {
     grid-column: 1 / 2;
-    grid-row: 1 / 4;
+    grid-row: 1 / 5;
     max-width: 150px;
     max-height: 150px;
   }
 
   &__company {
     grid-column: 2 / 3;
-    grid-row: 2 / 3;
+    grid-row: 4 / 5;
+    a {
+      text-decoration: none;
+    }
   }
 
   &__name {
@@ -142,38 +145,44 @@ body {
   }
 
   &__email {
-    grid-column: 2 / 3;
-    grid-row: 3 / 4;
+    grid-column: 3 / 4;
+    grid-row: 4 / 5;
   }
 
   &__website {
     grid-column: 3 / 4;
-    grid-row: 1 / 2;
+    grid-row: 5 / 6;
   }
 
   &__map {
-    grid-column: 1 / 4;
-    grid-row: 4 / 5;
+    grid-column: 4 / 5;
+    grid-row: 1 / 6;
   }
 
   &__location-info {
-    grid-column: 4 / 5;
-    grid-row: 4 / 5;
-  }
-
-  &__created-date {
-    grid-column: 4 / 5;
-    grid-row: 3 / 4;
-  }
-
-  &__following-count {
     grid-column: 3 / 4;
     grid-row: 2 / 3;
   }
 
-  &__followers-count {
+  &__show-map-button{
+    width: 60%;
     grid-column: 3 / 4;
     grid-row: 3 / 4;
+  }
+
+  &__created-date {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+  }
+
+  &__following-count {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+  }
+
+  &__followers-count {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
   }
 }
 

@@ -66,7 +66,7 @@ export default function Map({ className, location }: MapProps) {
 
   return (
     <div className={className}>
-      <div ref={mapContainer} style={{ height: "50vh", width: "100%" }} />
+      <div ref={mapContainer} style={{ height: "25vh", width: "100%" }} />
     </div>
   );
 }

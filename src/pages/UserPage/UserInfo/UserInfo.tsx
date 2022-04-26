@@ -12,6 +12,11 @@ type UserInfoProps = {
   user: User;
 };
 
+const GITHUB_LINK = "https://github.com/";
+
+const getCompanyLink = (companyName: string) =>
+  GITHUB_LINK + companyName.slice(1);
+
 const UserInfo = ({ className, user }: UserInfoProps) => {
   const { followers, following } = user;
   const { location } = user;
@@ -36,7 +41,10 @@ const UserInfo = ({ className, user }: UserInfoProps) => {
         )}
         {user.company && (
           <span className="user-common-info__company">
-            Компания: {user.company}
+            Компания:{" "}
+            <a href={getCompanyLink(user.company)} target="_blank">
+              {user.company.slice(1)}
+            </a>
           </span>
         )}
         {user.email && (
@@ -45,7 +53,7 @@ const UserInfo = ({ className, user }: UserInfoProps) => {
           </span>
         )}
         {user.websiteUrl && (
-          <span className="user-page__website">
+          <span className="user-common-info__website">
             Сайт:{" "}
             <a href={user.websiteUrl} target="_blank" rel="noreferrer">
               {user.websiteUrl}
@@ -53,26 +61,31 @@ const UserInfo = ({ className, user }: UserInfoProps) => {
           </span>
         )}
         {location && (
-          <div className="user-common-info__location-info">
-            <p className="user-common-info__location">
-              Местоположение: {location}
-            </p>
-            <Button onClick={() => setShowMap(!showMap)}>
+          <>
+            <div className="user-common-info__location-info">
+              <p className="user-common-info__location">
+                Местоположение: {location}
+              </p>
+            </div>
+            <Button
+              onClick={() => setShowMap(!showMap)}
+              className="user-common-info__show-map-button"
+            >
               {showMap ? "Скрыть карту" : "Показать на карте"}
             </Button>
-          </div>
+          </>
         )}
         {showMap && (
           <YaMap location={location} className="user-common-info__map" />
         )}
-        <Link href={user.url} className="user-common-info__github-link">
+        <Link href={user.url} target="_blank" className="user-common-info__github-link">
           <Button>Перейти на GitHub</Button>
         </Link>
         <span
           className="user-common-info__created-date"
           title={format(createdData, "dd.MM.yyyy HH:mm")}
         >
-          Создан:{" "}
+          Дата регистрации:{" "}
           {formatDistance(createdData, new Date(), {
             locale: ru,
             addSuffix: true,
