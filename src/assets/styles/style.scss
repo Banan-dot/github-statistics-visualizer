@@ -165,6 +165,7 @@ body {
   }
 
   &__show-map-button {
+    min-width: 125px;
     width: 60%;
     grid-column: 3 / 4;
     grid-row: 3 / 4;
@@ -230,13 +231,13 @@ body {
 }
 
 .user-languages {
-  &__languages-pie-chart{
+  &__languages-pie-chart {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 150px 250px;
   }
 
-  &__languages-pie-chart g{
+  &__languages-pie-chart g {
     width: 100%;
   }
 
