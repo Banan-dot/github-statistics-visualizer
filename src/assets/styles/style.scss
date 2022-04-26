@@ -115,7 +115,7 @@ body {
 .user-common-info {
   display: grid;
   grid-template-columns: auto 1fr 1fr 1fr;
-  grid-template-rows: auto;
+  grid-template-rows: 1fr 1fr 1fr 1fr auto;
   align-items: center;
   grid-gap: 10px;
 
