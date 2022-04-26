@@ -1,6 +1,11 @@
 import React from "react";
 import InputWithCopyButton from "./InputWithCopyButton";
-import { Dropdown, MenuHeader, MenuSeparator } from "@skbkontur/react-ui";
+import {
+  Button,
+  DropdownMenu,
+  MenuHeader,
+  MenuSeparator,
+} from "@skbkontur/react-ui";
 
 type Props = {
   className?: string;
@@ -10,10 +15,9 @@ type Props = {
 
 const CloneRepositoryButton = ({ className, url, sshUrl }: Props) => {
   return (
-    <Dropdown
+    <DropdownMenu
       className={`dropdown ${className ?? ""}`}
-      caption="Клонировать"
-      menuAlign="right"
+      caption={<Button use="default" width="100%">Клонировать</Button>}
     >
       {url ? (
         <MenuHeader>
@@ -32,7 +36,7 @@ const CloneRepositoryButton = ({ className, url, sshUrl }: Props) => {
       ) : (
         <MenuHeader>Ошибка получения SSH ссылки</MenuHeader>
       )}
-    </Dropdown>
+    </DropdownMenu>
   );
 };
 

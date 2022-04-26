@@ -146,7 +146,7 @@ const UserActivity = ({ login }: Props) => {
   }
 
   if (error) {
-    return <Alert type="danger">Ошибка загрузки репозиториев</Alert>;
+    return <Alert type="danger">Ошибка загрузки активности пользователя</Alert>;
   }
 
   if (!data || data.repositoryOwner === null) {

@@ -54,7 +54,9 @@
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
-  padding: 1 * $spacer;
+  align-items: center;
+  column-gap: 2 * $spacer;
+  padding: $spacer;
   flex-wrap: wrap;
   border-radius: $border-radius-sm;
   background-color: $white;

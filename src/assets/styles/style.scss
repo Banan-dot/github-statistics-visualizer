@@ -209,6 +209,7 @@ body {
 
 .user-languages__language-stat {
   display: grid;
+  align-items: flex-start;
   grid-template-columns: 1fr 1fr;
   text-align: center;
   column-gap: 2 * $spacer;
