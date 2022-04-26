@@ -4,7 +4,8 @@ import PageCard from "../../../shared/PageCard";
 import { Link, Button } from "@skbkontur/react-ui";
 import YaMap from "./Map/Map";
 import UserAvatar from "../../../shared/UserAvatar";
-import { format, parseISO } from "date-fns";
+import { format, formatDistance, parseISO } from "date-fns";
+import { ru } from "date-fns/locale";
 type UserInfoProps = {
   user: User;
 };
@@ -52,7 +53,7 @@ const UserInfo = ({ user }: UserInfoProps) => {
         {location && (
           <div className="user-common-info__location-info">
             <p className="user-common-info__location">
-              Местонахождение: {location}
+              Местоположение: {location}
             </p>
             <Button onClick={() => setShowMap(!showMap)}>
               {showMap ? "Скрыть карту" : "Показать на карте"}
@@ -65,8 +66,15 @@ const UserInfo = ({ user }: UserInfoProps) => {
         <Link href={user.url} className="user-common-info__github-link">
           <Button>Перейти на GitHub</Button>
         </Link>
-        <span className="user-common-info__created-date">
-          Создан: {format(createdData, "dd.MM.yyyy")}
+        <span
+          className="user-common-info__created-date"
+          title={format(createdData, "dd.MM.yyyy HH:mm")}
+        >
+          Создан:{" "}
+          {formatDistance(createdData, new Date(), {
+            locale: ru,
+            addSuffix: true,
+          })}
         </span>
         <span className="user-common-info__following-count">
           Подписки: {following.totalCount}
