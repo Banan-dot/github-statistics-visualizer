@@ -34,6 +34,7 @@ const GET_USER_LANGUAGES = gql`
 `;
 
 type Props = {
+  className?: string;
   login: string;
 };
 
@@ -45,7 +46,7 @@ type RepositoriesVars = {
   login: string;
 };
 
-const LangStat = ({ login }: Props) => {
+const LangStat = ({ className, login }: Props) => {
   const { loading, data, error } = useQuery<RepositoriesData, RepositoriesVars>(
     GET_USER_LANGUAGES,
     {
@@ -54,6 +55,23 @@ const LangStat = ({ login }: Props) => {
       },
     }
   );
+
+  if (loading) {
+    return (
+      <Spinner
+        className="spinner spinner_centered"
+        caption="Загрузка информации об языках пользователя"
+      />
+    );
+  }
+
+  if (error) {
+    return <Alert type="danger">Ошибка загрузки языков</Alert>;
+  }
+
+  if (!data || data.repositoryOwner === null) {
+    return <Alert type="danger">Нет данных</Alert>;
+  }
 
   const { langEdges, totalSize } = getLanguagesInfo(
     data?.repositoryOwner.repositories.nodes
@@ -67,33 +85,23 @@ const LangStat = ({ login }: Props) => {
   );
 
   return (
-    <PageCard element="section" className="user-page__section">
+    <PageCard element="section" className={className}>
       <PageCard.Header>
         <PageCard.Title>Статистика языков</PageCard.Title>
       </PageCard.Header>
       <PageCard.Body className="user-languages">
-        {loading && (
-          <Spinner className="spinner spinner_centered">
-            Загрузка информации о языках
-          </Spinner>
-        )}
-        {error && (
-          <Alert type="danger">Ошибка загрузки языков: {error.message}</Alert>
-        )}
-        {data && (
-          <div className="user-languages__language-stat">
-            <LanguagesStatistic
-              classNamePrefix="user-languages"
-              languageEdges={langEdges}
-              totalLanguagesSize={totalSize}
-              totalFilesSize={data.repositoryOwner.repositories.totalDiskUsage}
-            />
-            <LanguagesPieChart
-              languageEdges={languagesToViewChart}
-              className="user-languages__languages-pie-chart"
-            />
-          </div>
-        )}
+        <div className="user-languages__language-stat">
+          <LanguagesStatistic
+            classNamePrefix="user-languages"
+            languageEdges={langEdges}
+            totalLanguagesSize={totalSize}
+            totalFilesSize={data.repositoryOwner.repositories.totalDiskUsage}
+          />
+          <LanguagesPieChart
+            languageEdges={languagesToViewChart}
+            className="user-languages__languages-pie-chart"
+          />
+        </div>
       </PageCard.Body>
     </PageCard>
   );

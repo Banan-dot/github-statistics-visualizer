@@ -72,6 +72,7 @@ const GET_USER_REPOSITORIES = gql`
 `;
 
 type Props = {
+  className?: string;
   login: string;
 };
 
@@ -89,7 +90,7 @@ type RepositoriesVars = {
 
 const ITEMS_COUNT = 10;
 
-const UserRepositories = ({ login }: Props) => {
+const UserRepositories = ({ className, login }: Props) => {
   const { data, error, networkStatus, fetchMore } = useQuery<
     RepositoriesData,
     RepositoriesVars
@@ -134,7 +135,7 @@ const UserRepositories = ({ login }: Props) => {
   };
 
   return (
-    <PageCard element="section" className="user-page__section">
+    <PageCard element="section" className={className}>
       <PageCard.Header>
         <PageCard.Title>Список репозиториев</PageCard.Title>
       </PageCard.Header>

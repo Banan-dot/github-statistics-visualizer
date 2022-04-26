@@ -209,6 +209,7 @@ body {
 
 .user-languages__language-stat {
   display: grid;
+  align-items: flex-start;
   grid-template-columns: 1fr 1fr;
   text-align: center;
   column-gap: 2 * $spacer;
@@ -585,8 +586,6 @@ body {
 }
 
 .user-comparison {
-  height: calc(100vh - 112px);
-
   &__input {
     max-width: 400px;
   }
@@ -594,7 +593,7 @@ body {
   &__form {
     position: relative;
     display: flex;
-    top: calc(50% - 112px);
+    height: calc(100vh - 112px);
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -602,29 +601,41 @@ body {
   }
 
   &__info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 2 * $spacer;
 
-    .page-card {
-      .user-activity {
+    &-item {
+      display: flex;
+      gap: 2 * $spacer;
+    }
+
+    &-item > .user-comparison__section {
+      flex-basis: 50%;
+    }
+
+    .user-activity {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-languages {
+      &__language-stat {
         display: flex;
         flex-direction: column;
       }
 
-      .user-languages {
-        &__language-stat {
+      @media screen and (max-width: $tablet-width) {
+        &__languages-information {
           display: flex;
           flex-wrap: wrap;
+          align-items: center;
         }
-        @media screen and (max-width: $tablet-width) {
-          &__languages-information {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-          }
+
+        &__languages-label,
+        &__languages-result-size,
+        &__most-used-language {
+          flex-grow: 1;
         }
       }
     }
@@ -668,6 +679,18 @@ body {
     &__avatar {
       display: block;
     }
+  }
+}
+
+.comparison-charts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  row-gap: 2 * $spacer;
+
+  @media screen and (max-width: $tablet-width) {
+    justify-content: center;
   }
 }
 

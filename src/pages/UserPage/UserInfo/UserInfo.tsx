@@ -4,18 +4,22 @@ import PageCard from "../../../shared/PageCard";
 import { Link, Button } from "@skbkontur/react-ui";
 import YaMap from "./Map/Map";
 import UserAvatar from "../../../shared/UserAvatar";
+import { format, formatDistance, parseISO } from "date-fns";
+import { ru } from "date-fns/locale";
+
 type UserInfoProps = {
+  className?: string;
   user: User;
 };
 
-const UserInfo = ({ user }: UserInfoProps) => {
+const UserInfo = ({ className, user }: UserInfoProps) => {
   const { followers, following } = user;
   const { location } = user;
-  const createdData = new Date(user.createdAt);
+  const createdData = parseISO(user.createdAt);
   const [showMap, setShowMap] = useState(false);
 
   return (
-    <PageCard element="section" className="user-page__section">
+    <PageCard element="section" className={className}>
       <PageCard.Header>
         <PageCard.Title>Информация о пользователе {user.login}</PageCard.Title>
       </PageCard.Header>
@@ -36,7 +40,9 @@ const UserInfo = ({ user }: UserInfoProps) => {
           </span>
         )}
         {user.email && (
-          <span className="user-common-info__email">Почта: {user.email}</span>
+          <span className="user-common-info__email">
+            Почта: <a href={`mailto:${user.email}`}>{user.email}</a>
+          </span>
         )}
         {user.websiteUrl && (
           <span className="user-page__website">
@@ -49,10 +55,10 @@ const UserInfo = ({ user }: UserInfoProps) => {
         {location && (
           <div className="user-common-info__location-info">
             <p className="user-common-info__location">
-              Местонахождение: {location}
+              Местоположение: {location}
             </p>
-            <Button size="small" onClick={() => setShowMap(!showMap)}>
-              Показать на карте
+            <Button onClick={() => setShowMap(!showMap)}>
+              {showMap ? "Скрыть карту" : "Показать на карте"}
             </Button>
           </div>
         )}
@@ -60,10 +66,17 @@ const UserInfo = ({ user }: UserInfoProps) => {
           <YaMap location={location} className="user-common-info__map" />
         )}
         <Link href={user.url} className="user-common-info__github-link">
-          <Button size="medium">Перейти на GitHub</Button>
+          <Button>Перейти на GitHub</Button>
         </Link>
-        <span className="user-common-info__created-date">
-          Создан: {createdData.toLocaleString()}
+        <span
+          className="user-common-info__created-date"
+          title={format(createdData, "dd.MM.yyyy HH:mm")}
+        >
+          Создан:{" "}
+          {formatDistance(createdData, new Date(), {
+            locale: ru,
+            addSuffix: true,
+          })}
         </span>
         <span className="user-common-info__following-count">
           Подписки: {following.totalCount}
