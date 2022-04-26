@@ -20,7 +20,7 @@ type Props = {
 
 const COLOR_SCALE = [PRIMARY, DANGER];
 const WIDTH = 300;
-const HEIGHT = 270;
+const HEIGHT = 325;
 
 const UsersComparisonPieChart = ({ data, title, legendX = 0 }: Props) => {
   const isAnyData = data.some((dataItem) => dataItem.y > 0);
@@ -43,7 +43,7 @@ const UsersComparisonPieChart = ({ data, title, legendX = 0 }: Props) => {
       {isAnyData ? (
         <VictoryPie
           standalone={false}
-          padding={{ top: 60, right: 50, bottom: 10, left: 50 }}
+          padding={{ top: 80, right: 50, bottom: 30, left: 50 }}
           width={WIDTH}
           height={HEIGHT}
           padAngle={2}

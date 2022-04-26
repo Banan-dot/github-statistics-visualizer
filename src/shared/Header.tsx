@@ -17,7 +17,7 @@ export default function Header() {
 
   const onClick = () => {
     if (pathname.startsWith(USER_PATH)) {
-      const firstUser = pathname.split("/").pop();
+      const firstUser = pathname.split("/")[2];
       navigate(`${COMPARE_PATH}?firstUser=${firstUser}`);
     } else if (queryLength === 2) {
       const firstUser = query.get("firstUser") ?? "";

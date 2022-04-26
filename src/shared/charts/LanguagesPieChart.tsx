@@ -43,20 +43,13 @@ const LanguagesPieChart = ({
 
   return (
     <div className={className}>
-      <VictoryPie
-        colorScale={colorScale}
-        padding={30}
-        animate={{ easing: "expInOut" }}
-        data={graphicData}
-        labels={() => null}
-      />
       <VictoryLegend
-        x={50}
-        height={350}
-        width={250}
-        orientation="vertical"
+        height={150}
+        width={500}
+        orientation="horizontal"
+        itemsPerRow={5}
         colorScale={colorScale}
-        gutter={30}
+        gutter={20}
         title="Languages"
         centerTitle
         style={{
@@ -64,6 +57,12 @@ const LanguagesPieChart = ({
           title: { fontSize: 20 },
         }}
         data={legendLanguagesNames}
+      />
+      <VictoryPie
+        colorScale={colorScale}
+        animate={{ easing: "expInOut" }}
+        data={graphicData}
+        labels={() => null}
       />
     </div>
   );
