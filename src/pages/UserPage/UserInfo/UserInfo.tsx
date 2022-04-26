@@ -6,18 +6,20 @@ import YaMap from "./Map/Map";
 import UserAvatar from "../../../shared/UserAvatar";
 import { format, formatDistance, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
+
 type UserInfoProps = {
+  className?: string;
   user: User;
 };
 
-const UserInfo = ({ user }: UserInfoProps) => {
+const UserInfo = ({ className, user }: UserInfoProps) => {
   const { followers, following } = user;
   const { location } = user;
   const createdData = parseISO(user.createdAt);
   const [showMap, setShowMap] = useState(false);
 
   return (
-    <PageCard element="section" className="user-page__section">
+    <PageCard element="section" className={className}>
       <PageCard.Header>
         <PageCard.Title>Информация о пользователе {user.login}</PageCard.Title>
       </PageCard.Header>

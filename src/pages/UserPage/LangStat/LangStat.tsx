@@ -34,6 +34,7 @@ const GET_USER_LANGUAGES = gql`
 `;
 
 type Props = {
+  className?: string;
   login: string;
 };
 
@@ -45,7 +46,7 @@ type RepositoriesVars = {
   login: string;
 };
 
-const LangStat = ({ login }: Props) => {
+const LangStat = ({ className, login }: Props) => {
   const { loading, data, error } = useQuery<RepositoriesData, RepositoriesVars>(
     GET_USER_LANGUAGES,
     {
@@ -84,7 +85,7 @@ const LangStat = ({ login }: Props) => {
   );
 
   return (
-    <PageCard element="section" className="user-page__section">
+    <PageCard element="section" className={className}>
       <PageCard.Header>
         <PageCard.Title>Статистика языков</PageCard.Title>
       </PageCard.Header>

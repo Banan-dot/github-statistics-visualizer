@@ -1,6 +1,7 @@
 import IssueConnection from "./IssueConnection";
 import PullRequestConnection from "./PullRequestConnection";
 import ContributionsCollection from "./ContributionsCollection";
+import Repositories from "./Repositories";
 
 export default interface User {
   id: string;
@@ -13,6 +14,7 @@ export default interface User {
   company: string | null;
   location: string | null;
   websiteUrl: string | null;
+  repositories: Repositories;
   createdAt: string;
   followers: {
     totalCount: number;

@@ -67,6 +67,7 @@ const GET_USER_ACTIVITY_IN_REPOSITORIES = gql`
 `;
 
 type Props = {
+  className?: string;
   login: string;
 };
 
@@ -126,7 +127,7 @@ function getIssuesInfo(user: User) {
   return result;
 }
 
-const UserActivity = ({ login }: Props) => {
+const UserActivity = ({ className, login }: Props) => {
   const { data, error, loading } = useQuery<RepositoriesData, RepositoriesVars>(
     GET_USER_ACTIVITY_IN_REPOSITORIES,
     {
@@ -167,7 +168,7 @@ const UserActivity = ({ login }: Props) => {
   };
 
   return (
-    <PageCard element="section" className="user-page__section">
+    <PageCard element="section" className={className}>
       <PageCard.Header>
         <PageCard.Title>Активность пользователя</PageCard.Title>
       </PageCard.Header>
