@@ -238,9 +238,7 @@ body {
 
   &__languages-information {
     display: grid;
-    column-gap: 2 * $spacer;
-    row-gap: 2 * $spacer;
-    grid-gap: 20px;
+    gap: 2 * $spacer;
     grid-template-columns: 1fr 1fr 1fr;
   }
 
@@ -252,6 +250,13 @@ body {
 
   &__most-used-language {
     grid-column: 1 / 4;
+  }
+
+  @media screen and (max-width: $mobile-width) {
+    &__languages-information {
+      display: flex;
+      flex-direction: column;
+    }
   }
 }
 
@@ -635,9 +640,8 @@ body {
 
       @media screen and (max-width: $tablet-width) {
         &__languages-information {
-          display: flex;
           flex-wrap: wrap;
-          align-items: center;
+          align-items: stretch;
         }
 
         &__languages-label,
@@ -645,6 +649,12 @@ body {
         &__most-used-language {
           flex-grow: 1;
         }
+      }
+    }
+
+    @media screen and (max-width: $tablet-width) {
+      &-item {
+        flex-direction: column;
       }
     }
   }
@@ -740,9 +750,10 @@ body {
     flex-basis: 50%;
   }
 
-  @media screen and (max-width: $tablet-width) {
+  @media screen and (max-width: $desktop-sm) {
     & {
       flex-direction: column;
+      align-items: stretch;
     }
   }
 }
@@ -796,11 +807,34 @@ body {
 }
 
 .languages-pie-chart {
+  & {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__container {
+    max-width: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   &__languages-list {
     display: flex;
     flex-direction: column;
     gap: 0.5 * $spacer;
     min-width: 130px;
+    max-height: 350px;
     overflow-y: auto;
+  }
+
+  @media screen and (max-width: $mobile-width) {
+    & {
+      flex-direction: column;
+    }
+
+    &__languages-list {
+      overflow-y: unset;
+    }
   }
 }
