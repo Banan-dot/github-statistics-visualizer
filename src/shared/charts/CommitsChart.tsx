@@ -18,17 +18,18 @@ import VictoryEmptyMessage from "./components/VictoryEmptyMessage";
 
 type Props = {
   data: Commit[];
+  width: number;
 };
 
-const CommitsChart = ({ data }: Props) => {
+const CommitsChart = ({ data, width }: Props) => {
   const pushedDateData = useMemo(() => getData(data, "pushedDate"), [data]);
   const hasItems = pushedDateData.length > 0;
 
   return (
     <VictoryChart
-      padding={{ top: 25, right: 50, bottom: 25, left: 50 }}
+      padding={{ top: 25, right: 30, bottom: 25, left: 50 }}
       height={200}
-      width={800}
+      width={width}
       scale={{ y: "linear", x: "time" }}
       theme={theme}
       containerComponent={
@@ -43,7 +44,7 @@ const CommitsChart = ({ data }: Props) => {
       }
     >
       {!hasItems && (
-        <VictoryEmptyMessage x={420} y={100} text="Список коммитов пустой" />
+        <VictoryEmptyMessage x={width / 2 + 20} y={100} text="Список коммитов пустой" />
       )}
 
       {hasItems && (
@@ -71,7 +72,7 @@ const CommitsChart = ({ data }: Props) => {
       />
 
       <VictoryLegend
-        x={350}
+        x={Math.max(width / 2 - 60, 0)}
         title="Последние коммиты"
         orientation="horizontal"
         centerTitle

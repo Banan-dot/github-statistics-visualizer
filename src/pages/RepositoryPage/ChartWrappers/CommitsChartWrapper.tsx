@@ -3,6 +3,7 @@ import { Spinner } from "@skbkontur/react-ui";
 import React from "react";
 import Alert from "../../../shared/Alert";
 import CommitsChart from "../../../shared/charts/CommitsChart";
+import { useChartResize } from "../../../shared/useChartResize";
 import { RepositoryData, RepositoryVars } from "../../../types/QueryTypes";
 import { RepositoryChartWrapperProps } from "../index";
 
@@ -42,10 +43,11 @@ const CommitsChartWrapper = ({
       },
     }
   );
+  const [containerRef, width] = useChartResize(450);
   const commits = data?.repository.defaultBranchRef.target.history.nodes;
 
   return (
-    <div className={className}>
+    <div ref={containerRef} className={className}>
       {loading && (
         <Spinner
           className="spinner spinner_centered"
@@ -55,7 +57,7 @@ const CommitsChartWrapper = ({
 
       {error && <Alert type="danger">Ошибка загрузки коммитов</Alert>}
 
-      {commits && !loading && <CommitsChart data={commits} />}
+      {commits && !loading && <CommitsChart data={commits} width={width} />}
     </div>
   );
 };
