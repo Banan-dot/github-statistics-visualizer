@@ -18,6 +18,8 @@ import { Spinner } from "@skbkontur/react-ui";
 import Alert from "../../../shared/Alert";
 import User from "../../../models/User";
 import Issue from "../../../models/Issue";
+import Commit from '../../../models/Commit'
+import PullRequest from "../../../models/PullRequest";
 
 const GET_USER_ACTIVITY_IN_REPOSITORIES = gql`
   query ($login: String!) {
@@ -95,7 +97,7 @@ function getForkAndCommitCount(
 
   repositories.nodes.forEach((repos) => {
     if (repos.defaultBranchRef !== null) {
-      repos.defaultBranchRef.target.history.nodes.forEach((commit) => {
+      repos.defaultBranchRef.target.history.nodes.forEach((commit: Commit) => {
         const user = commit.author.user;
         if (user && user.login.toLowerCase() === login.toLowerCase())
           result.commitCount++;
@@ -121,7 +123,7 @@ function getPullRequestsInfo(user: User | undefined) {
     return result;
   }
 
-  user.pullRequests.nodes.forEach((pr) => result.pullRequestsInfo[pr.state]++);
+  user.pullRequests.nodes.forEach((pr: PullRequest) => result.pullRequestsInfo[pr.state]++);
   result.pullRequestsCount = user.pullRequests.totalCount;
 
   return result;
