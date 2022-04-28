@@ -568,6 +568,7 @@ body {
 .repository-issues-charts {
   display: flex;
   flex-wrap: wrap;
+  row-gap: $spacer;
 
   &__item {
     display: flex;
@@ -836,5 +837,18 @@ body {
     &__languages-list {
       overflow-y: unset;
     }
+  }
+}
+
+.issues-chart,
+.pull-request-chart {
+  &__wrapper {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  &__label-list {
+    display: flex;
+    gap: $spacer;
   }
 }
