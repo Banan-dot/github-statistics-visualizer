@@ -26,18 +26,20 @@ const LanguagesPieChart = ({
 
   return (
     <div className={`languages-pie-chart ${className ?? ""}`}>
-      <svg width={350} height={350} viewBox="0 0 350 350">
-        <VictoryPie
-          padding={50}
-          width={350}
-          height={350}
-          colorScale={colorScale}
-          data={data}
-          labels={({ datum }) => datum.x}
-          labelComponent={<VictoryTooltip renderInPortal={false} />}
-          standalone={false}
-        />
-      </svg>
+      <div className="languages-pie-chart__container">
+        <svg width="100%" height={350} viewBox="0 0 350 350">
+          <VictoryPie
+            padding={50}
+            width={350}
+            height={350}
+            colorScale={colorScale}
+            data={data}
+            labels={({ datum }) => datum.x}
+            labelComponent={<VictoryTooltip renderInPortal={false} />}
+            standalone={false}
+          />
+        </svg>
+      </div>
 
       <div className="languages-pie-chart__languages-list">
         <h4>Список языков</h4>

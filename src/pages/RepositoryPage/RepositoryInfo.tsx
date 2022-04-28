@@ -36,6 +36,7 @@ const GET_REPOSITORY = gql`
       createdAt
       updatedAt
       description
+      isFork
       forkCount
       stargazerCount
       pullRequests {
@@ -50,6 +51,15 @@ const GET_REPOSITORY = gql`
       owner {
         login
         avatarUrl
+      }
+      parent {
+        id
+        url
+        name
+        owner {
+          id
+          login
+        }
       }
     }
   }
@@ -79,6 +89,8 @@ const RepositoryInfo = ({
     }
   );
 
+  const parent = data?.repository.parent;
+
   return (
     <PageCard
       element="section"
@@ -88,6 +100,14 @@ const RepositoryInfo = ({
         <PageCard.Header className="repository-common-info__header">
           <div className="repository-common-info__header-info">
             <PageCard.Title>{data.repository.name}</PageCard.Title>
+            {parent && data.repository.isFork && (
+              <div>
+                <span>Форк от </span>
+                <Link href={parent.url} target="_blank">
+                  {parent.owner.login}/{parent.name}
+                </Link>
+              </div>
+            )}
             <Link
               className="repository-common-info__user-link"
               href={`/user/${data.repository.owner.login}`}

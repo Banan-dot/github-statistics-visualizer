@@ -80,11 +80,18 @@ type RepositoriesVars = {
   login: string;
 };
 
-function getForkAndCommitCount(repositories: Repositories, login: string) {
+function getForkAndCommitCount(
+  repositories: Repositories | undefined,
+  login: string
+) {
   const result = {
     commitCount: 0,
     forkCount: 0,
   };
+
+  if (!repositories) {
+    return result;
+  }
 
   repositories.nodes.forEach((repos) => {
     if (repos.defaultBranchRef !== null) {
@@ -100,29 +107,41 @@ function getForkAndCommitCount(repositories: Repositories, login: string) {
   return result;
 }
 
-function getPullRequestsInfo(user: User) {
+function getPullRequestsInfo(user: User | undefined) {
   const result = {
     pullRequestsInfo: {
       OPEN: 0,
       CLOSED: 0,
       MERGED: 0,
     },
-    pullRequestsCount: user.pullRequests.totalCount,
+    pullRequestsCount: 0,
   };
+
+  if (!user) {
+    return result;
+  }
+
   user.pullRequests.nodes.forEach((pr) => result.pullRequestsInfo[pr.state]++);
+  result.pullRequestsCount = user.pullRequests.totalCount;
 
   return result;
 }
 
-function getIssuesInfo(user: User) {
+function getIssuesInfo(user: User | undefined) {
   const result = {
     issuesInfo: {
       OPEN: 0,
       CLOSED: 0,
     },
-    issuesCount: user.issues.totalCount,
+    issuesCount: 0,
   };
+
+  if (!user) {
+    return result;
+  }
+
   user.issues.nodes.forEach((issue: Issue) => result.issuesInfo[issue.state]++);
+  result.issuesCount = user.issues.totalCount;
 
   return result;
 }
@@ -137,27 +156,11 @@ const UserActivity = ({ className, login }: Props) => {
     }
   );
 
-  if (loading) {
-    return (
-      <Spinner
-        className="spinner spinner_centered"
-        caption="Загрузка информации об активности пользователя"
-      />
-    );
-  }
-
-  if (error) {
-    return <Alert type="danger">Ошибка загрузки активности пользователя</Alert>;
-  }
-
-  if (!data || data.repositoryOwner === null) {
-    return <Alert type="danger">Нет данных</Alert>;
-  }
-  const repositories = data.repositoryOwner.repositories;
+  const repositories = data?.repositoryOwner.repositories;
   const { commitCount, forkCount } = getForkAndCommitCount(repositories, login);
-  const { issuesCount, issuesInfo } = getIssuesInfo(data.user);
+  const { issuesCount, issuesInfo } = getIssuesInfo(data?.user);
   const { pullRequestsCount, pullRequestsInfo } = getPullRequestsInfo(
-    data.user
+    data?.user
   );
 
   const userActivity = {
@@ -172,74 +175,90 @@ const UserActivity = ({ className, login }: Props) => {
       <PageCard.Header>
         <PageCard.Title>Активность пользователя</PageCard.Title>
       </PageCard.Header>
-      <PageCard.Body className="user-activity">
-        <div className="user-activity__item">
-          <div className="user-activity__pull-requests-info">
-            <p className="user-activity__pull-requests-count">
-              Пулл реквесты: {pullRequestsCount}
-            </p>
-            <IconDataLabel
-              icon={GitPullRequestIcon}
-              value={pullRequestsInfo.OPEN}
-              hintText="Открытые пулл ревквесты"
-            />
-            <IconDataLabel
-              icon={GitMergeIcon}
-              value={pullRequestsInfo.MERGED}
-              hintText="Слитые пулл ревквесты"
-            />
-            <IconDataLabel
-              icon={GitPullRequestClosedIcon}
-              value={pullRequestsInfo.CLOSED}
-              hintText="Закрытые пулл ревквесты"
-            />
-          </div>
-          <div>
-            {pullRequestsCount !== 0 && (
-              <PullRequestChart
-                pullRequestsInfo={pullRequestsInfo}
-                className="user-activity__pull-request-chart"
-              />
-            )}
-          </div>
-        </div>
+      <PageCard.Body>
+        {loading && (
+          <Spinner
+            className="spinner spinner_centered"
+            caption="Загрузка информации об активности пользователя"
+          />
+        )}
 
-        <div className="user-activity__item">
-          <div className="user-activity__issues-info">
-            <p className="user-activity__issues-count">Ишьюс: {issuesCount}</p>
-            <IconDataLabel
-              icon={IssueOpenedIcon}
-              value={issuesInfo.OPEN}
-              hintText="Открытые ишьюс"
-            />
-            <IconDataLabel
-              icon={IssueClosedIcon}
-              value={issuesInfo.CLOSED}
-              hintText="Закрытые ишьюс"
-            />
-          </div>
-          <div>
-            {issuesCount !== 0 && (
-              <IssuesChart
-                issuesInfo={issuesInfo}
-                className="user-activity__issues-chart"
-              />
-            )}
-          </div>
-        </div>
+        {error && (
+          <Alert type="danger">Ошибка загрузки активности пользователя</Alert>
+        )}
+        {data && (
+          <div className="user-activity">
+            <div className="user-activity__item">
+              <div className="user-activity__pull-requests-info">
+                <p className="user-activity__pull-requests-count">
+                  Пулл реквесты: {pullRequestsCount}
+                </p>
+                <IconDataLabel
+                  icon={GitPullRequestIcon}
+                  value={pullRequestsInfo.OPEN}
+                  hintText="Открытые пулл ревквесты"
+                />
+                <IconDataLabel
+                  icon={GitMergeIcon}
+                  value={pullRequestsInfo.MERGED}
+                  hintText="Слитые пулл ревквесты"
+                />
+                <IconDataLabel
+                  icon={GitPullRequestClosedIcon}
+                  value={pullRequestsInfo.CLOSED}
+                  hintText="Закрытые пулл ревквесты"
+                />
+              </div>
+              <div>
+                {pullRequestsCount !== 0 && (
+                  <PullRequestChart
+                    pullRequestsInfo={pullRequestsInfo}
+                    className="user-activity__pull-request-chart"
+                  />
+                )}
+              </div>
+            </div>
 
-        <div className="user-activity__item">
-          <div>
-            <div>Форки: {forkCount}</div>
-            <div>Коммиты: {commitCount}</div>
+            <div className="user-activity__item">
+              <div className="user-activity__issues-info">
+                <p className="user-activity__issues-count">
+                  Ишьюс: {issuesCount}
+                </p>
+                <IconDataLabel
+                  icon={IssueOpenedIcon}
+                  value={issuesInfo.OPEN}
+                  hintText="Открытые ишьюс"
+                />
+                <IconDataLabel
+                  icon={IssueClosedIcon}
+                  value={issuesInfo.CLOSED}
+                  hintText="Закрытые ишьюс"
+                />
+              </div>
+              <div>
+                {issuesCount !== 0 && (
+                  <IssuesChart
+                    issuesInfo={issuesInfo}
+                    className="user-activity__issues-chart"
+                  />
+                )}
+              </div>
+            </div>
+
+            <div className="user-activity__item">
+              <div>
+                <div>Форки: {forkCount}</div>
+                <div>Коммиты: {commitCount}</div>
+              </div>
+              <div>
+                <UserActivityPolarChart
+                  usersActivity={[userActivity]}
+                  className="user-activity__user-activity-chart"
+                />
+              </div>
+            </div>
           </div>
-          <div>
-            <UserActivityPolarChart
-              usersActivity={[userActivity]}
-              className="user-activity__user-activity-chart"
-            />
-          </div>
-        </div>
+        )}
       </PageCard.Body>
     </PageCard>
   );

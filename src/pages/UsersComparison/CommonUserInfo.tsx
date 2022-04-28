@@ -4,6 +4,9 @@ import { gql, useQuery } from "@apollo/client";
 import User from "../../models/User";
 import { Spinner } from "@skbkontur/react-ui";
 import UserAvatar from "../../shared/UserAvatar";
+import { format, formatDistance, parseISO } from "date-fns";
+import { ru } from "date-fns/locale";
+import Alert from "../../shared/Alert";
 
 const GET_USER = gql`
   query GetUser($login: String!) {
@@ -45,16 +48,18 @@ const CommonUserInfo = ({ className, login }: Props) => {
         caption="Загрузка информации о пользователе"
       />
     );
+
   if (error)
     return (
-      <div className="user-page__search-error">
+      <Alert type="danger">
         Ошибка, пользователя с ником {login} не существует, попробуйте снова.
-      </div>
+      </Alert>
     );
 
-  if (!data) return <div>Неожиданная ошибка</div>;
+  if (!data) return <Alert type="danger">Неожиданная ошибка</Alert>;
+
   const { followers, following } = data.user;
-  const createdData = new Date(data.user.createdAt);
+  const createdDate = parseISO(data.user.createdAt);
 
   return (
     <PageCard element="section" className={className}>
@@ -71,8 +76,15 @@ const CommonUserInfo = ({ className, login }: Props) => {
             size="100%"
           />
         )}
-        <span className="user-comparison-info__created-date">
-          Создан: {createdData.toLocaleString()}
+        <span
+          className="user-comparison-info__created-date"
+          title={format(createdDate, "dd.MM.yyyy HH:mm")}
+        >
+          Создан:{" "}
+          {formatDistance(createdDate, new Date(), {
+            locale: ru,
+            addSuffix: true,
+          })}
         </span>
         <span className="user-comparison-info__following-count">
           Подписки: {following.totalCount}
