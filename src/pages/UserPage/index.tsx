@@ -8,6 +8,7 @@ import UserRepositories from "./UserRepositories/UserRepositories";
 import LangStat from "./LangStat/LangStat";
 import UserActivity from "./UserActivity/UserActivity";
 import { Spinner } from "@skbkontur/react-ui";
+import Alert from "../../shared/Alert";
 
 const GET_USER = gql`
   query GetUser($login: String!) {
@@ -62,13 +63,13 @@ function UserPage() {
 
   if (error)
     return (
-      <div className="user-page__search-error">
+      <Alert type="danger">
         Ошибка, пользователя с таким ником не существует, попробуйте снова.
-      </div>
+      </Alert>
     );
 
-  if (!login) return <div>Введите логин пользователя</div>;
-  if (!data) return <div>Неожиданная ошибка</div>;
+  if (!login) return <Alert type="danger">Введите логин пользователя</Alert>;
+  if (!data) return <Alert type="danger">Неожиданная ошибка</Alert>;
 
   return (
     <div className="user-page">

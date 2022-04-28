@@ -11,7 +11,7 @@ import { Spinner } from "@skbkontur/react-ui";
 import Alert from "../../../shared/Alert";
 
 const GET_USER_LANGUAGES = gql`
-  query ($login: String!) {
+  query GetUserLanguages($login: String!) {
     repositoryOwner(login: $login) {
       repositories(first: 100, ownerAffiliations: OWNER) {
         nodes {
@@ -56,25 +56,8 @@ const LangStat = ({ className, login }: Props) => {
     }
   );
 
-  if (loading) {
-    return (
-      <Spinner
-        className="spinner spinner_centered"
-        caption="Загрузка информации об языках пользователя"
-      />
-    );
-  }
-
-  if (error) {
-    return <Alert type="danger">Ошибка загрузки языков</Alert>;
-  }
-
-  if (!data || data.repositoryOwner === null) {
-    return <Alert type="danger">Нет данных</Alert>;
-  }
-
   const { langEdges, totalSize } = getLanguagesInfo(
-    data?.repositoryOwner.repositories.nodes
+    data?.repositoryOwner?.repositories.nodes
   );
 
   const isSizeMoreThanPercent = (size: number, percents: number) =>
@@ -90,18 +73,31 @@ const LangStat = ({ className, login }: Props) => {
         <PageCard.Title>Статистика языков</PageCard.Title>
       </PageCard.Header>
       <PageCard.Body className="user-languages">
-        <div className="user-languages__language-stat">
-          <LanguagesStatistic
-            classNamePrefix="user-languages"
-            languageEdges={langEdges}
-            totalLanguagesSize={totalSize}
-            totalFilesSize={data.repositoryOwner.repositories.totalDiskUsage}
+        {loading && (
+          <Spinner
+            className="spinner spinner_centered"
+            caption="Загрузка информации об языках пользователя"
           />
-          <LanguagesPieChart
-            languageEdges={languagesToViewChart}
-            className="user-languages__languages-pie-chart"
-          />
-        </div>
+        )}
+
+        {(error || !data?.repositoryOwner) && !loading && (
+          <Alert type="danger">Ошибка загрузки языков</Alert>
+        )}
+
+        {data && data.repositoryOwner && (
+          <div className="user-languages__language-stat">
+            <LanguagesStatistic
+              classNamePrefix="user-languages"
+              languageEdges={langEdges}
+              totalLanguagesSize={totalSize}
+              totalFilesSize={data.repositoryOwner.repositories.totalDiskUsage}
+            />
+            <LanguagesPieChart
+              languageEdges={languagesToViewChart}
+              className="user-languages__languages-pie-chart"
+            />
+          </div>
+        )}
       </PageCard.Body>
     </PageCard>
   );

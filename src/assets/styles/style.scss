@@ -622,7 +622,7 @@ body {
       gap: 2 * $spacer;
     }
 
-    &-item > .user-comparison__section {
+    &-item > * {
       flex-basis: 50%;
       flex-grow: 1;
     }
